@@ -22,7 +22,7 @@ static bool _isWIFI;
 #pragma mark init
 + (void)initialize
 {
-    if (self == [NetworkHelper self])
+    if (self == [NetworkHelper class])
     {
         [self networkStatusChangeAFN];
     }

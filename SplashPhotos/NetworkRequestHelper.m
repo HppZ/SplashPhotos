@@ -21,10 +21,13 @@ static AFHTTPSessionManager *HTTPSessionManager;
 static AFURLSessionManager *URLSessionManager;
 +(void)initialize
 {
-    HTTPSessionManager = [AFHTTPSessionManager manager];
-
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    URLSessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    if(self == [NetworkRequestHelper class])
+    {
+        HTTPSessionManager = [AFHTTPSessionManager manager];
+        
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        URLSessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    }
 }
 
 #pragma mark http get
