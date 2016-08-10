@@ -15,15 +15,10 @@
 
 @implementation PhotosCollectionViewCell
 #pragma mark init
--(instancetype)initWithCoder:(NSCoder *)aDecoder
+-(void)awakeFromNib
 {
-    self =  [super initWithCoder:aDecoder];
-    if(self)
-    {
-        self.backgroundColor = [UIColor randomColor];
-    }
-    
-    return self;
+    [super awakeFromNib];
+    self.backgroundColor = [UIColor randomColor];
 }
 
 #pragma mark 设置属性

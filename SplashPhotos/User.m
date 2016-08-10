@@ -12,15 +12,20 @@
 
 @implementation User
 
+-(id)init
+{
+    return [self initWithName: nil username: nil id:nil links:nil profileimage: nil];
+}
+
 -(id)initWithName:(NSString*) name username: (NSString*)username id:(NSString*)id links: (Links*)links profileimage: (ProfileImage*)profileimage
 {
     if(self = [super init])
     {
-        self.name= name;
-        self.username= username;
-        self.id = id;
-        self.links  = links;
-        self.profile_image= profileimage;
+        _name= [name copy];
+        _username= [username copy];
+        _id = [id copy];
+        _links  = links;
+        _profile_image= profileimage;
     }
     return self;
 }

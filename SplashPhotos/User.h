@@ -11,15 +11,13 @@
 
 @class Links, ProfileImage;
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface User: NSObject
 
-@property (nullable, nonatomic, copy) NSString *name;
-@property (nullable, nonatomic, copy) NSString *username;
-@property (nullable, nonatomic, copy) NSString *id;
-@property (nullable, nonatomic, strong) Links *links;
-@property (nullable, nonatomic, strong) ProfileImage *profile_image;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy) NSString *id;
+@property (nonatomic, strong) Links *links;
+@property (nonatomic, strong) ProfileImage *profile_image;
 
 +(User*) fromDictionary: (NSDictionary*) dic;
 
@@ -27,6 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+
 
 #import "User+CoreDataProperties.h"
