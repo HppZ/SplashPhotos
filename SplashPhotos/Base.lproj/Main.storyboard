@@ -182,6 +182,9 @@
                         </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="ABOUT" id="L4Z-Wd-vfO"/>
+                    <connections>
+                        <outlet property="logoElement" destination="1AA-XI-qlB" id="mVl-tk-BOy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4u-Be-t2R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
