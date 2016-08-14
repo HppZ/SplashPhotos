@@ -34,11 +34,14 @@ static NSString * const reuseIdentifier = @"mainCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    float w = (self.collectionView.frame.size.width - 2.5 ) / 3;
-    ((UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout).itemSize = CGSizeMake(w,w);
-    
     [self setup];
     [self loadData];
+}
+
+-(void)viewWillLayoutSubviews
+{
+    float w = (self.collectionView.frame.size.width - 2.5 ) / 3;
+    ((UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout).itemSize = CGSizeMake(w,w);
 }
 
 - (void)didReceiveMemoryWarning {
