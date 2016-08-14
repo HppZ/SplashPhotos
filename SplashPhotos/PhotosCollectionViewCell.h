@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PhotosCollectionViewCell : UICollectionViewCell
--(void)setImageUrl: (NSString*)url;
+-(void)cellThumb: (NSString*)url;
 @end

@@ -54,7 +54,7 @@
         return;
     }
     
-    [self disableLoading:true];
+    [self disableLoading: true];
     
     __weak id weakSelf = self;
     [_unsplashAPIHelper GetPhotosWithPageNum:_num
@@ -66,13 +66,14 @@
          }
          
          [weakSelf increasePageNum];
+         [weakSelf disableLoading:false];
          success(nil);
-         [self disableLoading:false];
+         
      }
                                errorCallback:^(NSString *errorMsg)
      {
+         [weakSelf disableLoading:false];
          success( errorMsg);
-         [self disableLoading:false];
      }];
 }
 

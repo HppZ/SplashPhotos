@@ -11,6 +11,7 @@
 @interface NetworkHelper : NSObject
 
 +(bool)isWIFI;
++(NSString*)networkChangedNotification;
 
 @end
 

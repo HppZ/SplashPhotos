@@ -24,20 +24,15 @@
 }
 
 #pragma mark 设置属性
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-}
-
--(void)setProgress: (float) value
+-(void)cellProgress: (float) value
 {
     _progressView.progress = value;
+    
     int val = value *100;
     _numprogress.text = [[NSString stringWithFormat:@"%d", val] stringByAppendingString:@"%"];
 }
 
--(void)setThumbUrl: (NSString*)url
+-(void)cellThumb: (NSString*)url
 {
     [_thumb sd_setImageWithURL:[NSURL URLWithString: url] placeholderImage: nil];
 }
@@ -47,11 +42,12 @@
 {
     if ([keyPath isEqualToString:@"proress"])
     {
-        dispatch_async(dispatch_get_main_queue(), ^
-        {
-            float val = [[change objectForKey:@"new"] floatValue];
-            [self setProgress:val];
-        });
+        float val = [[change objectForKey:@"new"] floatValue];
+        dispatch_async(dispatch_get_main_queue(),
+                       ^{
+                           [self cellProgress:val];
+                       });
+        
     }
 }
 

@@ -10,7 +10,7 @@
 
 @interface DownloadTableViewCell : UITableViewCell
 
--(void)setThumbUrl: (NSString*)url;
--(void)setProgress: (float) value;
+-(void)cellThumb: (NSString*)url;
+-(void)cellProgress: (float) value;
 
 @end

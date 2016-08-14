@@ -44,17 +44,31 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
-                                                 name:@"downloadPhotosChanged"
+                                                 name:[PhotoService downloadSourceChangedNotification]
                                                object:nil];
 }
 
 #pragma mark 通知
 - (void) receiveNotification:(NSNotification *) notification
 {
-    if ([[notification name] isEqualToString:@"downloadPhotosChanged"])
+    if ([[notification name] isEqualToString: [PhotoService downloadSourceChangedNotification]])
     {
-        [self.tableView  reloadData];
+        [self insertNewItems];
     }
+}
+
+#pragma mark data
+-(void)insertNewItems
+{
+    NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
+    NSInteger count = [self.tableView numberOfRowsInSection:0];
+    
+    NSInteger max = _downloadPhotos.count - count;
+    for (NSInteger i = 0; i <  max; i++)
+    {
+        [arrayWithIndexPaths addObject:[NSIndexPath indexPathForRow: i inSection:0]];
+    }
+    [self.tableView  insertRowsAtIndexPaths:arrayWithIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark 查看图片
@@ -63,7 +77,7 @@
     [_phototoscan removeAllObjects];
     
     DownloadPhoto * photo = [_downloadPhotos objectAtIndex:pos];
-    if(!photo.isCompleted )
+    if(!photo.downloadSucceed )
     {
         [self showPop:@"not now"];
         return;
@@ -71,7 +85,7 @@
     
     for (DownloadPhoto* photo in _downloadPhotos)
     {
-        if( photo.isCompleted)
+        if( photo.downloadSucceed)
         {
             NSString* url = photo.filepath;
             [_phototoscan addObject: [MWPhoto photoWithURL:[NSURL URLWithString:  url]]];
@@ -98,11 +112,13 @@
 }
 
 #pragma mark MWPhotoBrowser
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
+{
     return _phototoscan.count;
 }
 
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
+{
     if (index < _phototoscan.count) {
         return [_phototoscan objectAtIndex:index];
     }
@@ -115,7 +131,7 @@
     [JDStatusBarNotification showWithStatus:text dismissAfter: 1];
 }
 
--(void)setBarTitle:(NSString *)title
+-(void)navBarTitle:(NSString *)title
 {
     self.navigationItem.title = title;
 }
@@ -136,8 +152,8 @@
 {
     DownloadTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"downloadTableViewCell" forIndexPath:indexPath];
     DownloadPhoto *photo =  [_downloadPhotos objectAtIndex:indexPath.item];
-    [cell setThumbUrl:[photo thumb]];
-    [cell setProgress: [photo proress]];
+    [cell cellThumb:[photo thumb]];
+    [cell cellProgress: [photo proress]];
     [photo addObserver:cell
             forKeyPath:@"proress"
                options:NSKeyValueObservingOptionNew

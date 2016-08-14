@@ -31,7 +31,8 @@
 static NSString * const reuseIdentifier = @"mainCell";
 
 #pragma mark view setup
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     [self setup];
@@ -44,7 +45,8 @@ static NSString * const reuseIdentifier = @"mainCell";
     ((UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout).itemSize = CGSizeMake(w,w);
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -54,6 +56,20 @@ static NSString * const reuseIdentifier = @"mainCell";
     _photoService = [[PhotoService alloc] init];
     _collectionViewData  = [_photoService getDataSource];
     _photosscan = [[NSMutableArray alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receiveNotification:)
+                                                 name:[PhotoService photoSourceChangedNotification]
+                                               object:nil];
+}
+
+#pragma mark 通知
+- (void) receiveNotification:(NSNotification *) notification
+{
+    if ([[notification name] isEqualToString: [PhotoService photoSourceChangedNotification]])
+    {
+        [self insertNewItems];
+    }
 }
 
 #pragma mark - data
@@ -73,8 +89,7 @@ static NSString * const reuseIdentifier = @"mainCell";
          }
          else
          {
-             [weakSelf insertNewItems];
-             [self setNavigationBarTitle];
+             [self navBarTitle];
          }
      }];
 }
@@ -113,7 +128,7 @@ static NSString * const reuseIdentifier = @"mainCell";
     [loadmorebutton setHidden:show];
 }
 
--(void)setNavigationBarTitle
+-(void)navBarTitle
 {
     int pagenum = [_photoService getCurrentPageNum];
     self.navigationItem.title = [@"Page "  stringByAppendingFormat:@"%d" ,pagenum];
@@ -152,12 +167,13 @@ static NSString * const reuseIdentifier = @"mainCell";
     [self.navigationController pushViewController:browser animated:YES];
 }
 
-
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
+{
     return _photosscan.count;
 }
 
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
+{
     if (index < _photosscan.count) {
         return [_photosscan objectAtIndex:index];
     }
@@ -173,7 +189,6 @@ static NSString * const reuseIdentifier = @"mainCell";
 }
 
 #pragma mark <UICollectionViewDataSource>
-
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
                                  atIndexPath:(NSIndexPath *)indexPath
@@ -198,15 +213,20 @@ static NSString * const reuseIdentifier = @"mainCell";
 {
     PhotosCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     Photo *photo =  [_collectionViewData objectAtIndex:indexPath.item];
-    [cell setImageUrl:[[photo urls] small ]];
+    [cell cellThumb:[[photo urls] small ]];
     
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegate>
+#pragma mark 点击图片 <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [self cellClicked: indexPath.item];
 }
 
+#pragma mark dealloc
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

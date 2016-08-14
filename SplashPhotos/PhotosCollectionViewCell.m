@@ -22,7 +22,7 @@
 }
 
 #pragma mark 设置属性
--(void)setImageUrl: (NSString*)url
+-(void)cellThumb: (NSString*)url
 {
     [_image sd_setImageWithURL:[NSURL URLWithString: url] placeholderImage: nil];
 }

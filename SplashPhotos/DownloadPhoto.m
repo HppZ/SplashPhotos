@@ -10,7 +10,6 @@
 #import "Urls.h"
 
 @implementation DownloadPhoto
-
 #pragma mark init
 -(id)init
 {
@@ -22,13 +21,33 @@
     self = [super init];
     if(self)
     {
-        _photo = photo;
-        _thumb = [[[photo urls] small] copy];
+        _downloadState = DownloadNotStart;
         _proress = 0;
-        _isCompleted = false;
+        _thumb = [[[photo urls] small] copy];
         _filepath = @"";
+        _errormsg = @"";
+        _photo = photo;
     }
     
     return self;
 }
+
+-(void)downloadSuccess: (NSString*)filepath
+{
+    self.downloadState = DownloadSucceed;
+    self.filepath = filepath;
+    self.proress = 1;
+}
+
+-(void)downloadFailed: (NSString*)errormsg
+{
+    self.downloadState = DownloadFailed;
+    self.errormsg = errormsg;
+}
+
+-(BOOL)downloadSucceed
+{
+    return self.downloadState == DownloadSucceed;
+}
+
 @end

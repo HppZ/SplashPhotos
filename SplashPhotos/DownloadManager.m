@@ -12,17 +12,14 @@
 #import "Urls.h"
 #import "FileOperationManager.h"
 
-
 @interface DownloadManager ()
 {
     NSMutableArray<DownloadPhoto*>* _downloadPhotos;
     UnsplashAPIHelper* _unsplashAPIHelper;
 }
-
 @end
 
 @implementation DownloadManager
-
 #pragma mark 单例
 + (id)sharedDownloadManager
 {
@@ -61,23 +58,32 @@
                        progressCallback:^(float value)
      {
          [downloadphoto setProress:value];
-         
      }
                        completeCallback: ^(NSURL* filepath, NSString* errormsg)
      {
-         [downloadphoto  setFilepath:[filepath absoluteString]];
-         [downloadphoto  setIsCompleted:true];
-         [FileOperationManager saveFileToPhotoAlbum:filepath complete: ^(BOOL success, NSError* error)
-          {
-              if(!error)
+         if(errormsg)
+         {
+             [downloadphoto downloadFailed: errormsg];
+         }
+         else
+         {
+             // downloaded
+             [downloadphoto  downloadSuccess:[filepath absoluteString]];
+            
+             // and save
+             [FileOperationManager saveFileToPhotoAlbum:filepath complete: ^(BOOL success, NSError* error)
               {
-                  NSLog(@"save success");
-              }
-              else
-              {
-                  NSLog(@"%@", [@"save failed: " stringByAppendingString:[error localizedDescription]]);
-              }
-          }];
+                  if(!error)
+                  {
+                      NSLog(@"save success");
+                  }
+                  else
+                  {
+                      NSLog(@"%@", [@"save failed: " stringByAppendingString:[error localizedDescription]]);
+                  }
+              }];
+         }
+         
      }];
 }
 
@@ -86,19 +92,15 @@
     
 }
 
-
 #pragma mark private
 -(void)addToDownload: (DownloadPhoto*) download
 {
-    [_downloadPhotos addObject:download];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadPhotosChanged" object:self];
+    [_downloadPhotos insertObject:download atIndex:0];
 }
-
 
 -(void)removeFromDownload: (DownloadPhoto*) download
 {
     [_downloadPhotos removeObject:download];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"downloadPhotosChanged" object:self];
 }
 
 @end

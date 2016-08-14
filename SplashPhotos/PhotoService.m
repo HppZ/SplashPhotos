@@ -14,13 +14,23 @@
 @interface PhotoService()
 {
     bool isWIFI;
-    
     PhotoManager * photoManager;
     DownloadManager * downloadManager;
 }
 @end
 
 @implementation PhotoService
+
+#pragma mark static string
++(NSString*)photoSourceChangedNotification
+{
+    return @"PhotoSourceChangedNotification";
+}
+
++(NSString*)downloadSourceChangedNotification
+{
+    return @"DownloadSourceChangedNotification";
+}
 
 #pragma mark init
 -(id)init
@@ -34,7 +44,7 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveNotification:)
-                                                     name:@"networkStatusChanged"
+                                                     name:[NetworkHelper networkChangedNotification]
                                                    object:nil];
         
     }
@@ -42,12 +52,10 @@
     return self;
 }
 
-
 #pragma mark 网络状态
-
 - (void) receiveNotification:(NSNotification *) notification
 {
-    if ([[notification name] isEqualToString:@"networkStatusChanged"])
+    if ([[notification name] isEqualToString:[NetworkHelper networkChangedNotification]])
     {
         [self networkStatusChangedHandler];
     }
@@ -69,16 +77,25 @@
     return [downloadManager getDownloadDataSource];
 }
 
-
 #pragma mark 请求
 -(void)loadMoreDataWithCallback:(void(^) (NSString* errormsg)) success
 {
-    [photoManager  loadMoreDataWithCallback:success];
+    [photoManager  loadMoreDataWithCallback:
+     ^(NSString* error)
+     {
+         if(!error)
+         {
+             [[NSNotificationCenter defaultCenter] postNotificationName: [PhotoService photoSourceChangedNotification] object:self];
+         }
+         
+         success(error);
+     }];
 }
 
 -(void)requestDownload: (Photo*) photo
 {
     [downloadManager requestDownload:photo];
+    [[NSNotificationCenter defaultCenter] postNotificationName: [PhotoService downloadSourceChangedNotification] object:self];
 }
 
 -(int)getCurrentPageNum

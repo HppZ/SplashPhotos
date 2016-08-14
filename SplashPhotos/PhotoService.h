@@ -11,6 +11,8 @@
 
 @interface PhotoService : NSObject
 
++(NSString*)photoSourceChangedNotification;
++(NSString*)downloadSourceChangedNotification;
 
 -(NSMutableArray*)getDataSource;
 -(NSMutableArray*)getDownloadDataSource;
@@ -19,6 +21,5 @@
 -(void)requestDownload: (Photo*) photo;
 
 -(int)getCurrentPageNum;
-
 
 @end

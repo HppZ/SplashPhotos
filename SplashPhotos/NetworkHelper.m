@@ -19,6 +19,12 @@
 
 static bool _isWIFI;
 
+#pragma mark 通知
++(NSString*)networkChangedNotification
+{
+    return @"networkChangedNotification";
+}
+
 #pragma mark init
 + (void)initialize
 {
@@ -79,7 +85,7 @@ static bool _isWIFI;
 #pragma mark 通知
 +(void)postNotification
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"networkStatusChanged" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName: [NetworkHelper networkChangedNotification] object:self];
 }
 
 @end
