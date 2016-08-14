@@ -21,13 +21,15 @@
 @implementation SettingViewController
 
 #pragma mark view setup
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setup];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -56,7 +58,6 @@
 }
 
 #pragma mark 旋转logo
-
 -(void)rotateLogo
 {
     if(flag)
@@ -74,7 +75,6 @@
         }];
     }
 }
-
 
 @end
 

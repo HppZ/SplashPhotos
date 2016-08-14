@@ -20,6 +20,7 @@
 @end
 
 @implementation DownloadManager
+
 #pragma mark 单例
 + (id)sharedDownloadManager
 {

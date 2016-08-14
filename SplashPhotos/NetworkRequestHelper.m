@@ -9,7 +9,6 @@
 #import "NetworkRequestHelper.h"
 #import "AFNetworking.h"
 
-
 @interface NetworkRequestHelper()
 {
 
@@ -51,7 +50,6 @@ static AFURLSessionManager *URLSessionManager;
 }
 
 #pragma mark download
-
 +(void)DownloadWithUrl:(NSString*) url
    ProgressCallback: (void (^)(NSProgress* downloadprogress)) progress
     completionCallback:(void(^)(NSURLResponse *response, NSURL *filePath, NSError *error)) complete
@@ -78,6 +76,5 @@ static AFURLSessionManager *URLSessionManager;
     
     [downloadTask resume];
 }
-
 
 @end

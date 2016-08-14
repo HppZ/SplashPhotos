@@ -14,6 +14,7 @@
 @end
 
 @implementation PhotosCollectionViewCell
+
 #pragma mark init
 -(void)awakeFromNib
 {
@@ -26,4 +27,5 @@
 {
     [_image sd_setImageWithURL:[NSURL URLWithString: url] placeholderImage: nil];
 }
+
 @end

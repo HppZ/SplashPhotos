@@ -21,4 +21,5 @@
         [PHAssetChangeRequest creationRequestForAssetFromImage: viewImage];
     } completionHandler: complete];
 }
+
 @end

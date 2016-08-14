@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface SystemServiceHelper : NSObject
+
 +(void)openWithUrl:(NSString*) url;
+
 @end

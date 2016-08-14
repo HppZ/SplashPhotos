@@ -9,5 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface SettingManager : NSObject
+
 -(void)gotoUnsplash;
+
 @end

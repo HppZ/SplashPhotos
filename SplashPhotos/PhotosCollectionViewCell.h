@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PhotosCollectionViewCell : UICollectionViewCell
+
 -(void)cellThumb: (NSString*)url;
+
 @end

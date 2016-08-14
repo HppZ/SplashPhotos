@@ -32,7 +32,6 @@
     return sharedInstance;
 }
 
-
 -(id)init
 {
     self  = [super init];
@@ -87,7 +86,6 @@
     return _num-1;
 }
 
-
 #pragma mark private
 -(void)increasePageNum
 {
@@ -98,6 +96,5 @@
 {
     _loading = flag;
 }
-
 
 @end

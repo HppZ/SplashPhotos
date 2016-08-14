@@ -20,12 +20,10 @@ return @"https://unsplash.com/";
     return @"https://api.unsplash.com";
 }
 
-
 +(NSString*)AppID
 {
     return @"df98b7ef42f7084d03867232818a474ffa0967522019cf8a3fb432a2f1d44718";
 }
-
 
 +(NSString*)SecretKey
 {
@@ -50,7 +48,5 @@ return @"https://unsplash.com/";
     
     return param;
 }
-
-
 
 @end

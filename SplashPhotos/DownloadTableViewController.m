@@ -85,6 +85,7 @@
     }
     else
     {
+        assert(0);
         NSLog(@"restart indexpath nil");
     }
 }
@@ -152,11 +153,6 @@
 -(void)navBarTitle:(NSString *)title
 {
     self.navigationItem.title = title;
-}
-
--(void)checkDataTip
-{
-    
 }
 
 #pragma mark - Table view data source
