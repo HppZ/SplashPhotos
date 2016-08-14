@@ -206,7 +206,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-Ka-Wjh" userLabel="thumb">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-Ka-Wjh" userLabel="thumb">
                                             <rect key="frame" x="8" y="4" width="58" height="58"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="58" id="04g-PZ-jRk"/>
@@ -214,24 +214,36 @@
                                             </constraints>
                                         </imageView>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="sjo-me-VTb">
-                                            <rect key="frame" x="70" y="22" width="260" height="21"/>
+                                            <rect key="frame" x="70" y="18" width="319" height="30"/>
                                             <subviews>
-                                                <progressView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TWF-wY-Qu1">
-                                                    <rect key="frame" x="0.0" y="10" width="205" height="2"/>
+                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TWF-wY-Qu1">
+                                                    <rect key="frame" x="0.0" y="14" width="205" height="2"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="205" id="sGU-Ed-RYD"/>
                                                     </constraints>
                                                 </progressView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tgx-mA-bfN">
-                                                    <rect key="frame" x="218" y="0.0" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="100%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tgx-mA-bfN">
+                                                    <rect key="frame" x="218" y="5" width="42" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="42" id="G8W-Cw-sC6"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cj2-k7-zFi">
+                                                    <rect key="frame" x="273" y="0.0" width="46" height="30"/>
+                                                    <state key="normal" title="restart">
+                                                        <color key="titleColor" red="1" green="0.03666831685" blue="0.071967539519999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="restartClicked:" destination="sgE-1N-yL7" eventType="touchUpInside" id="bK0-2o-Kcd"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="tgx-mA-bfN" firstAttribute="trailing" secondItem="sjo-me-VTb" secondAttribute="trailing" id="Ejs-Qm-asK"/>
-                                                <constraint firstAttribute="width" constant="260" id="ub6-9Y-DmV"/>
+                                                <constraint firstAttribute="trailing" secondItem="Cj2-k7-zFi" secondAttribute="trailing" id="MHy-uS-4AT"/>
+                                                <constraint firstItem="Cj2-k7-zFi" firstAttribute="centerY" secondItem="sjo-me-VTb" secondAttribute="centerY" id="WPx-Bg-XJ6"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
@@ -245,6 +257,7 @@
                                 <connections>
                                     <outlet property="numprogress" destination="tgx-mA-bfN" id="wwb-Fl-Lou"/>
                                     <outlet property="progressView" destination="TWF-wY-Qu1" id="vl5-yu-TjT"/>
+                                    <outlet property="restartButton" destination="Cj2-k7-zFi" id="udv-Kk-9gf"/>
                                     <outlet property="thumb" destination="wMd-Ka-Wjh" id="ggl-Hn-ud1"/>
                                 </connections>
                             </tableViewCell>

@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "MWPhotoBrowser.h"
+#import "DownloadTableViewCell.h"
 
-@interface DownloadTableViewController : UITableViewController <MWPhotoBrowserDelegate>
+@interface DownloadTableViewController : UITableViewController <MWPhotoBrowserDelegate, CellDelegate>
  
 @end

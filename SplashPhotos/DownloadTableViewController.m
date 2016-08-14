@@ -71,6 +71,24 @@
     [self.tableView  insertRowsAtIndexPaths:arrayWithIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+#pragma mark 重新下载
+- (void)didClickOnCell:(DownloadTableViewCell*)cell sender:(id)sender;
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    if(indexPath != nil)
+    {
+        DownloadPhoto* downloadPhoto = [_downloadPhotos objectAtIndex:indexPath.item];
+        if(downloadPhoto)
+        {
+            [_photoService restartDownload:downloadPhoto];
+        }
+    }
+    else
+    {
+        NSLog(@"restart indexpath nil");
+    }
+}
+
 #pragma mark 查看图片
 -(void)cellClicked: (long) pos
 {
@@ -154,10 +172,21 @@
     DownloadPhoto *photo =  [_downloadPhotos objectAtIndex:indexPath.item];
     [cell cellThumb:[photo thumb]];
     [cell cellProgress: [photo proress]];
+    [cell cellDownloadState: photo.downloadState];
+    [cell setDelegate:self];
+//    [cell.restartButton addTarget:self
+//                           action:@selector(downloadTableviewCellRestartButtonPressed:event:)
+//                 forControlEvents:UIControlEventTouchUpInside];
+    
     [photo addObserver:cell
             forKeyPath:@"proress"
                options:NSKeyValueObservingOptionNew
                context:NULL];
+    [photo addObserver:cell
+            forKeyPath:@"downloadState"
+               options:NSKeyValueObservingOptionNew
+               context:NULL];
+
     return cell;
 }
 

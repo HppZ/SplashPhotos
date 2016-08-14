@@ -98,6 +98,12 @@
     [[NSNotificationCenter defaultCenter] postNotificationName: [PhotoService downloadSourceChangedNotification] object:self];
 }
 
+-(void)restartDownload:(DownloadPhoto*) downloadphoto
+{
+    [downloadManager  restartDownload:downloadphoto];
+}
+
+#pragma mark get info
 -(int)getCurrentPageNum
 {
     return [photoManager getCurrentPageNum];

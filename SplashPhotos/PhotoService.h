@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Photo.h"
 
+@class DownloadPhoto;
+
 @interface PhotoService : NSObject
 
 +(NSString*)photoSourceChangedNotification;
@@ -19,6 +21,7 @@
 
 -(void)loadMoreDataWithCallback:(void(^) (NSString* errormsg)) success;
 -(void)requestDownload: (Photo*) photo;
+-(void)restartDownload:(DownloadPhoto*) downloadphoto;
 
 -(int)getCurrentPageNum;
 

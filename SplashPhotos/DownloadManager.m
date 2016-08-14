@@ -53,8 +53,28 @@
 {
     DownloadPhoto * downloadphoto = [[DownloadPhoto alloc] initWithPhoto:photo];
     [self addToDownload:downloadphoto];
+    [self startDownload:downloadphoto];
+}
+
+-(void)restartDownload: (DownloadPhoto*)downloadphoto
+{
+    if(downloadphoto.downloadState == DownloadFailed)
+    {
+        [self startDownload:downloadphoto];
+    }
+}
+
+-(void)cancelDownload:(DownloadPhoto*) photo
+{
     
-    [_unsplashAPIHelper DownloadWithUrl:[[photo urls] raw]
+}
+
+#pragma mark private
+-(void) startDownload:(DownloadPhoto*)downloadphoto
+{
+    NSLog(@"start download");
+    [downloadphoto downloadingPhoto];
+    [_unsplashAPIHelper DownloadWithUrl:[downloadphoto.photo.urls raw]
                        progressCallback:^(float value)
      {
          [downloadphoto setProress:value];
@@ -63,13 +83,15 @@
      {
          if(errormsg)
          {
+             NSLog(@"start download error ");
              [downloadphoto downloadFailed: errormsg];
          }
          else
          {
+             NSLog(@"start download no error ");
              // downloaded
              [downloadphoto  downloadSuccess:[filepath absoluteString]];
-            
+             
              // and save
              [FileOperationManager saveFileToPhotoAlbum:filepath complete: ^(BOOL success, NSError* error)
               {
@@ -87,12 +109,7 @@
      }];
 }
 
--(void)cancelDownload:(DownloadPhoto*) photo
-{
-    
-}
-
-#pragma mark private
+#pragma mark add ／ remove
 -(void)addToDownload: (DownloadPhoto*) download
 {
     [_downloadPhotos insertObject:download atIndex:0];

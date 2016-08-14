@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DownloadPhoto.h"
+
+@class DownloadTableViewCell;
+
+@protocol CellDelegate <NSObject>
+- (void)didClickOnCell:(DownloadTableViewCell*)cell sender:(id)sender;
+@end
 
 @interface DownloadTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIButton *restartButton;
+@property (weak, nonatomic) id<CellDelegate> delegate;
+
 -(void)cellThumb: (NSString*)url;
 -(void)cellProgress: (float) value;
+-(void)cellDownloadState:(DownloadState) state;
 
 @end

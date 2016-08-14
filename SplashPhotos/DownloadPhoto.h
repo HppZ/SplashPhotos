@@ -31,6 +31,8 @@ typedef enum
 
 -(void)downloadSuccess: (NSString*)filepath;
 -(void)downloadFailed: (NSString*)errormsg;
+-(void)downloadingPhoto;
+
 -(BOOL)downloadSucceed;
 
 @end

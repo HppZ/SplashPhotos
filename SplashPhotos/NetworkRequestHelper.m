@@ -17,8 +17,10 @@
 @end
 
 @implementation NetworkRequestHelper
+
 static AFHTTPSessionManager *HTTPSessionManager;
 static AFURLSessionManager *URLSessionManager;
+
 +(void)initialize
 {
     if(self == [NetworkRequestHelper class])
@@ -70,6 +72,7 @@ static AFURLSessionManager *URLSessionManager;
      }
      completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error)
      {
+         NSLog(@"networkhelper complete ");
          complete(response, filePath, error);
      }];
     

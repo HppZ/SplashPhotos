@@ -60,6 +60,7 @@
      }
                        completionCallback:^(NSURLResponse *response, NSURL *filePath, NSError *error)
      {
+         NSLog(@"download api complete ");
          complete(filePath, [error localizedDescription]);
      }];
 }

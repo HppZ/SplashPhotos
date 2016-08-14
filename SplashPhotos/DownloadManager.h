@@ -14,5 +14,7 @@
 + (id)sharedDownloadManager;
 
 -(void)requestDownload: (Photo*) photo;
+-(void)restartDownload: (DownloadPhoto*)downloadphoto;
+
 -(NSMutableArray*)getDownloadDataSource;
 @end

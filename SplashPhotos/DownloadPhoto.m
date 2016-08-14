@@ -45,6 +45,14 @@
     self.errormsg = errormsg;
 }
 
+-(void)downloadingPhoto
+{
+    self.downloadState = Downloading;
+    self.proress = 0;
+    self.filepath = @"";
+    self.errormsg = @"";
+}
+
 -(BOOL)downloadSucceed
 {
     return self.downloadState == DownloadSucceed;
