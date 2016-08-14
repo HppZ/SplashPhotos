@@ -66,13 +66,26 @@ static NSString * const reuseIdentifier = @"mainCell";
          if(errormsg)
          {
              NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
+             [self showPop: errormsg];
          }
          else
          {
-             [weakSelf.collectionView reloadData];
+             [weakSelf insertNewItems];
              [self setNavigationBarTitle];
          }
      }];
+}
+
+-(void)insertNewItems
+{
+    NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
+    NSInteger count = [self.collectionView numberOfItemsInSection:0];
+    NSInteger max = _collectionViewData.count;
+    for (NSInteger i = count; i <  max; i++)
+    {
+        [arrayWithIndexPaths addObject:[NSIndexPath indexPathForRow: i inSection:0]];
+    }
+    [self.collectionView insertItemsAtIndexPaths: arrayWithIndexPaths];
 }
 
 #pragma mark IBAction
