@@ -10,6 +10,7 @@
 #import "Urls.h"
 
 @implementation DownloadPhoto
+
 #pragma mark init
 -(id)init
 {
