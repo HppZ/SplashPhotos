@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FD8-EJ-urh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jKM-4a-Hed">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -21,7 +21,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Kn-fQ-jSy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-210" y="-1110"/>
+            <point key="canvasLocation" x="130" y="-1110"/>
         </scene>
         <!--PHOTO-->
         <scene sceneID="MpJ-az-ITX">
@@ -45,7 +45,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="TiC-1T-fkb">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TiC-1T-fkb">
                                             <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
                                         </imageView>
                                     </subviews>
@@ -99,7 +99,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MWq-FJ-Pfh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="532" y="-1084"/>
+            <point key="canvasLocation" x="942" y="-1110"/>
         </scene>
         <!--ABOUT-->
         <scene sceneID="mUB-0S-VJf">
@@ -188,7 +188,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4u-Be-t2R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="532" y="493"/>
+            <point key="canvasLocation" x="130" y="453"/>
         </scene>
         <!--Download Table View Controller-->
         <scene sceneID="ssg-tI-lCb">
@@ -274,10 +274,28 @@
             </objects>
             <point key="canvasLocation" x="942" y="-390"/>
         </scene>
+        <!--Init View Controller-->
+        <scene sceneID="Nt6-RG-2vm">
+            <objects>
+                <viewController id="jKM-4a-Hed" customClass="InitViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HKJ-OP-L4U"/>
+                        <viewControllerLayoutGuide type="bottom" id="zcz-fs-0F5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="N2R-c2-PDW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="my3-43-rLg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1694" y="-405"/>
+        </scene>
         <!--Main Tab Bar Controller-->
         <scene sceneID="WjJ-0l-Wl7">
             <objects>
-                <tabBarController id="FD8-EJ-urh" customClass="MainTabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="mainTabBarController" id="FD8-EJ-urh" customClass="MainTabBarController" sceneMemberID="viewController">
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="429-Kj-NQX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -293,6 +311,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0pv-2Y-10u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-908" y="-405"/>
+        </scene>
+        <!--Left View Controller-->
+        <scene sceneID="Hjq-gD-ewD">
+            <objects>
+                <viewController storyboardIdentifier="leftViewController" id="IAb-gQ-R80" customClass="LeftViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="id8-s7-vdX"/>
+                        <viewControllerLayoutGuide type="bottom" id="slA-KR-0az"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="c1G-Yh-A2I">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i80-u7-zji" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1694" y="347"/>
         </scene>
         <!--DOWNLOAD-->
         <scene sceneID="mI1-zY-Zj1">

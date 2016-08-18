@@ -26,6 +26,8 @@
 		63C5BB981D65D1F700A5096E /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BB931D65D1F700A5096E /* RECommonFunctions.m */; };
 		63C5BB991D65D1F700A5096E /* RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BB951D65D1F700A5096E /* RESideMenu.m */; };
 		63C5BB9A1D65D1F700A5096E /* UIViewController+RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BB971D65D1F700A5096E /* UIViewController+RESideMenu.m */; };
+		63C5BBA11D65DEBF00A5096E /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BBA01D65DEBF00A5096E /* InitViewController.m */; };
+		63C5BBA51D65E0CF00A5096E /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BBA41D65E0CF00A5096E /* LeftViewController.m */; };
 		63D7F3901D50AF3700DE068A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D7F38F1D50AF3700DE068A /* main.m */; };
 		63D7F3931D50AF3700DE068A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D7F3921D50AF3700DE068A /* AppDelegate.m */; };
 		63D7F3991D50AF3700DE068A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63D7F3971D50AF3700DE068A /* Main.storyboard */; };
@@ -89,6 +91,10 @@
 		63C5BB951D65D1F700A5096E /* RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RESideMenu.m; path = RESideMenu/RESideMenu.m; sourceTree = SOURCE_ROOT; };
 		63C5BB961D65D1F700A5096E /* UIViewController+RESideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+RESideMenu.h"; path = "RESideMenu/UIViewController+RESideMenu.h"; sourceTree = SOURCE_ROOT; };
 		63C5BB971D65D1F700A5096E /* UIViewController+RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+RESideMenu.m"; path = "RESideMenu/UIViewController+RESideMenu.m"; sourceTree = SOURCE_ROOT; };
+		63C5BB9F1D65DEBF00A5096E /* InitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitViewController.h; sourceTree = "<group>"; };
+		63C5BBA01D65DEBF00A5096E /* InitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitViewController.m; sourceTree = "<group>"; };
+		63C5BBA31D65E0CF00A5096E /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
+		63C5BBA41D65E0CF00A5096E /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
 		63D7F38B1D50AF3700DE068A /* SplashPhotos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplashPhotos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D7F38F1D50AF3700DE068A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		63D7F3911D50AF3700DE068A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -215,6 +221,7 @@
 		633AEA481D519BE800E50FA1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				63C5BB9B1D65DE2A00A5096E /* Init */,
 				63A539181D557740001444F0 /* Download */,
 				63A539141D55693E001444F0 /* MainTab */,
 				631E56991D54E626003B3800 /* Setting */,
@@ -304,6 +311,17 @@
 				63C5BB971D65D1F700A5096E /* UIViewController+RESideMenu.m */,
 			);
 			name = RESideMenu;
+			sourceTree = "<group>";
+		};
+		63C5BB9B1D65DE2A00A5096E /* Init */ = {
+			isa = PBXGroup;
+			children = (
+				63C5BB9F1D65DEBF00A5096E /* InitViewController.h */,
+				63C5BBA01D65DEBF00A5096E /* InitViewController.m */,
+				63C5BBA31D65E0CF00A5096E /* LeftViewController.h */,
+				63C5BBA41D65E0CF00A5096E /* LeftViewController.m */,
+			);
+			name = Init;
 			sourceTree = "<group>";
 		};
 		63D7F3821D50AF3700DE068A = {
@@ -553,6 +571,7 @@
 				63D7F39C1D50AF3700DE068A /* SplashPhotos.xcdatamodeld in Sources */,
 				632604871D5224C800A96425 /* PhotoCollectionViewController.m in Sources */,
 				63A539291D55CA07001444F0 /* DownloadPhoto.m in Sources */,
+				63C5BBA51D65E0CF00A5096E /* LeftViewController.m in Sources */,
 				63C5BB9A1D65D1F700A5096E /* UIViewController+RESideMenu.m in Sources */,
 				63E91ACF1D53149B0071546E /* User.m in Sources */,
 				63E91AD51D5318830071546E /* UnsplashAPIHelper.m in Sources */,
@@ -567,6 +586,7 @@
 				63E91AD81D531CDB0071546E /* PhotoManager.m in Sources */,
 				63A539311D55F486001444F0 /* NetworkRequestHelper.m in Sources */,
 				63E91ACB1D53149B0071546E /* Photo.m in Sources */,
+				63C5BBA11D65DEBF00A5096E /* InitViewController.m in Sources */,
 				631E569C1D54E65A003B3800 /* SettingViewController.m in Sources */,
 				63C5BB991D65D1F700A5096E /* RESideMenu.m in Sources */,
 				63A373CA1D56BB34006BF19F /* PhotoService.m in Sources */,

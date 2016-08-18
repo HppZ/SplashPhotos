@@ -28,7 +28,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 -(void)setup
 {
     float fontsize = 15.0f;
@@ -41,4 +40,11 @@
          tabitem.titlePositionAdjustment =  UIOffsetMake(0, -15);
     }
 }
+
+#pragma mark side menu
+-(void)awakeFromNib
+{
+     
+}
+
 @end
