@@ -34,6 +34,12 @@
     return @"DownloadSourceChangedNotification";
 }
 
++(NSString*)photosInCategoryChangedNotification
+{
+    return @"photosInCategoryChangedNotification";
+}
+
+
 #pragma mark init
 -(id)init
 {
@@ -85,6 +91,11 @@
     return [categoryManager getCategories];
 }
 
+-(NSMutableArray*)getPhotosInCurrentCategory
+{
+    return [categoryManager getPhotosInCurrentCategory];
+}
+
 #pragma mark 请求
 
 #pragma mark photo & download
@@ -128,21 +139,47 @@
     [categoryManager loadPhotosInCategoryWithName:name
                                           success:^(NSString* error)
     {
-        if(error)
+        if(!error)
         {
-            
+            [[NSNotificationCenter defaultCenter] postNotificationName: [PhotoService photosInCategoryChangedNotification] object:self];
         }
-        else
-        {
-        
-        }
+
     }];
 }
+
+-(void)loadPhotosInCurrentCategoryWithCallback:(void(^) (NSString* errormsg)) success
+{
+    [categoryManager loadPhotosInCurrentCategoryWithCallback:^(NSString *errormsg)
+    {
+        if(!errormsg)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName: [PhotoService photosInCategoryChangedNotification] object:self];
+        }
+       
+        success(errormsg);
+    }];
+}
+
+-(void)setCurrentCategoryWithName:(NSString*)name
+{
+    [categoryManager setCurrentCategoryWithName:name];
+}
+
 
 #pragma mark get info
 -(int)getCurrentPageNum
 {
     return [photoManager getCurrentPageNum];
+}
+
+-(int)getCurrentCategoryPageNum
+{
+    return [categoryManager getCurrentCategoryPage];
+}
+
+-(NSString*)getCurrentCategoryName
+{
+    return [categoryManager  getCurrentCategoryName];
 }
 
 #pragma mark dealloc

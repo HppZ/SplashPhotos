@@ -13,6 +13,8 @@
 
 @interface CategoryManager ()
 {
+    int _currentCategoryId;
+    
     UnsplashAPIHelper * _unsplashAPIHelper;
     NSMutableArray<Category *>* _categories;
     NSMutableArray<CategoryRequest*>* _categoryRequests;
@@ -78,7 +80,10 @@
     [self disableLoadingWithID:id flag: true];
     
     __weak CategoryManager *weakSelf = self;
-    [_unsplashAPIHelper GetPhotosWithPageNum:id successCallback:^(NSArray *photos)
+    int page =[self getCategoryRequestWithID:id].page;
+    
+    [_unsplashAPIHelper GetPhotosInCategoryWithID:id page:page
+                                  successCallback:^(NSArray *photos)
      {
          NSMutableArray *array = [self getCategoryRequestWithID:id].result;
          for(NSObject* obj in photos)
@@ -104,14 +109,40 @@
     [self loadPhotosInCategoryWithID:id success:success];
 }
 
+-(void)loadPhotosInCurrentCategoryWithCallback: (void(^)(NSString* errormsg)) callback
+{
+    [self loadPhotosInCategoryWithID:_currentCategoryId success: callback];
+}
+
+-(void)setCurrentCategoryWithName:(NSString*)name
+{
+     _currentCategoryId = [self getCategoryIDWithName: name];
+}
+
 -(NSArray*)getCategories
 {
     return _categories;
 }
 
+
+-(NSMutableArray*)getPhotosInCurrentCategory
+{
+    return [self getPhotosInCategoryWithID:_currentCategoryId];
+}
+
 -(NSMutableArray*)getPhotosInCategoryWithID:(int)id
 {
     return [self getCategoryRequestWithID:id].result;
+}
+
+-(int)getCurrentCategoryPage
+{
+    return [self getPageNumWithID:_currentCategoryId];
+}
+
+-(NSString*)getCurrentCategoryName
+{
+    return [self getCategoryWithID: _currentCategoryId].title;
 }
 
 -(int)getPageNumWithID: (int)id
@@ -140,6 +171,14 @@
     NSArray *filtered = [_categories filteredArrayUsingPredicate:pred];
     Category * cy  = [filtered lastObject];
     return [cy.id intValue];
+}
+
+-(Category*)getCategoryWithID:(int)id
+{
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(id == %i)", id];
+    NSArray *filtered = [_categories filteredArrayUsingPredicate:pred];
+    Category * cy = [filtered lastObject];
+    return cy;
 }
 
 -(void)increasePageNumWithID:(int)id

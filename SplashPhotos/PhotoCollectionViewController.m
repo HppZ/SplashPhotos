@@ -21,7 +21,7 @@
     
     NSMutableArray<Photo *>* _collectionViewData;
     PhotoService * _photoService;
-    NSMutableArray *_photosscan;
+    NSMutableArray *_photosForBrowsing;
 }
 
 @end
@@ -55,7 +55,7 @@ static NSString * const reuseIdentifier = @"mainCell";
 {
     _photoService = [[PhotoService alloc] init];
     _collectionViewData  = [_photoService getDataSource];
-    _photosscan = [[NSMutableArray alloc] init];
+    _photosForBrowsing = [[NSMutableArray alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
@@ -153,11 +153,11 @@ static NSString * const reuseIdentifier = @"mainCell";
 #pragma mark MWPhotoBrowser
 -(void)cellClicked: (long) pos
 {
-    [_photosscan removeAllObjects];
+    [_photosForBrowsing removeAllObjects];
     
     for (Photo *photo in _collectionViewData)
     {
-        [_photosscan addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[photo urls] regular]]]];
+        [_photosForBrowsing addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[photo urls] regular]]]];
     }
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
     
@@ -180,13 +180,13 @@ static NSString * const reuseIdentifier = @"mainCell";
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
 {
-    return _photosscan.count;
+    return _photosForBrowsing.count;
 }
 
 - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
 {
-    if (index < _photosscan.count) {
-        return [_photosscan objectAtIndex:index];
+    if (index < _photosForBrowsing.count) {
+        return [_photosForBrowsing objectAtIndex:index];
     }
     return nil;
 }

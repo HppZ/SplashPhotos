@@ -43,7 +43,7 @@ return @"https://unsplash.com/";
 
 +(NSString*)GetPhotosInCategoryUrl:(int)id
 {
-    NSString* p = [NSString  stringWithFormat:@"%@%d%@", @"/categories/:", id, @"/photos"];
+    NSString* p = [NSString  stringWithFormat:@"%@%d%@", @"/categories/", id, @"/photos"];
     return [self GetUrlHelper: p];
 }
 

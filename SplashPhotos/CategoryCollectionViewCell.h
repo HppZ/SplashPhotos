@@ -10,4 +10,6 @@
 
 @interface CategoryCollectionViewCell : UICollectionViewCell
 
+-(void)cellThumb: (NSString*)url;
+
 @end

@@ -61,7 +61,7 @@
 #pragma mark navigate
 -(void)navigateToCategoryWithName:(NSString*)name
 {
-    [_photoService loadPhotosInCategoryWithName:name];
+    [_photoService setCurrentCategoryWithName:name];
     
     UINavigationController * nc = [self.viewControllers  objectAtIndex:0];
     UIViewController* second =  [self.storyboard instantiateViewControllerWithIdentifier:@"firstTabBarNavigationController"];

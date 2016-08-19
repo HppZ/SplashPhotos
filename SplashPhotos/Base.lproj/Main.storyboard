@@ -31,23 +31,61 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="EgQ-LV-IhA">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rV3-hO-Kzm">
-                            <size key="itemSize" width="50" height="50"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="rV3-hO-Kzm">
+                            <size key="itemSize" width="180" height="180"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="50" height="50"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Pdd-En-bSL">
-                                <rect key="frame" x="0.0" y="64" width="50" height="50"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="categoryPhotoCell" id="Pdd-En-bSL" customClass="CategoryCollectionViewCell">
+                                <rect key="frame" x="0.0" y="64" width="180" height="180"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="google" translatesAutoresizingMaskIntoConstraints="NO" id="bFp-d2-iGe">
+                                            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                        </imageView>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="bFp-d2-iGe" firstAttribute="height" secondItem="Pdd-En-bSL" secondAttribute="height" id="LeV-yq-xp1"/>
+                                    <constraint firstItem="bFp-d2-iGe" firstAttribute="centerY" secondItem="Pdd-En-bSL" secondAttribute="centerY" id="OyT-GZ-ifa"/>
+                                    <constraint firstItem="bFp-d2-iGe" firstAttribute="centerX" secondItem="Pdd-En-bSL" secondAttribute="centerX" id="vUm-z7-FZS"/>
+                                    <constraint firstItem="bFp-d2-iGe" firstAttribute="width" secondItem="Pdd-En-bSL" secondAttribute="width" id="zhf-YQ-OgP"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="image" destination="bFp-d2-iGe" id="0xN-di-2ff"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
+                        <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="categoryPhotosFooter" id="Fn1-T6-jSc">
+                            <rect key="frame" x="0.0" y="244" width="600" height="50"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <button hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Myv-yE-1TA">
+                                    <rect key="frame" x="282" y="10" width="36" height="30"/>
+                                    <state key="normal" title="more"/>
+                                    <connections>
+                                        <action selector="loadMoreClicked:" destination="IFb-yY-QfN" eventType="touchUpInside" id="kZ0-7m-b5X"/>
+                                    </connections>
+                                </button>
+                                <activityIndicatorView opaque="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="eW2-m4-B8V">
+                                    <rect key="frame" x="290" y="15" width="20" height="20"/>
+                                    <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </activityIndicatorView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="Myv-yE-1TA" firstAttribute="centerY" secondItem="Fn1-T6-jSc" secondAttribute="centerY" id="HCS-pj-ppM"/>
+                                <constraint firstItem="eW2-m4-B8V" firstAttribute="centerY" secondItem="Fn1-T6-jSc" secondAttribute="centerY" id="HzX-eZ-XXh"/>
+                                <constraint firstItem="eW2-m4-B8V" firstAttribute="centerX" secondItem="Fn1-T6-jSc" secondAttribute="centerX" id="ewC-jg-vcu"/>
+                                <constraint firstItem="Myv-yE-1TA" firstAttribute="centerX" secondItem="Fn1-T6-jSc" secondAttribute="centerX" id="qK0-Q8-0IG"/>
+                            </constraints>
+                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="IFb-yY-QfN" id="Q7b-rs-6Wc"/>
                             <outlet property="delegate" destination="IFb-yY-QfN" id="ydm-Dr-WX2"/>

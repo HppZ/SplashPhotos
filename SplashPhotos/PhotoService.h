@@ -15,17 +15,23 @@
 
 +(NSString*)photoSourceChangedNotification;
 +(NSString*)downloadSourceChangedNotification;
++(NSString*)photosInCategoryChangedNotification;
 
 -(NSMutableArray*)getDataSource;
 -(NSMutableArray*)getDownloadDataSource;
 -(NSArray*)getCategories;
+-(NSMutableArray*)getPhotosInCurrentCategory;
 
 -(void)loadMoreDataWithCallback:(void(^) (NSString* errormsg)) success;
 -(void)requestDownload: (Photo*) photo;
 -(void)restartDownload:(DownloadPhoto*) downloadphoto;
 -(void)requestCategoriesWithCallback: (void(^) (NSString* errormsg)) success;
 -(void)loadPhotosInCategoryWithName:(NSString*)name;
+-(void)loadPhotosInCurrentCategoryWithCallback:(void(^) (NSString* errormsg)) success;
+-(void)setCurrentCategoryWithName:(NSString*)name;
 
 -(int)getCurrentPageNum;
+-(int)getCurrentCategoryPageNum;
+-(NSString*)getCurrentCategoryName;
 
 @end

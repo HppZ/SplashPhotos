@@ -18,6 +18,10 @@
 -(void)GetCategoriesWithsuccessCallback:(void (^)(NSArray * categories)) resultCallback
                           errorCallback:(void (^)(NSString * errorMsg)) errorCallback;
 
+-(void)GetPhotosInCategoryWithID: (int)id page:(int) num
+                 successCallback:(void (^)(NSArray * photos)) resultCallback
+                   errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
+
 -(void)DownloadWithUrl: (NSString*)url progressCallback: ( void(^)(float value) ) progress completeCallback:( void (^)(NSURL *filePath, NSString* errormsg)) complete ;
 
 @end
