@@ -33,10 +33,28 @@ return @"https://unsplash.com/";
 #pragma mark urls
 +(NSString*)GetPhotosUrl
 {
-    return [[self.Host stringByAppendingString:@"/photos?client_id=" ] stringByAppendingString:[self AppID]] ;
+    return [self GetUrlHelper: @"/photos"];
+}
+
++(NSString*)GetCategoriesUrl
+{
+    return [self GetUrlHelper: @"/categories"];
+}
+
++(NSString*)GetPhotosInCategoryUrl:(int)id
+{
+    NSString* p = [NSString  stringWithFormat:@"%@%d%@", @"/categories/:", id, @"/photos"];
+    return [self GetUrlHelper: p];
+}
+
+// helper
++(NSString*)GetUrlHelper:(id)param
+{
+    return [NSString  stringWithFormat:@"%@%@%@%@", self.Host, param , @"?client_id=", self.AppID];
 }
 
 #pragma mark params
+// 照片列表
 +(NSDictionary*)GetPhotosParamsWithPageNum: (NSInteger) num
 {
     NSDictionary *param = [[NSDictionary alloc]
@@ -46,6 +64,25 @@ return @"https://unsplash.com/";
                            @"latest",  @"order_by",
                            nil];
     
+    return param;
+}
+
+// 分类列表
++(NSDictionary*)GetCategoriesParams
+{
+    NSDictionary *param = [[NSDictionary alloc]init];
+    return param;
+}
+
+// 分类中的照片
++(NSDictionary*)GetPhotosInCategoryParamsWithID: (int) id page: (int) num
+{
+    NSDictionary *param = [[NSDictionary alloc]
+                           initWithObjectsAndKeys:
+                           [NSString stringWithFormat: @"%d", id], @"id",
+                           [NSString stringWithFormat: @"%d", num], @"page",
+                           @"30",  @"per_page",
+                           nil];
     return param;
 }
 

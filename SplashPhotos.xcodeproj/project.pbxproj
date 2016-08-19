@@ -51,6 +51,8 @@
 		63E91ADC1D53554D0071546E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E91ADB1D53554D0071546E /* SystemConfiguration.framework */; };
 		63E91ADE1D5357040071546E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E91ADD1D5357040071546E /* Security.framework */; };
 		63E91AE11D536BCF0071546E /* NetworkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E91AE01D536BCF0071546E /* NetworkHelper.m */; };
+		63F8D97D1D669B260056CFD5 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F8D97C1D669B260056CFD5 /* Category.m */; };
+		63F8D9801D669E680056CFD5 /* Links2.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F8D97F1D669E680056CFD5 /* Links2.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +137,10 @@
 		63E91ADD1D5357040071546E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63E91ADF1D536BCF0071546E /* NetworkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkHelper.h; sourceTree = "<group>"; };
 		63E91AE01D536BCF0071546E /* NetworkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkHelper.m; sourceTree = "<group>"; };
+		63F8D97B1D669B260056CFD5 /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
+		63F8D97C1D669B260056CFD5 /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
+		63F8D97E1D669E680056CFD5 /* Links2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Links2.h; sourceTree = "<group>"; };
+		63F8D97F1D669E680056CFD5 /* Links2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Links2.m; sourceTree = "<group>"; };
 		8A7EB34F915EC58AE7A94D2D /* Pods-SplashPhotos.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SplashPhotos.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SplashPhotos/Pods-SplashPhotos.debug.xcconfig"; sourceTree = "<group>"; };
 		9D5AC88D43B138B013C21650 /* libPods-SplashPhotos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SplashPhotos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB1A690AFDDD2FB02544C12B /* Pods-SplashPhotos.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SplashPhotos.release.xcconfig"; path = "Pods/Target Support Files/Pods-SplashPhotos/Pods-SplashPhotos.release.xcconfig"; sourceTree = "<group>"; };
@@ -233,6 +239,7 @@
 		633AEA491D519BFD00E50FA1 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				63F8D97A1D669B030056CFD5 /* Category */,
 				63A539261D55C9EF001444F0 /* Download */,
 				63E91AB11D530D5E0071546E /* Photo */,
 				63E91AB01D530D3C0071546E /* Urls */,
@@ -428,6 +435,17 @@
 			name = Photo;
 			sourceTree = "<group>";
 		};
+		63F8D97A1D669B030056CFD5 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				63F8D97B1D669B260056CFD5 /* Category.h */,
+				63F8D97C1D669B260056CFD5 /* Category.m */,
+				63F8D97E1D669E680056CFD5 /* Links2.h */,
+				63F8D97F1D669E680056CFD5 /* Links2.m */,
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
 		808E6195409D3F9A62893CD1 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -562,6 +580,7 @@
 				63E91AD21D53157B0071546E /* UrlHelper.m in Sources */,
 				6323B9F31D586D850000650C /* FileOperationManager.m in Sources */,
 				63E91ACE1D53149B0071546E /* User+CoreDataProperties.m in Sources */,
+				63F8D97D1D669B260056CFD5 /* Category.m in Sources */,
 				63A539251D55874C001444F0 /* UIColor+HPZColor.m in Sources */,
 				63A5391B1D55775A001444F0 /* DownloadTableViewController.m in Sources */,
 				631E569F1D54E734003B3800 /* SettingManager.m in Sources */,
@@ -586,6 +605,7 @@
 				63E91AD81D531CDB0071546E /* PhotoManager.m in Sources */,
 				63A539311D55F486001444F0 /* NetworkRequestHelper.m in Sources */,
 				63E91ACB1D53149B0071546E /* Photo.m in Sources */,
+				63F8D9801D669E680056CFD5 /* Links2.m in Sources */,
 				63C5BBA11D65DEBF00A5096E /* InitViewController.m in Sources */,
 				631E569C1D54E65A003B3800 /* SettingViewController.m in Sources */,
 				63C5BB991D65D1F700A5096E /* RESideMenu.m in Sources */,

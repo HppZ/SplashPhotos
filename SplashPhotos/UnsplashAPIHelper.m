@@ -12,6 +12,7 @@
 #import "NetworkHelper.h"
 #import "Photo.h"
 #import "NetworkRequestHelper.h"
+#import "Category.h"
 
 @implementation UnsplashAPIHelper
 
@@ -46,6 +47,69 @@
      ];
     
 }
+
+// GET /categories
+-(void)GetCategoriesWithsuccessCallback:(void (^)(NSArray * categories)) resultCallback
+                          errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+{
+    NSString * url =  [UrlHelper GetCategoriesUrl];
+    NSDictionary *param = [UrlHelper GetCategoriesParams];
+    
+    [NetworkRequestHelper GETWithUrl: url andParameters:param
+                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         NSArray* array= [NSArray arrayWithArray:responseObject];
+         NSMutableArray* result = [[NSMutableArray alloc] init];
+         for (id obj in array)
+         {
+             Category *cate =[Category fromDictionary: obj];
+             [result addObject:cate];
+         }
+         
+         resultCallback(result);
+     }
+                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     
+     {
+         errorCallback([error localizedDescription]);
+     }
+     ];
+}
+
+// GET /categories/:id/photos
+-(void)GetPhotosInCategoryWithID: (int)id
+                    page:(int) num
+            successCallback:(void (^)(NSArray * photos)) resultCallback
+              errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+
+{
+//    NSString * url =  [UrlHelper GetPhotosInCategoryUrl:id];
+//    NSDictionary *param = [UrlHelper GetPhotosInCategoryParamsWithID:id page:num];
+//    
+//    [NetworkRequestHelper GETWithUrl: url andParameters:param
+//                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+//     {
+//         NSArray* array= [NSArray arrayWithArray:responseObject];
+//         NSMutableArray* result = [[NSMutableArray alloc] init];
+//         
+//         for (id obj in array)
+//         {
+//             Photo *photo =[Photo fromDictionary: obj];
+//             [result addObject:photo];
+//         }
+//         resultCallback(result);
+//         
+//     }
+//                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+//     
+//     {
+//         errorCallback([error localizedDescription]);
+//     }
+//     ];
+    
+}
+
+//----------------------------------------------------------
 
 #pragma mark download
 // Download photo

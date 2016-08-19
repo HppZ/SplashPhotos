@@ -10,6 +10,7 @@
 #import "UIViewController+RESideMenu.h"
 
 @interface LeftViewController ()
+{}
 
 @property (strong, readwrite, nonatomic) UITableView *tableView;
 
@@ -60,7 +61,6 @@
 
 
 #pragma mark UITableView Datasource
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 54;
@@ -91,14 +91,10 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"Home", @"Calendar", @"Profile", @"Settings", @"Log Out"];
+    NSArray *titles = @[@"Featured", @"Buildings", @"Food&Drink", @"Nature", @"Objects", @"People", @"Technology"];
     cell.textLabel.text = titles[indexPath.row];
     
     return cell;
 }
-
-
-
-
 
 @end

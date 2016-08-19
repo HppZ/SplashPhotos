@@ -32,10 +32,10 @@ static AFURLSessionManager *URLSessionManager;
 }
 
 #pragma mark http get
-+(void)GETWithUrl: (NSString*) url
-    andParameters: (NSDictionary*) parameters
-  successCallback: (void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) successCallback
-    errorCallback: (void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) errorCallback
++(void)GETWithUrl: (nonnull NSString*) url
+    andParameters: (nullable NSDictionary*) parameters
+  successCallback: (nullable void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) successCallback
+    errorCallback: (nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) errorCallback
 {
     [HTTPSessionManager GET: url parameters:
      parameters progress:nil
@@ -51,8 +51,8 @@ static AFURLSessionManager *URLSessionManager;
 
 #pragma mark download
 +(void)DownloadWithUrl:(NSString*) url
-   ProgressCallback: (void (^)(NSProgress* downloadprogress)) progress
-    completionCallback:(void(^)(NSURLResponse *response, NSURL *filePath, NSError *error)) complete
+   ProgressCallback: (nullable void (^)(NSProgress* _Nonnull downloadprogress)) progress
+    completionCallback:(nullable void(^)( NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)) complete
 {
     NSURL *URL = [NSURL URLWithString: url];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];

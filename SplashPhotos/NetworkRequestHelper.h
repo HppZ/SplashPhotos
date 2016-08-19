@@ -10,13 +10,13 @@
 
 @interface NetworkRequestHelper : NSObject
 
-+(void)GETWithUrl: (NSString*) url
-    andParameters: (NSDictionary*) parameters
-  successCallback: (void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) successCallback
-    errorCallback: (void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) errorCallback;
++(void)GETWithUrl: (nonnull NSString*) url
+    andParameters: (nullable NSDictionary*) parameters
+  successCallback: (nullable void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)) successCallback
+    errorCallback: (nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)) errorCallback;
 
-+(void)DownloadWithUrl:(NSString*) url
-      ProgressCallback: (void (^)(NSProgress* downloadprogress)) progress
-    completionCallback:(void(^)(NSURLResponse *response, NSURL *filePath, NSError *error)) complete;
++(void)DownloadWithUrl:(nonnull NSString*) url
+      ProgressCallback: (nullable void (^)(NSProgress* _Nonnull downloadprogress)) progress
+    completionCallback:(nullable void(^)( NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)) complete;
 
 @end

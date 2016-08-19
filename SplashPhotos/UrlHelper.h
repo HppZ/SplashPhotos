@@ -17,8 +17,13 @@
 
 // urls
 +(NSString*) GetPhotosUrl;
++(NSString*) GetCategoriesUrl;
++(NSString*) GetPhotosInCategoryUrl:(int)id;
+
 
 // params
-+(NSDictionary*)GetPhotosParamsWithPageNum: (NSInteger) num;
++(NSDictionary*) GetPhotosParamsWithPageNum: (NSInteger) num;
++(NSDictionary*) GetCategoriesParams;
++(NSDictionary*) GetPhotosInCategoryParamsWithID: (int) id page: (int) num;
 
 @end
