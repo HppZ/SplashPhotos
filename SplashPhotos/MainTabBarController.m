@@ -7,9 +7,13 @@
 //
 
 #import "MainTabBarController.h"
+#import "PhotoCollectionViewController.h"
+#import "PhotoService.h"
 
 @interface MainTabBarController ()
-
+{
+    PhotoService* _photoService ;
+}
 @end
 
 @implementation MainTabBarController
@@ -28,8 +32,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark side menu
+-(void)awakeFromNib
+{
+    
+}
+
 -(void)setup
 {
+    _photoService = [[PhotoService alloc] init];
+    
     float fontsize = 15.0f;
     
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:fontsize],NSFontAttributeName,nil] forState:UIControlStateNormal];
@@ -39,12 +51,40 @@
     {
          tabitem.titlePositionAdjustment =  UIOffsetMake(0, -15);
     }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receiveNotification:)
+                                                 name:@"navigate"
+                                               object:nil];
 }
 
-#pragma mark side menu
--(void)awakeFromNib
+#pragma mark navigate
+-(void)navigateToCategoryWithName:(NSString*)name
 {
-     
+    [_photoService loadPhotosInCategoryWithName:name];
+    
+    UINavigationController * nc = [self.viewControllers  objectAtIndex:0];
+    UIViewController* second =  [self.storyboard instantiateViewControllerWithIdentifier:@"firstTabBarNavigationController"];
+    [nc pushViewController:second animated:true];
+}
+
+
+#pragma mark 通知
+- (void) receiveNotification:(NSNotification *) notification
+{
+    NSString* str = [notification name];
+    if ([str isEqualToString:@"navigate"])
+    {
+        NSString* name =  [notification.userInfo objectForKey:@"name"];
+        [self navigateToCategoryWithName: name];
+    }
+}
+
+
+#pragma mark dealloc
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

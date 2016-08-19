@@ -123,7 +123,21 @@
     }];
 }
 
-
+-(void)loadPhotosInCategoryWithName:(NSString*)name
+{
+    [categoryManager loadPhotosInCategoryWithName:name
+                                          success:^(NSString* error)
+    {
+        if(error)
+        {
+            
+        }
+        else
+        {
+        
+        }
+    }];
+}
 
 #pragma mark get info
 -(int)getCurrentPageNum

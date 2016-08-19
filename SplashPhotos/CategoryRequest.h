@@ -15,4 +15,6 @@
 @property BOOL isloading;
 @property NSMutableArray *result;
 
+-(id)initWithId: (int)id;
+
 @end

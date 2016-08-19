@@ -48,12 +48,16 @@
 #pragma mark public
 -(void)loadCategories:(void(^) (NSString* errormsg)) success
 {
-    [_unsplashAPIHelper GetCategoriesWithsuccessCallback:^(NSArray *categories)
+    [_unsplashAPIHelper GetCategoriesWithsuccessCallback:^(NSArray<Category*> *categories)
      {
          [_categories removeAllObjects];
-         for(id obj in categories)
+          [_categoryRequests removeAllObjects];
+          
+         for(Category* obj in categories)
          {
              [_categories addObject: obj];
+             CategoryRequest * request= [[CategoryRequest alloc]initWithId: [obj.id intValue]];
+             [_categoryRequests addObject:request];
          }
          
          success(nil);
@@ -94,6 +98,11 @@
      }];
 }
 
+-(void)loadPhotosInCategoryWithName:(NSString*)name success:(void(^) (NSString* errormsg)) success
+{
+    int  id = [self getCategoryIDWithName: name];
+    [self loadPhotosInCategoryWithID:id success:success];
+}
 
 -(NSArray*)getCategories
 {
@@ -112,11 +121,25 @@
 
 #pragma mark private
 
+-(CategoryRequest*)getCategoryRequestWithName:(NSString*)name
+{
+    int id = [self getCategoryIDWithName:name];
+    return [self getCategoryRequestWithID: id];
+}
+
 -(CategoryRequest*)getCategoryRequestWithID:(int)id
 {
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(id = %@)", id];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(id == %i)", id];
     NSArray *filtered = [_categoryRequests filteredArrayUsingPredicate:pred];
     return [filtered lastObject];
+}
+
+-(int)getCategoryIDWithName:(NSString*)name
+{
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(title == %@)", name];
+    NSArray *filtered = [_categories filteredArrayUsingPredicate:pred];
+    Category * cy  = [filtered lastObject];
+    return [cy.id intValue];
 }
 
 -(void)increasePageNumWithID:(int)id

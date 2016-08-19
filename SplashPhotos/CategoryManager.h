@@ -13,6 +13,9 @@
 + (id)sharedCategoryManager;
 
 -(void)loadCategories:(void(^) (NSString* errormsg)) success;
+-(void)loadPhotosInCategoryWithID:(int)id success:(void(^) (NSString* errormsg)) success;
+-(void)loadPhotosInCategoryWithName:(NSString*)name success:(void(^) (NSString* errormsg)) success;
+
 -(NSArray*)getCategories;
 
 @end

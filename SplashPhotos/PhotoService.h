@@ -24,6 +24,7 @@
 -(void)requestDownload: (Photo*) photo;
 -(void)restartDownload:(DownloadPhoto*) downloadphoto;
 -(void)requestCategoriesWithCallback: (void(^) (NSString* errormsg)) success;
+-(void)loadPhotosInCategoryWithName:(NSString*)name;
 
 -(int)getCurrentPageNum;
 

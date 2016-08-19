@@ -65,20 +65,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    switch (indexPath.row) {
-        case 0:
-            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"firstViewController"]]
-                                                         animated:YES];
-            [self.sideMenuViewController hideMenuViewController];
-            break;
-        case 1:
-            [self.sideMenuViewController setContentViewController:[[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"secondViewController"]]
-                                                         animated:YES];
-            [self.sideMenuViewController hideMenuViewController];
-            break;
-        default:
-            break;
-    }
+
+    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:  indexPath];
+    NSString* name = cell.textLabel.text;
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:name, @"name", nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"navigate" object:self userInfo: dic];
+    [self.sideMenuViewController hideMenuViewController];
 }
 
 
@@ -113,7 +105,7 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    cell.textLabel.text = [_categories  objectAtIndex:indexPath.row].title;
+    cell.textLabel.text = [_categories  objectAtIndex:indexPath.item].title;
     
     return cell;
 }

@@ -33,7 +33,6 @@
     
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainTabBarController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftViewController"];
-    //self.rightMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"rightMenuViewController"];
     self.backgroundImage = [UIImage imageNamed:@"Stars"];
     self.delegate = self;
 }
