@@ -18,10 +18,12 @@
 
 -(NSMutableArray*)getDataSource;
 -(NSMutableArray*)getDownloadDataSource;
+-(NSArray*)getCategories;
 
 -(void)loadMoreDataWithCallback:(void(^) (NSString* errormsg)) success;
 -(void)requestDownload: (Photo*) photo;
 -(void)restartDownload:(DownloadPhoto*) downloadphoto;
+-(void)requestCategoriesWithCallback: (void(^) (NSString* errormsg)) success;
 
 -(int)getCurrentPageNum;
 

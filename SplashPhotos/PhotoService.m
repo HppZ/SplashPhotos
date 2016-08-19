@@ -10,12 +10,14 @@
 #import "PhotoManager.h"
 #import "DownloadManager.h"
 #import "NetworkHelper.h"
+#import "CategoryManager.h"
 
 @interface PhotoService()
 {
     bool isWIFI;
     PhotoManager * photoManager;
     DownloadManager * downloadManager;
+    CategoryManager* categoryManager;
 }
 @end
 
@@ -41,6 +43,7 @@
         isWIFI = [NetworkHelper isWIFI];
         photoManager = [PhotoManager sharedPhotoManager];
         downloadManager = [DownloadManager sharedDownloadManager];
+        categoryManager = [CategoryManager sharedCategoryManager];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveNotification:)
@@ -77,7 +80,14 @@
     return [downloadManager getDownloadDataSource];
 }
 
+-(NSArray*)getCategories
+{
+    return [categoryManager getCategories];
+}
+
 #pragma mark 请求
+
+#pragma mark photo & download
 -(void)loadMoreDataWithCallback:(void(^) (NSString* errormsg)) success
 {
     [photoManager  loadMoreDataWithCallback:
@@ -102,6 +112,18 @@
 {
     [downloadManager  restartDownload:downloadphoto];
 }
+
+
+#pragma mark category
+-(void)requestCategoriesWithCallback: (void(^) (NSString* errormsg)) success
+{
+    [categoryManager loadCategories:^(NSString *error)
+     {
+         success(error);
+    }];
+}
+
+
 
 #pragma mark get info
 -(int)getCurrentPageNum

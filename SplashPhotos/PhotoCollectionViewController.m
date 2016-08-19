@@ -61,6 +61,16 @@ static NSString * const reuseIdentifier = @"mainCell";
                                              selector:@selector(receiveNotification:)
                                                  name:[PhotoService photoSourceChangedNotification]
                                                object:nil];
+    
+     __weak PhotoCollectionViewController * weakSelf = self;
+    [_photoService requestCategoriesWithCallback:^(NSString *errormsg)
+     {
+         if(errormsg)
+         {
+             NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
+             [weakSelf showPop: errormsg];
+         }
+     }];
 }
 
 #pragma mark 通知
@@ -77,7 +87,8 @@ static NSString * const reuseIdentifier = @"mainCell";
 {
     [self showLoadingring:true];
     
-    __weak PhotoCollectionViewController *weakSelf = self;
+    __weak PhotoCollectionViewController * weakSelf = self;
+    
     [_photoService loadMoreDataWithCallback:^( NSString* errormsg)
      {
          [weakSelf showLoadingring:false];
@@ -85,11 +96,11 @@ static NSString * const reuseIdentifier = @"mainCell";
          if(errormsg)
          {
              NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
-             [self showPop: errormsg];
+             [weakSelf showPop: errormsg];
          }
          else
          {
-             [self navBarTitle];
+             [weakSelf navBarTitle];
          }
      }];
 }

@@ -8,9 +8,14 @@
 
 #import "LeftViewController.h"
 #import "UIViewController+RESideMenu.h"
+#import "PhotoService.h"
+#import "Category.h"
 
 @interface LeftViewController ()
-{}
+{
+    PhotoService * _photoService;
+    NSArray<Category*>* _categories;
+}
 
 @property (strong, readwrite, nonatomic) UITableView *tableView;
 
@@ -18,9 +23,19 @@
 
 @implementation LeftViewController
 
+#pragma mark setup
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setup];
+    
     self.tableView =
     ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - 54 * 5) / 2.0f, self.view.frame.size.width, 54 * 5) style:UITableViewStylePlain];
@@ -38,6 +53,13 @@
     
     [self.view addSubview:self.tableView];
 }
+
+-(void)setup
+{
+    _photoService = [[PhotoService alloc] init];
+    _categories = [_photoService getCategories];
+}
+
 
 #pragma mark tableview
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -73,7 +95,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return 5;
+    return _categories.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -91,8 +113,7 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"Featured", @"Buildings", @"Food&Drink", @"Nature", @"Objects", @"People", @"Technology"];
-    cell.textLabel.text = titles[indexPath.row];
+    cell.textLabel.text = [_categories  objectAtIndex:indexPath.row].title;
     
     return cell;
 }

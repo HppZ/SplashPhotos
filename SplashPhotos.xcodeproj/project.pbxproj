@@ -28,6 +28,8 @@
 		63C5BB9A1D65D1F700A5096E /* UIViewController+RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BB971D65D1F700A5096E /* UIViewController+RESideMenu.m */; };
 		63C5BBA11D65DEBF00A5096E /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BBA01D65DEBF00A5096E /* InitViewController.m */; };
 		63C5BBA51D65E0CF00A5096E /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BBA41D65E0CF00A5096E /* LeftViewController.m */; };
+		63C680C21D66BF520053B871 /* CategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C680C11D66BF520053B871 /* CategoryManager.m */; };
+		63C680C91D66C6570053B871 /* CategoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C680C81D66C6570053B871 /* CategoryRequest.m */; };
 		63D7F3901D50AF3700DE068A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D7F38F1D50AF3700DE068A /* main.m */; };
 		63D7F3931D50AF3700DE068A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D7F3921D50AF3700DE068A /* AppDelegate.m */; };
 		63D7F3991D50AF3700DE068A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63D7F3971D50AF3700DE068A /* Main.storyboard */; };
@@ -97,6 +99,10 @@
 		63C5BBA01D65DEBF00A5096E /* InitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitViewController.m; sourceTree = "<group>"; };
 		63C5BBA31D65E0CF00A5096E /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftViewController.h; sourceTree = "<group>"; };
 		63C5BBA41D65E0CF00A5096E /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftViewController.m; sourceTree = "<group>"; };
+		63C680C01D66BF520053B871 /* CategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryManager.h; sourceTree = "<group>"; };
+		63C680C11D66BF520053B871 /* CategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryManager.m; sourceTree = "<group>"; };
+		63C680C71D66C6570053B871 /* CategoryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryRequest.h; sourceTree = "<group>"; };
+		63C680C81D66C6570053B871 /* CategoryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryRequest.m; sourceTree = "<group>"; };
 		63D7F38B1D50AF3700DE068A /* SplashPhotos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplashPhotos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63D7F38F1D50AF3700DE068A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		63D7F3911D50AF3700DE068A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -195,6 +201,7 @@
 		633AEA461D519BD300E50FA1 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				63C680C61D66C55D0053B871 /* Category */,
 				6323B9F11D586D850000650C /* FileOperationManager.h */,
 				6323B9F21D586D850000650C /* FileOperationManager.m */,
 				63E91AD61D531CDB0071546E /* PhotoManager.h */,
@@ -329,6 +336,17 @@
 				63C5BBA41D65E0CF00A5096E /* LeftViewController.m */,
 			);
 			name = Init;
+			sourceTree = "<group>";
+		};
+		63C680C61D66C55D0053B871 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				63C680C01D66BF520053B871 /* CategoryManager.h */,
+				63C680C11D66BF520053B871 /* CategoryManager.m */,
+				63C680C71D66C6570053B871 /* CategoryRequest.h */,
+				63C680C81D66C6570053B871 /* CategoryRequest.m */,
+			);
+			name = Category;
 			sourceTree = "<group>";
 		};
 		63D7F3821D50AF3700DE068A = {
@@ -598,6 +616,7 @@
 				63A5392E1D55D41F001444F0 /* SystemServiceHelper.m in Sources */,
 				63E91ACA1D53149B0071546E /* Photo+CoreDataProperties.m in Sources */,
 				63E91ACC1D53149B0071546E /* Links+CoreDataProperties.m in Sources */,
+				63C680C21D66BF520053B871 /* CategoryManager.m in Sources */,
 				63153EFC1D5AD73C00443497 /* UITableView+NoData.m in Sources */,
 				63E91AC61D53149B0071546E /* ProfileImage+CoreDataProperties.m in Sources */,
 				63D7F3931D50AF3700DE068A /* AppDelegate.m in Sources */,
@@ -615,6 +634,7 @@
 				63A5391E1D55777C001444F0 /* DownloadTableViewCell.m in Sources */,
 				63A539171D5569AA001444F0 /* MainTabBarController.m in Sources */,
 				63C5BB981D65D1F700A5096E /* RECommonFunctions.m in Sources */,
+				63C680C91D66C6570053B871 /* CategoryRequest.m in Sources */,
 				63E91AE11D536BCF0071546E /* NetworkHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

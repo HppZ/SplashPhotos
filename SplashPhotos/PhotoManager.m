@@ -15,7 +15,7 @@
     bool _loading;
     
     UnsplashAPIHelper * _unsplashAPIHelper;
-    NSMutableArray<Photo *>* _collectionViewData;
+    NSMutableArray<Photo *>* _photos;
 }
 @end
 
@@ -37,7 +37,7 @@
     self  = [super init];
     if(self)
     {
-        _collectionViewData = [[NSMutableArray<Photo*>  alloc] init];
+        _photos = [[NSMutableArray<Photo*>  alloc] init];
         _unsplashAPIHelper = [[UnsplashAPIHelper alloc] init];
         _num = 1;
     }
@@ -61,7 +61,7 @@
      {
          for(id obj in photos)
          {
-             [_collectionViewData addObject: obj];
+             [_photos addObject: obj];
          }
          
          [weakSelf increasePageNum];
@@ -78,7 +78,7 @@
 
 -(NSMutableArray*)getDataSource
 {
-    return _collectionViewData;
+    return _photos;
 }
 
 -(int)getCurrentPageNum
