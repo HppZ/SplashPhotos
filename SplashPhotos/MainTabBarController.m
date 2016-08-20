@@ -64,10 +64,11 @@
     [_photoService setCurrentCategoryWithName:name];
     
     UINavigationController * nc = [self.viewControllers  objectAtIndex:0];
+    [nc popToRootViewControllerAnimated:false];
     UIViewController* second =  [self.storyboard instantiateViewControllerWithIdentifier:@"firstTabBarNavigationController"];
     [nc pushViewController:second animated:true];
+    self.selectedIndex = 0;
 }
-
 
 #pragma mark 通知
 - (void) receiveNotification:(NSNotification *) notification
@@ -79,7 +80,6 @@
         [self navigateToCategoryWithName: name];
     }
 }
-
 
 #pragma mark dealloc
 -(void)dealloc

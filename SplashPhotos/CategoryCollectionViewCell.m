@@ -29,5 +29,4 @@
     [_image sd_setImageWithURL:[NSURL URLWithString: url] placeholderImage: nil];
 }
 
-
 @end
