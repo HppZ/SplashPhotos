@@ -12,12 +12,12 @@
 #import "PhotoService.h"
 #import "JDStatusBarNotification.h"
 #import "CategoryCollectionViewCell.h"
+#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 
 @interface CategoryPhotosCollectionViewController()
 {
-    UIButton *loadmorebutton;
-    UIActivityIndicatorView *loadingindicator;
-    
+    bool _isloading;
+
     NSMutableArray<Photo *>* _categoryPhotos;
     PhotoService * _photoService;
     NSMutableArray *_photosForBrowsing;
@@ -35,6 +35,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     [super viewDidLoad];
     
     [self setup];
+    [self triggerPullToRefresh];
     [self loadData];
 }
 
@@ -52,15 +53,26 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 
 -(void)setup
 {
+    // pull to refresh
+    __weak typeof(self) weakSelf =self;
+    [self.collectionView addPullToRefreshActionHandler:
+     ^{
+         typeof(self) strongSelf = weakSelf;
+         [strongSelf loadData];
+     }
+                                 ProgressImagesGifName:@"spinner_dropbox@2x.gif"
+                                  LoadingImagesGifName:@"run@2x.gif"
+                               ProgressScrollThreshold:60
+                                 LoadingImageFrameRate:30];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector(receiveNotification:)
+                                              name:[PhotoService photosInCategoryChangedNotification]
+                                            object:nil];
+
     _photoService = [[PhotoService alloc] init];
     _categoryPhotos  = [_photoService getPhotosInCurrentCategory];
     _photosForBrowsing = [[NSMutableArray alloc] init];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:)
-                                                 name:[PhotoService photosInCategoryChangedNotification]
-                                               object:nil];
-    
 }
 
 #pragma mark 通知
@@ -75,14 +87,11 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 #pragma mark - data
 -(void)loadData
 {
-    [self showLoadingring:true];
-    
     __weak CategoryPhotosCollectionViewController * weakSelf = self;
     
     [_photoService loadPhotosInCurrentCategoryWithCallback:^(NSString *errormsg)
     {
-        [weakSelf showLoadingring:false];
-        
+        [weakSelf stopRefresh];
         if(errormsg)
         {
             NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
@@ -97,43 +106,33 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 
 -(void)insertNewItems
 {
-    NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
     NSInteger max = _categoryPhotos.count;
-    for (NSInteger i = count; i <  max; i++)
+    
+    NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
+    for (NSInteger i = 0; i <  max - count; i++)
     {
         [arrayWithIndexPaths addObject:[NSIndexPath indexPathForRow: i inSection:0]];
     }
     [self.collectionView insertItemsAtIndexPaths: arrayWithIndexPaths];
 }
 
-#pragma mark IBAction
-- (IBAction)loadMoreClicked:(UIButton *)sender
+#pragma mark UI 设置
+-(void)stopRefresh
 {
-    [self loadData];
+    [self.collectionView stopPullToRefreshAnimation];
 }
 
-#pragma mark UI 设置
--(void)showLoadingring:(bool) show
+-(void)triggerPullToRefresh
 {
-    if(!show)
-    {
-        [loadingindicator stopAnimating];
-    }
-    else
-    {
-        [loadingindicator startAnimating];
-    }
-    
-    [loadingindicator setHidden:!show];
-    [loadmorebutton setHidden:show];
+    [self.collectionView triggerPullToRefresh];
 }
 
 -(void)navBarTitle
 {
     int pagenum = [_photoService getCurrentCategoryPageNum];
     NSString* name = [_photoService getCurrentCategoryName];
-    self.navigationItem.title = [NSString stringWithFormat:@"%@ (P %d)" ,name,pagenum];
+    self.navigationItem.title = [NSString stringWithFormat:@"%@ %d" ,name,pagenum];
 }
 
 -(void)showPop:(NSString*)text
@@ -142,14 +141,17 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 }
 
 #pragma mark MWPhotoBrowser
--(void)cellClicked: (long) pos
+-(void)cellClicked: (NSIndexPath*) indexPath
 {
     [_photosForBrowsing removeAllObjects];
     
-    for (Photo *photo in _categoryPhotos)
+    int first = _categoryPhotos.count - 1;
+    for (int i = first; i >= 0; i--)
     {
-        [_photosForBrowsing addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[photo urls] regular]]]];
+        Photo* p = [_categoryPhotos objectAtIndex:i];
+        [_photosForBrowsing addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[p urls] regular]]]];
     }
+    
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
     
     // Set options
@@ -163,7 +165,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     browser.autoPlayOnAppear = NO; // Auto-play first video
     
     // Optionally set the current visible photo before displaying
-    [browser setCurrentPhotoIndex: pos];
+    [browser setCurrentPhotoIndex: indexPath.item];
     
     // Present
     [self.navigationController pushViewController:browser animated:YES];
@@ -186,26 +188,11 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 {
     [self showPop: @"Downloading..."];
     
-    Photo * photo =  [_categoryPhotos objectAtIndex:photoBrowser.currentIndex] ;
+    Photo * photo = [self getItemWithIndexPath: [NSIndexPath indexPathForItem:index inSection:0]];
     [_photoService requestDownload: photo];
 }
 
 #pragma mark <UICollectionViewDataSource>
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-           viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionReusableView *footerview;
-    if (kind == UICollectionElementKindSectionFooter)
-    {
-        footerview = [self.collectionView  dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"categoryPhotosFooter" forIndexPath: indexPath];
-        
-        loadmorebutton = [footerview viewWithTag:3];
-        loadingindicator = [footerview viewWithTag:4];
-    }
-    return footerview ;
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return _categoryPhotos.count;
@@ -214,8 +201,8 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CategoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    Photo *photo =  [_categoryPhotos objectAtIndex:indexPath.item];
-    [cell cellThumb:[[photo urls] small ]];
+    Photo *photo =  [self getItemWithIndexPath:indexPath];
+    [cell cellThumb:[[photo urls] small]];
     
     return cell;
 }
@@ -223,7 +210,16 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 #pragma mark 点击图片 <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self cellClicked: indexPath.item];
+    [self cellClicked: indexPath];
+}
+
+-(id)getItemWithIndexPath:(NSIndexPath*)indexPath
+{
+    if(indexPath != nil)
+    {
+        return  [_categoryPhotos objectAtIndex: _categoryPhotos.count -1 - indexPath.item];
+    }
+    return nil;
 }
 
 #pragma mark dealloc
@@ -231,7 +227,5 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-
 
 @end

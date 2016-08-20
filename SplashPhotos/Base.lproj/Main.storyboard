@@ -35,7 +35,7 @@
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="rV3-hO-Kzm">
                             <size key="itemSize" width="180" height="180"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="50" height="50"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
@@ -63,29 +63,6 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="categoryPhotosFooter" id="Fn1-T6-jSc">
-                            <rect key="frame" x="0.0" y="244" width="600" height="50"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                            <subviews>
-                                <button hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Myv-yE-1TA">
-                                    <rect key="frame" x="282" y="10" width="36" height="30"/>
-                                    <state key="normal" title="more"/>
-                                    <connections>
-                                        <action selector="loadMoreClicked:" destination="IFb-yY-QfN" eventType="touchUpInside" id="kZ0-7m-b5X"/>
-                                    </connections>
-                                </button>
-                                <activityIndicatorView opaque="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="eW2-m4-B8V">
-                                    <rect key="frame" x="290" y="15" width="20" height="20"/>
-                                    <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </activityIndicatorView>
-                            </subviews>
-                            <constraints>
-                                <constraint firstItem="Myv-yE-1TA" firstAttribute="centerY" secondItem="Fn1-T6-jSc" secondAttribute="centerY" id="HCS-pj-ppM"/>
-                                <constraint firstItem="eW2-m4-B8V" firstAttribute="centerY" secondItem="Fn1-T6-jSc" secondAttribute="centerY" id="HzX-eZ-XXh"/>
-                                <constraint firstItem="eW2-m4-B8V" firstAttribute="centerX" secondItem="Fn1-T6-jSc" secondAttribute="centerX" id="ewC-jg-vcu"/>
-                                <constraint firstItem="Myv-yE-1TA" firstAttribute="centerX" secondItem="Fn1-T6-jSc" secondAttribute="centerX" id="qK0-Q8-0IG"/>
-                            </constraints>
-                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="IFb-yY-QfN" id="Q7b-rs-6Wc"/>
                             <outlet property="delegate" destination="IFb-yY-QfN" id="ydm-Dr-WX2"/>
@@ -107,7 +84,7 @@
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="1" id="LPD-wZ-wfi">
                             <size key="itemSize" width="180" height="180"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="50" height="50"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
@@ -135,33 +112,6 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="footer" id="gbd-kw-AEP">
-                            <rect key="frame" x="0.0" y="244" width="600" height="50"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                            <subviews>
-                                <button hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hHz-CX-BSw">
-                                    <rect key="frame" x="282" y="8" width="36" height="34"/>
-                                    <state key="normal" title="more"/>
-                                    <connections>
-                                        <action selector="loadMoreClicked:" destination="yrl-Ls-1Ow" eventType="touchDown" id="PfL-Vv-LgD"/>
-                                        <action selector="loadMoreClicked:" destination="yrl-Ls-1Ow" eventType="touchUpInside" id="ab2-C4-6UM"/>
-                                    </connections>
-                                </button>
-                                <activityIndicatorView opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="DDB-vE-vzc">
-                                    <rect key="frame" x="290" y="15" width="20" height="20"/>
-                                    <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </activityIndicatorView>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstItem="hHz-CX-BSw" firstAttribute="centerX" secondItem="gbd-kw-AEP" secondAttribute="centerX" id="edj-0g-8ze"/>
-                                <constraint firstAttribute="bottomMargin" secondItem="hHz-CX-BSw" secondAttribute="bottom" id="fYT-eX-c5Z"/>
-                                <constraint firstItem="DDB-vE-vzc" firstAttribute="centerY" secondItem="gbd-kw-AEP" secondAttribute="centerY" id="gJv-E2-SHC"/>
-                                <constraint firstItem="DDB-vE-vzc" firstAttribute="centerX" secondItem="gbd-kw-AEP" secondAttribute="centerX" id="uoC-Cc-DM6"/>
-                                <constraint firstItem="hHz-CX-BSw" firstAttribute="centerY" secondItem="gbd-kw-AEP" secondAttribute="centerY" id="vJK-fb-N9n"/>
-                                <constraint firstItem="hHz-CX-BSw" firstAttribute="top" secondItem="gbd-kw-AEP" secondAttribute="topMargin" id="xge-i2-JxX"/>
-                            </constraints>
-                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="yrl-Ls-1Ow" id="fi7-h5-qIC"/>
                             <outlet property="delegate" destination="yrl-Ls-1Ow" id="ADr-Yz-ft9"/>

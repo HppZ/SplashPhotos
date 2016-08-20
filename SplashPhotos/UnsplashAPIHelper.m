@@ -23,7 +23,7 @@
 
 {
     NSString * url =  [UrlHelper GetPhotosUrl];
-    NSDictionary *param = [UrlHelper GetPhotosParamsWithPageNum:num];
+    NSDictionary *param = [UrlHelper GetPhotosParamsWithPageNum: num];
     
     [NetworkRequestHelper GETWithUrl: url andParameters:param
                      successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
