@@ -65,7 +65,7 @@ return @"https://unsplash.com/";
     NSDictionary *param = [[NSDictionary alloc]
                            initWithObjectsAndKeys:
                            [NSNumber numberWithInt:num], @"page",
-                           @"30",  @"per_page",
+                           @"15",  @"per_page",
                            @"latest",  @"order_by",
                            nil];
     
@@ -86,7 +86,7 @@ return @"https://unsplash.com/";
                            initWithObjectsAndKeys:
                            [NSNumber numberWithInt:id], @"id",
                            [NSNumber numberWithInt:num], @"page",
-                           @"30",  @"per_page",
+                           @"15",  @"per_page",
                            nil];
     return param;
 }

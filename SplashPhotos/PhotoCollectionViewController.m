@@ -33,7 +33,6 @@ static NSString * const reuseIdentifier = @"mainCell";
     [super viewDidLoad];
     
     [self setup];
-    [self loadData];
     [self triggerPullToRefresh];
 }
 
