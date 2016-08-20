@@ -36,7 +36,6 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     
     [self setup];
     [self triggerPullToRefresh];
-    [self loadData];
 }
 
 -(void)viewWillLayoutSubviews
