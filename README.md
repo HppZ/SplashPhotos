@@ -6,7 +6,9 @@ I am an UWP developer. I am 1%.
 
 后续还有很多功能。
 
-代码里某些姿势还不太对，cuz I am new to this platform，but I will keep going and be ‘Political Correct’
+代码里某些姿势还不太对，cuz I am new to this platform，but I will keep going and be ‘Political Correct’。
+
+Logo是google photos的，后面换掉。
 
 ![][1]
 ![][2]
