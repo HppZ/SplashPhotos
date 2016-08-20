@@ -30,10 +30,10 @@
     self.contentViewInLandscapeOffsetCenterX = -30.f;
     self.contentViewInPortraitOffsetCenterX  = -30.f;
 
-    
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainTabBarController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftViewController"];
-    self.backgroundImage = [UIImage imageNamed:@"Stars"];
+    UIImage * bg = [UIImage imageNamed:@"bg"];
+    self.backgroundImage = bg;
     self.delegate = self;
 }
 
