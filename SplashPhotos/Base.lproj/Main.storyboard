@@ -221,6 +221,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="downloadTableViewCell" rowHeight="66" id="sgE-1N-yL7" customClass="DownloadTableViewCell">
                                 <rect key="frame" x="0.0" y="28" width="600" height="66"/>
@@ -229,7 +230,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-Ka-Wjh" userLabel="thumb">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-Ka-Wjh" userLabel="thumb">
                                             <rect key="frame" x="8" y="4" width="58" height="58"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="58" id="04g-PZ-jRk"/>
@@ -374,7 +375,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1" width="279" height="284"/>
         <image name="google" width="512" height="512"/>
     </resources>
 </document>
