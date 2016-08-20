@@ -39,11 +39,6 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     [self loadData];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    
-}
-
 -(void)viewWillLayoutSubviews
 {
     float w = (self.collectionView.frame.size.width - 2.5 ) / 3;

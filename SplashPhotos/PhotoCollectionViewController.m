@@ -34,6 +34,7 @@ static NSString * const reuseIdentifier = @"mainCell";
     
     [self setup];
     [self loadData];
+    [self triggerPullToRefresh];
 }
 
 -(void)viewWillLayoutSubviews
