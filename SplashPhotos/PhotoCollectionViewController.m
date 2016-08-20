@@ -53,15 +53,16 @@ static NSString * const reuseIdentifier = @"mainCell";
 
 -(void)setup
 {
-    _photoService = [[PhotoService alloc] init];
-    _collectionViewData  = [_photoService getDataSource];
-    _photosForBrowsing = [[NSMutableArray alloc] init];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
                                                  name:[PhotoService photoSourceChangedNotification]
                                                object:nil];
     
+    _photoService = [[PhotoService alloc] init];
+    _collectionViewData  = [_photoService getDataSource];
+    _photosForBrowsing = [[NSMutableArray alloc] init];
+    
+    // 提前获取侧栏分类
      __weak PhotoCollectionViewController * weakSelf = self;
     [_photoService requestCategoriesWithCallback:^(NSString *errormsg)
      {
@@ -142,7 +143,7 @@ static NSString * const reuseIdentifier = @"mainCell";
 -(void)navBarTitle
 {
     int pagenum = [_photoService getCurrentPageNum];
-    self.navigationItem.title = [@"Page "  stringByAppendingFormat:@"%d" ,pagenum];
+    self.navigationItem.title = [NSString  stringWithFormat:@"Featured %d" ,pagenum];
 }
 
 -(void)showPop:(NSString*)text

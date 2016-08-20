@@ -15,6 +15,7 @@
 
 @interface CategoryPhotosCollectionViewController()
 {
+    bool _isloading;
     UIButton *loadmorebutton;
     UIActivityIndicatorView *loadingindicator;
     
@@ -38,6 +39,11 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     [self loadData];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+}
+
 -(void)viewWillLayoutSubviews
 {
     float w = (self.collectionView.frame.size.width - 2.5 ) / 3;
@@ -52,15 +58,14 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 
 -(void)setup
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector(receiveNotification:)
+                                              name:[PhotoService photosInCategoryChangedNotification]
+                                            object:nil];
+
     _photoService = [[PhotoService alloc] init];
     _categoryPhotos  = [_photoService getPhotosInCurrentCategory];
     _photosForBrowsing = [[NSMutableArray alloc] init];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:)
-                                                 name:[PhotoService photosInCategoryChangedNotification]
-                                               object:nil];
-    
 }
 
 #pragma mark 通知
@@ -116,6 +121,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 #pragma mark UI 设置
 -(void)showLoadingring:(bool) show
 {
+    _isloading = show;
     if(!show)
     {
         [loadingindicator stopAnimating];
@@ -133,7 +139,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 {
     int pagenum = [_photoService getCurrentCategoryPageNum];
     NSString* name = [_photoService getCurrentCategoryName];
-    self.navigationItem.title = [NSString stringWithFormat:@"%@ (P %d)" ,name,pagenum];
+    self.navigationItem.title = [NSString stringWithFormat:@"%@ %d" ,name,pagenum];
 }
 
 -(void)showPop:(NSString*)text
@@ -202,6 +208,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
         
         loadmorebutton = [footerview viewWithTag:3];
         loadingindicator = [footerview viewWithTag:4];
+        [self showLoadingring:_isloading];
     }
     return footerview ;
 }
