@@ -211,14 +211,6 @@
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    static NSString* s = @"";
-    if(![s isEqualToString:keyPath])
-    {
-        s = keyPath;
-          NSLog(@"%@", s);
-    }
-  
-    
     if([keyPath isEqualToString:@"contentOffset"])
     {
         [self scrollViewDidScroll:[[change valueForKey:NSKeyValueChangeNewKey] CGPointValue]];

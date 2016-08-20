@@ -22,7 +22,7 @@
 
 
 // params
-+(NSDictionary*) GetPhotosParamsWithPageNum: (NSInteger) num;
++(NSDictionary*) GetPhotosParamsWithPageNum: (int) num;
 +(NSDictionary*) GetCategoriesParams;
 +(NSDictionary*) GetPhotosInCategoryParamsWithID: (int) id page: (int) num;
 

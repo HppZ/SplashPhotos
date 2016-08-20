@@ -53,13 +53,18 @@ return @"https://unsplash.com/";
     return [NSString  stringWithFormat:@"%@%@%@%@", self.Host, param , @"?client_id=", self.AppID];
 }
 
++(int)randomNum
+{
+    return arc4random() % 1024;
+}
+
 #pragma mark params
 // 照片列表
-+(NSDictionary*)GetPhotosParamsWithPageNum: (NSInteger) num
++(NSDictionary*)GetPhotosParamsWithPageNum: (int) num
 {
     NSDictionary *param = [[NSDictionary alloc]
                            initWithObjectsAndKeys:
-                           [NSString stringWithFormat: @"%ld", (long)num], @"page",
+                           [NSNumber numberWithInt:num], @"page",
                            @"30",  @"per_page",
                            @"latest",  @"order_by",
                            nil];
@@ -79,8 +84,8 @@ return @"https://unsplash.com/";
 {
     NSDictionary *param = [[NSDictionary alloc]
                            initWithObjectsAndKeys:
-                           [NSString stringWithFormat: @"%d", id], @"id",
-                           [NSString stringWithFormat: @"%d", num], @"page",
+                           [NSNumber numberWithInt:id], @"id",
+                           [NSNumber numberWithInt:num], @"page",
                            @"30",  @"per_page",
                            nil];
     return param;

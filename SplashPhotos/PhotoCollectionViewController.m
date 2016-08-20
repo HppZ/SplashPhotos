@@ -13,17 +13,14 @@
 #import "Urls.h"
 #import "PhotoService.h"
 #import "JDStatusBarNotification.h"
+#import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 
 @interface PhotoCollectionViewController ()
 {
-    UIButton *loadmorebutton;
-    UIActivityIndicatorView *loadingindicator;
-    
     NSMutableArray<Photo *>* _collectionViewData;
     PhotoService * _photoService;
     NSMutableArray *_photosForBrowsing;
 }
-
 @end
 
 @implementation PhotoCollectionViewController
@@ -53,6 +50,18 @@ static NSString * const reuseIdentifier = @"mainCell";
 
 -(void)setup
 {
+    // pull to refresh
+    __weak typeof(self) weakSelf =self;
+    [self.collectionView addPullToRefreshActionHandler:
+     ^{
+         typeof(self) strongSelf = weakSelf;
+         [strongSelf loadData];
+     }
+                                 ProgressImagesGifName:@"spinner_dropbox@2x.gif"
+                                  LoadingImagesGifName:@"run@2x.gif"
+                               ProgressScrollThreshold:60
+                                 LoadingImageFrameRate:30];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
                                                  name:[PhotoService photoSourceChangedNotification]
@@ -63,7 +72,6 @@ static NSString * const reuseIdentifier = @"mainCell";
     _photosForBrowsing = [[NSMutableArray alloc] init];
     
     // 提前获取侧栏分类
-     __weak PhotoCollectionViewController * weakSelf = self;
     [_photoService requestCategoriesWithCallback:^(NSString *errormsg)
      {
          if(errormsg)
@@ -86,14 +94,11 @@ static NSString * const reuseIdentifier = @"mainCell";
 #pragma mark - data
 -(void)loadData
 {
-    [self showLoadingring:true];
-    
     __weak PhotoCollectionViewController * weakSelf = self;
     
     [_photoService loadMoreDataWithCallback:^( NSString* errormsg)
      {
-         [weakSelf showLoadingring:false];
-         
+         [weakSelf stopRefresh];
          if(errormsg)
          {
              NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
@@ -108,36 +113,26 @@ static NSString * const reuseIdentifier = @"mainCell";
 
 -(void)insertNewItems
 {
-    NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
     NSInteger max = _collectionViewData.count;
-    for (NSInteger i = count; i <  max; i++)
+    
+    NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
+    for (NSInteger i = 0; i <  max - count; i++)
     {
         [arrayWithIndexPaths addObject:[NSIndexPath indexPathForRow: i inSection:0]];
     }
     [self.collectionView insertItemsAtIndexPaths: arrayWithIndexPaths];
 }
 
-#pragma mark IBAction
-- (IBAction)loadMoreClicked:(UIButton *)sender
+#pragma mark UI 设置
+-(void)stopRefresh
 {
-    [self loadData];
+    [self.collectionView stopPullToRefreshAnimation];
 }
 
-#pragma mark UI 设置
--(void)showLoadingring:(bool) show
+-(void)triggerPullToRefresh
 {
-    if(!show)
-    {
-        [loadingindicator stopAnimating];
-    }
-    else
-    {
-        [loadingindicator startAnimating];
-    }
-    
-    [loadingindicator setHidden:!show];
-    [loadmorebutton setHidden:show];
+    [self.collectionView triggerPullToRefresh];
 }
 
 -(void)navBarTitle
@@ -152,14 +147,17 @@ static NSString * const reuseIdentifier = @"mainCell";
 }
 
 #pragma mark MWPhotoBrowser
--(void)cellClicked: (long) pos
+-(void)cellClicked: (NSIndexPath*) indexPath
 {
     [_photosForBrowsing removeAllObjects];
     
-    for (Photo *photo in _collectionViewData)
+    int first = _collectionViewData.count - 1;
+    for (int i = first; i >= 0; i--)
     {
-        [_photosForBrowsing addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[photo urls] regular]]]];
+        Photo* p = [_collectionViewData objectAtIndex:i];
+        [_photosForBrowsing addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[p urls] regular]]]];
     }
+    
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
     
     // Set options
@@ -173,7 +171,7 @@ static NSString * const reuseIdentifier = @"mainCell";
     browser.autoPlayOnAppear = NO; // Auto-play first video
     
     // Optionally set the current visible photo before displaying
-    [browser setCurrentPhotoIndex: pos];
+    [browser setCurrentPhotoIndex: indexPath.item];
     
     // Present
     [self.navigationController pushViewController:browser animated:YES];
@@ -196,26 +194,11 @@ static NSString * const reuseIdentifier = @"mainCell";
 {
     [self showPop: @"Downloading..."];
     
-    Photo * photo =  [_collectionViewData objectAtIndex:photoBrowser.currentIndex] ;
+    Photo * photo = [self getItemWithIndexPath: [NSIndexPath indexPathForItem:index inSection:0]];
     [_photoService requestDownload: photo];
 }
 
 #pragma mark <UICollectionViewDataSource>
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-           viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionReusableView *footerview;
-    if (kind == UICollectionElementKindSectionFooter)
-    {
-        footerview = [self.collectionView  dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer" forIndexPath: indexPath];
-        
-        loadmorebutton = [footerview viewWithTag:1];
-        loadingindicator = [footerview viewWithTag:2];
-    }
-    return footerview ;
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return _collectionViewData.count;
@@ -224,8 +207,8 @@ static NSString * const reuseIdentifier = @"mainCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PhotosCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    Photo *photo =  [_collectionViewData objectAtIndex:indexPath.item];
-    [cell cellThumb:[[photo urls] small ]];
+    Photo *photo =  [self getItemWithIndexPath:indexPath];
+    [cell cellThumb:[[photo urls] small]];
     
     return cell;
 }
@@ -233,7 +216,21 @@ static NSString * const reuseIdentifier = @"mainCell";
 #pragma mark 点击图片 <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self cellClicked: indexPath.item];
+    [self cellClicked: indexPath];
+}
+
+-(id)getItemWithIndexPath:(NSIndexPath*)indexPath
+{
+    if(indexPath != nil)
+    {
+      return  [_collectionViewData objectAtIndex: _collectionViewData.count -1 - indexPath.item];
+    }
+    return nil;
+}
+
+-(void)getIndexWithIndexPath:(NSIndexPath*)indexPath
+{
+    
 }
 
 #pragma mark dealloc
