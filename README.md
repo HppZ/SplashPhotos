@@ -18,7 +18,7 @@ Logo是google photos的，后面换掉。
 ![][6]
   [1]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot4.png
   [2]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot3.png
-  [3]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot6.png
+  [3]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot7.png
   [4]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot2.png
   [5]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot5.png
   [6]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot1.png
