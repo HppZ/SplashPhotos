@@ -60,6 +60,7 @@
 		63E91ADC1D53554D0071546E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E91ADB1D53554D0071546E /* SystemConfiguration.framework */; };
 		63E91ADE1D5357040071546E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E91ADD1D5357040071546E /* Security.framework */; };
 		63E91AE11D536BCF0071546E /* NetworkHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E91AE01D536BCF0071546E /* NetworkHelper.m */; };
+		63F833551D6A71FF003EB010 /* ToastService.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F833541D6A71FF003EB010 /* ToastService.m */; };
 		63F8D97D1D669B260056CFD5 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F8D97C1D669B260056CFD5 /* Category.m */; };
 		63F8D9801D669E680056CFD5 /* Links2.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F8D97F1D669E680056CFD5 /* Links2.m */; };
 		63FE87821D69B0E400E42263 /* UICollectionView+NoData.m in Sources */ = {isa = PBXBuildFile; fileRef = 63FE87811D69B0E400E42263 /* UICollectionView+NoData.m */; };
@@ -164,6 +165,8 @@
 		63E91ADD1D5357040071546E /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63E91ADF1D536BCF0071546E /* NetworkHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkHelper.h; sourceTree = "<group>"; };
 		63E91AE01D536BCF0071546E /* NetworkHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkHelper.m; sourceTree = "<group>"; };
+		63F833531D6A71FF003EB010 /* ToastService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToastService.h; sourceTree = "<group>"; };
+		63F833541D6A71FF003EB010 /* ToastService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToastService.m; sourceTree = "<group>"; };
 		63F8D97B1D669B260056CFD5 /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
 		63F8D97C1D669B260056CFD5 /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
 		63F8D97E1D669E680056CFD5 /* Links2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Links2.h; sourceTree = "<group>"; };
@@ -328,6 +331,8 @@
 			children = (
 				63A373C81D56BB34006BF19F /* PhotoService.h */,
 				63A373C91D56BB34006BF19F /* PhotoService.m */,
+				63F833531D6A71FF003EB010 /* ToastService.h */,
+				63F833541D6A71FF003EB010 /* ToastService.m */,
 			);
 			name = Service;
 			sourceTree = "<group>";
@@ -680,6 +685,7 @@
 				63A5392E1D55D41F001444F0 /* SystemServiceHelper.m in Sources */,
 				63BBEE2E1D683A9C0053FD61 /* UzysAnimatedGifActivityIndicator.m in Sources */,
 				63C680D01D66EF6F0053B871 /* CategoryCollectionViewCell.m in Sources */,
+				63F833551D6A71FF003EB010 /* ToastService.m in Sources */,
 				63C680CD1D66EEC60053B871 /* CategoryPhotosCollectionViewController.m in Sources */,
 				63FE87821D69B0E400E42263 /* UICollectionView+NoData.m in Sources */,
 				63E91ACA1D53149B0071546E /* Photo+CoreDataProperties.m in Sources */,

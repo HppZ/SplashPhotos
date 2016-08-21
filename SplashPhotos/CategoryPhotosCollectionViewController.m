@@ -10,9 +10,9 @@
 #import "Photo.h"
 #import "Urls.h"
 #import "PhotoService.h"
-#import "JDStatusBarNotification.h"
 #import "CategoryCollectionViewCell.h"
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
+#import "ToastService.h"
 
 @interface CategoryPhotosCollectionViewController()
 {
@@ -136,7 +136,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 
 -(void)showPop:(NSString*)text
 {
-    [JDStatusBarNotification showWithStatus:text dismissAfter: 1];
+    [ToastService showToastWithStatus:text];
 }
 
 #pragma mark MWPhotoBrowser
@@ -144,10 +144,10 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 {
     [_photosForBrowsing removeAllObjects];
     
-    int first = _categoryPhotos.count - 1;
-    for (int i = first; i >= 0; i--)
+    NSUInteger first = _categoryPhotos.count;
+    for (NSUInteger i = first; i >= 1; i--)
     {
-        Photo* p = [_categoryPhotos objectAtIndex:i];
+        Photo* p = [_categoryPhotos objectAtIndex: i-1];
         [_photosForBrowsing addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[p urls] regular]]]];
     }
     

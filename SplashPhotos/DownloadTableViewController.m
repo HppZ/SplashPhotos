@@ -10,7 +10,7 @@
 #import "DownloadPhoto.h"
 #import "PhotoService.h"
 #import "DownloadTableViewCell.h"
-#import "JDStatusBarNotification.h"
+#import "ToastService.h"
 #import "UITableView+NoData.h"
 
 @interface DownloadTableViewController ()
@@ -147,7 +147,7 @@
 #pragma mark 文字提示
 -(void)showPop:(NSString*)text
 {
-    [JDStatusBarNotification showWithStatus:text dismissAfter: 1];
+     [ToastService showToastWithStatus:text];
 }
 
 -(void)navBarTitle:(NSString *)title
