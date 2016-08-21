@@ -347,8 +347,26 @@
                     <view key="view" contentMode="scaleToFill" id="c1G-Yh-A2I">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W0H-0E-pA1">
+                                <rect key="frame" x="40" y="285" width="96" height="30"/>
+                                <state key="normal" title="click to reload">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="reloadClicked:" destination="IAb-gQ-R80" eventType="touchUpInside" id="v3u-GD-QuS"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="W0H-0E-pA1" firstAttribute="leading" secondItem="c1G-Yh-A2I" secondAttribute="leadingMargin" constant="20" id="DJg-Oz-Gtx"/>
+                            <constraint firstItem="W0H-0E-pA1" firstAttribute="centerY" secondItem="c1G-Yh-A2I" secondAttribute="centerY" id="Nha-K9-Koj"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="reloadButton" destination="W0H-0E-pA1" id="Qo9-6j-gy7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i80-u7-zji" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

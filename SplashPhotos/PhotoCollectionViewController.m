@@ -14,6 +14,7 @@
 #import "PhotoService.h"
 #import "JDStatusBarNotification.h"
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
+#import "UICollectionView+NoData.h"
 
 @interface PhotoCollectionViewController ()
 {
@@ -51,7 +52,7 @@ static NSString * const reuseIdentifier = @"mainCell";
 -(void)setup
 {
     // pull to refresh
-    __weak typeof(self) weakSelf =self;
+    __weak typeof(self) weakSelf = self;
     [self.collectionView addPullToRefreshActionHandler:
      ^{
          typeof(self) strongSelf = weakSelf;
@@ -201,6 +202,7 @@ static NSString * const reuseIdentifier = @"mainCell";
 #pragma mark <UICollectionViewDataSource>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+    [self.collectionView collectionViewDisplayWitMsg:@"pull to refresh" rowCount:_collectionViewData.count];
     return _collectionViewData.count;
 }
 

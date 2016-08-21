@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIColor (HPZColor)
+
 +(UIColor*) randomColor;
+
 @end

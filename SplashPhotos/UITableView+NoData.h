@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UITableView (NoData)
+
 - (void) tableViewDisplayWitMsg:(NSString *) message rowCount:(NSUInteger) rowCount;
+
 @end

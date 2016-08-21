@@ -1,19 +1,19 @@
 //
-//  UITableView+NoData.m
+//  UICollectionView+NoData.m
 //  SplashPhotos
 //
-//  Created by HaoPeng on 16/8/10.
+//  Created by HaoPeng on 16/8/21.
 //  Copyright © 2016年 HaoPeng. All rights reserved.
 //
 
-#import "UITableView+NoData.h"
+#import "UICollectionView+NoData.h"
 
-@implementation UITableView (NoData)
+@implementation UICollectionView (NoData)
 
-- (void) tableViewDisplayWitMsg:(NSString *) message rowCount:(NSUInteger) rowCount
+- (void) collectionViewDisplayWitMsg:(NSString *) message rowCount:(NSUInteger) rowCount
 {
     if(rowCount <= 0)
-     {
+    {
         UILabel *messageLabel = [UILabel new];
         
         messageLabel.text = message;

@@ -18,13 +18,13 @@
 }
 
 @property (strong, readwrite, nonatomic) UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *reloadButton;
 
 @end
 
 @implementation LeftViewController
 
 #pragma mark setup
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
@@ -38,7 +38,7 @@
     
     self.tableView =
     ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height - 54 * 5) / 2.0f, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, [self yPosition], self.view.frame.size.width, self.view.frame.size.height - [self yPosition]) style:UITableViewStylePlain];
         tableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
         tableView.delegate = self;
         tableView.dataSource = self;
@@ -51,7 +51,12 @@
         tableView;
     });
     
-    [self.view addSubview:self.tableView];
+    [self.view insertSubview:self.tableView belowSubview:_reloadButton];
+}
+
+-(float)yPosition
+{
+    return (self.view.frame.size.height - 54 * 6) / 2.0f;
 }
 
 -(void)setup
@@ -60,6 +65,16 @@
     _categories = [_photoService getCategories];
 }
 
+-(void)loadData
+{
+    [_photoService requestCategoriesWithCallback:^(NSString *errormsg)
+     {
+        if(!errormsg)
+        {
+            [self.tableView reloadData];
+        }
+    }];
+}
 
 #pragma mark tableview
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -72,7 +87,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"navigate" object:self userInfo: dic];
     [self.sideMenuViewController hideMenuViewController];
 }
-
 
 #pragma mark UITableView Datasource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,6 +101,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
+    [self tableViewDisplayWithRowCount: _categories.count];
     return _categories.count;
 }
 
@@ -110,4 +125,15 @@
     return cell;
 }
 
+#pragma mark nodata
+- (void) tableViewDisplayWithRowCount:(NSUInteger) rowCount
+{
+    BOOL flag = rowCount <= 0;
+    _reloadButton.hidden = !flag;
+}
+
+- (IBAction)reloadClicked:(id)sender
+{
+    [self loadData];
+}
 @end
