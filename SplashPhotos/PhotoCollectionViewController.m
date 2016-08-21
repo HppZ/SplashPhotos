@@ -138,7 +138,7 @@ static NSString * const reuseIdentifier = @"mainCell";
 -(void)navBarTitle
 {
     int pagenum = [_photoService getCurrentPageNum];
-    self.navigationItem.title = [NSString  stringWithFormat:@"Featured %d" ,pagenum];
+    self.navigationItem.title = [NSString  stringWithFormat:@"New-%d" ,pagenum];
 }
 
 -(void)showPop:(NSString*)text

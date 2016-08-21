@@ -40,7 +40,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 
 -(void)viewWillLayoutSubviews
 {
-    float w = (self.collectionView.frame.size.width - 2.5 ) / 3;
+    float w = (self.collectionView.frame.size.width - 3.5 ) / 4;
     ((UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout).itemSize = CGSizeMake(w,w);
 }
 
@@ -131,7 +131,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 {
     int pagenum = [_photoService getCurrentCategoryPageNum];
     NSString* name = [_photoService getCurrentCategoryName];
-    self.navigationItem.title = [NSString stringWithFormat:@"%@ %d" ,name,pagenum];
+    self.navigationItem.title = [NSString stringWithFormat:@"%@-%d" ,name,pagenum];
 }
 
 -(void)showPop:(NSString*)text

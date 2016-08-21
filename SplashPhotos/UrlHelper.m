@@ -86,7 +86,7 @@ return @"https://unsplash.com/";
                            initWithObjectsAndKeys:
                            [NSNumber numberWithInt:id], @"id",
                            [NSNumber numberWithInt:num], @"page",
-                           @"15",  @"per_page",
+                           @"24",  @"per_page",
                            nil];
     return param;
 }

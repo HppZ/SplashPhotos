@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3FA3B3BB40C88C9222AA0C2C /* libPods-SplashPhotos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5AC88D43B138B013C21650 /* libPods-SplashPhotos.a */; };
 		63153EFC1D5AD73C00443497 /* UITableView+NoData.m in Sources */ = {isa = PBXBuildFile; fileRef = 63153EFB1D5AD73C00443497 /* UITableView+NoData.m */; };
+		6316E35D1D689AE900119522 /* CategoryPhotosCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6316E35C1D689AE900119522 /* CategoryPhotosCollectionViewLayout.m */; };
 		631E56981D54D962003B3800 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E56971D54D962003B3800 /* DownloadManager.m */; };
 		631E569C1D54E65A003B3800 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E569B1D54E65A003B3800 /* SettingViewController.m */; };
 		631E569F1D54E734003B3800 /* SettingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E569E1D54E734003B3800 /* SettingManager.m */; };
@@ -66,6 +67,8 @@
 /* Begin PBXFileReference section */
 		63153EFA1D5AD73C00443497 /* UITableView+NoData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+NoData.h"; sourceTree = "<group>"; };
 		63153EFB1D5AD73C00443497 /* UITableView+NoData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+NoData.m"; sourceTree = "<group>"; };
+		6316E35B1D689AE900119522 /* CategoryPhotosCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryPhotosCollectionViewLayout.h; sourceTree = "<group>"; };
+		6316E35C1D689AE900119522 /* CategoryPhotosCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryPhotosCollectionViewLayout.m; sourceTree = "<group>"; };
 		631E56961D54D962003B3800 /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
 		631E56971D54D962003B3800 /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
 		631E569A1D54E65A003B3800 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -396,6 +399,8 @@
 				63C680CC1D66EEC60053B871 /* CategoryPhotosCollectionViewController.m */,
 				63C680CE1D66EF6F0053B871 /* CategoryCollectionViewCell.h */,
 				63C680CF1D66EF6F0053B871 /* CategoryCollectionViewCell.m */,
+				6316E35B1D689AE900119522 /* CategoryPhotosCollectionViewLayout.h */,
+				6316E35C1D689AE900119522 /* CategoryPhotosCollectionViewLayout.m */,
 			);
 			name = CategoryPhotos;
 			sourceTree = "<group>";
@@ -676,6 +681,7 @@
 				63C680C21D66BF520053B871 /* CategoryManager.m in Sources */,
 				63153EFC1D5AD73C00443497 /* UITableView+NoData.m in Sources */,
 				63E91AC61D53149B0071546E /* ProfileImage+CoreDataProperties.m in Sources */,
+				6316E35D1D689AE900119522 /* CategoryPhotosCollectionViewLayout.m in Sources */,
 				63D7F3931D50AF3700DE068A /* AppDelegate.m in Sources */,
 				63E91AC81D53149B0071546E /* Urls+CoreDataProperties.m in Sources */,
 				63E91AD81D531CDB0071546E /* PhotoManager.m in Sources */,
