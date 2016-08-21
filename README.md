@@ -1,14 +1,10 @@
 # SplashPhotos
 
-I am an UWP developer. I am 1%.
-
 这是一个简单的Unsplash.com图片浏览App，可浏览最新照片，分类照片，大图查看，下载原图，原图查看等。
 
-后续还有很多功能。
+后续还有一些功能。
 
 代码里某些姿势还不太对，cuz I am new to this platform，but I will keep going and be ‘Political Correct’。
-
-Logo是google photos的，后面换掉。
 
 ![][1]
 ![][2]
