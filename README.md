@@ -21,7 +21,7 @@ Logo是google photos的，后面换掉。
   [3]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot7.png
   [4]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot2.png
   [5]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot5.png
-  [6]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot1.png
+  [6]: https://github.com/HppZ/SplashPhotos/blob/master/screenshots/screenshot6.png
 
 
 
