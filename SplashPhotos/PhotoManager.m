@@ -7,14 +7,14 @@
 //
 
 #import "PhotoManager.h"
-#import "UnsplashAPIHelper.h"
+#import "UnsplashAPIService.h"
 
 @interface PhotoManager ()
 {
     int _num;
     bool _loading;
     
-    UnsplashAPIHelper * _unsplashAPIHelper;
+    UnsplashAPIService * _unsplashAPIService;
     NSMutableArray<Photo *>* _photos;
 }
 @end
@@ -38,7 +38,7 @@
     if(self)
     {
         _photos = [[NSMutableArray<Photo*>  alloc] init];
-        _unsplashAPIHelper = [[UnsplashAPIHelper alloc] init];
+        _unsplashAPIService = [[UnsplashAPIService alloc] init];
         _num = 1;
     }
     
@@ -56,7 +56,7 @@
     [self disableLoading: true];
     
     __weak id weakSelf = self;
-    [_unsplashAPIHelper GetPhotosWithPageNum:_num
+    [_unsplashAPIService GetPhotosWithPageNum:_num
                              successCallback:^(NSArray* photos)
      {
          for(id obj in photos)

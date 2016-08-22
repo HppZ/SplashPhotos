@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "DownloadManager.h"
-#import "UnsplashAPIHelper.h"
+#import "UnsplashAPIService.h"
 #import "Urls.h"
 #import "FileOperationManager.h"
 
 @interface DownloadManager ()
 {
     NSMutableArray<DownloadPhoto*>* _downloadPhotos;
-    UnsplashAPIHelper* _unsplashAPIHelper;
+    UnsplashAPIService* _unsplashAPIService;
 }
 @end
 
@@ -38,7 +38,7 @@
     if(self)
     {
         _downloadPhotos = [[NSMutableArray<DownloadPhoto*> alloc] init];
-        _unsplashAPIHelper = [[UnsplashAPIHelper alloc] init];
+        _unsplashAPIService = [[UnsplashAPIService alloc] init];
     }
     
     return self;
@@ -75,7 +75,7 @@
 {
     NSLog(@"start download");
     [downloadphoto downloadingPhoto];
-    [_unsplashAPIHelper DownloadWithUrl:[downloadphoto.photo.urls raw]
+    [_unsplashAPIService DownloadWithUrl:[downloadphoto.photo.urls raw]
                        progressCallback:^(float value)
      {
          [downloadphoto setProress:value];

@@ -54,7 +54,7 @@
 		63E91ACE1D53149B0071546E /* User+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E91AC31D53149B0071546E /* User+CoreDataProperties.m */; };
 		63E91ACF1D53149B0071546E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E91AC51D53149B0071546E /* User.m */; };
 		63E91AD21D53157B0071546E /* UrlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E91AD11D53157B0071546E /* UrlHelper.m */; };
-		63E91AD51D5318830071546E /* UnsplashAPIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E91AD41D5318830071546E /* UnsplashAPIHelper.m */; };
+		63E91AD51D5318830071546E /* UnsplashAPIService.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E91AD41D5318830071546E /* UnsplashAPIService.m */; };
 		63E91AD81D531CDB0071546E /* PhotoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E91AD71D531CDB0071546E /* PhotoManager.m */; };
 		63E91ADA1D53551E0071546E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E91AD91D53551E0071546E /* MobileCoreServices.framework */; };
 		63E91ADC1D53554D0071546E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E91ADB1D53554D0071546E /* SystemConfiguration.framework */; };
@@ -156,8 +156,8 @@
 		63E91AC51D53149B0071546E /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		63E91AD01D53157B0071546E /* UrlHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UrlHelper.h; sourceTree = "<group>"; };
 		63E91AD11D53157B0071546E /* UrlHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UrlHelper.m; sourceTree = "<group>"; };
-		63E91AD31D5318830071546E /* UnsplashAPIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsplashAPIHelper.h; sourceTree = "<group>"; };
-		63E91AD41D5318830071546E /* UnsplashAPIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnsplashAPIHelper.m; sourceTree = "<group>"; };
+		63E91AD31D5318830071546E /* UnsplashAPIService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnsplashAPIService.h; sourceTree = "<group>"; };
+		63E91AD41D5318830071546E /* UnsplashAPIService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnsplashAPIService.m; sourceTree = "<group>"; };
 		63E91AD61D531CDB0071546E /* PhotoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoManager.h; sourceTree = "<group>"; };
 		63E91AD71D531CDB0071546E /* PhotoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoManager.m; sourceTree = "<group>"; };
 		63E91AD91D53551E0071546E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -245,8 +245,6 @@
 			children = (
 				63E91AD01D53157B0071546E /* UrlHelper.h */,
 				63E91AD11D53157B0071546E /* UrlHelper.m */,
-				63E91AD31D5318830071546E /* UnsplashAPIHelper.h */,
-				63E91AD41D5318830071546E /* UnsplashAPIHelper.m */,
 				63E91ADF1D536BCF0071546E /* NetworkHelper.h */,
 				63E91AE01D536BCF0071546E /* NetworkHelper.m */,
 				63A5392C1D55D41F001444F0 /* SystemServiceHelper.h */,
@@ -329,8 +327,8 @@
 		63BB650A1D5623D40057004B /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				63A373C81D56BB34006BF19F /* PhotoService.h */,
-				63A373C91D56BB34006BF19F /* PhotoService.m */,
+				63E91AD31D5318830071546E /* UnsplashAPIService.h */,
+				63E91AD41D5318830071546E /* UnsplashAPIService.m */,
 				63F833531D6A71FF003EB010 /* ToastService.h */,
 				63F833541D6A71FF003EB010 /* ToastService.m */,
 			);
@@ -436,6 +434,7 @@
 		63D7F38D1D50AF3700DE068A /* SplashPhotos */ = {
 			isa = PBXGroup;
 			children = (
+				63F833571D6AA436003EB010 /* Controller */,
 				63BBEE2F1D683D250053FD61 /* Resource */,
 				63C5BB871D65D16E00A5096E /* Vender */,
 				63BB650A1D5623D40057004B /* Service */,
@@ -518,6 +517,15 @@
 				63E91ABD1D53149B0071546E /* Photo.m */,
 			);
 			name = Photo;
+			sourceTree = "<group>";
+		};
+		63F833571D6AA436003EB010 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				63A373C81D56BB34006BF19F /* PhotoService.h */,
+				63A373C91D56BB34006BF19F /* PhotoService.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		63F8D97A1D669B030056CFD5 /* Category */ = {
@@ -680,7 +688,7 @@
 				63C5BBA51D65E0CF00A5096E /* LeftViewController.m in Sources */,
 				63C5BB9A1D65D1F700A5096E /* UIViewController+RESideMenu.m in Sources */,
 				63E91ACF1D53149B0071546E /* User.m in Sources */,
-				63E91AD51D5318830071546E /* UnsplashAPIHelper.m in Sources */,
+				63E91AD51D5318830071546E /* UnsplashAPIService.m in Sources */,
 				63E91AC91D53149B0071546E /* Urls.m in Sources */,
 				63A5392E1D55D41F001444F0 /* SystemServiceHelper.m in Sources */,
 				63BBEE2E1D683A9C0053FD61 /* UzysAnimatedGifActivityIndicator.m in Sources */,

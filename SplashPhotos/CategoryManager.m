@@ -7,7 +7,7 @@
 //
 
 #import "CategoryManager.h"
-#import "UnsplashAPIHelper.h"
+#import "UnsplashAPIService.h"
 #import "Category.h"
 #import "CategoryRequest.h"
 
@@ -15,7 +15,7 @@
 {
     int _currentCategoryId;
     
-    UnsplashAPIHelper * _unsplashAPIHelper;
+    UnsplashAPIService * _unsplashAPIService;
     NSMutableArray<Category *>* _categories;
     NSMutableArray<CategoryRequest*>* _categoryRequests;
 }
@@ -38,7 +38,7 @@
     self  = [super init];
     if(self)
     {
-        _unsplashAPIHelper = [[UnsplashAPIHelper alloc] init];
+        _unsplashAPIService = [[UnsplashAPIService alloc] init];
         
         _categories = [[NSMutableArray<Category *>  alloc] init];
         _categoryRequests = [[NSMutableArray<CategoryRequest *> alloc] init];
@@ -50,7 +50,7 @@
 #pragma mark public
 -(void)loadCategories:(void(^) (NSString* errormsg)) success
 {
-    [_unsplashAPIHelper GetCategoriesWithsuccessCallback:^(NSArray<Category*> *categories)
+    [_unsplashAPIService GetCategoriesWithsuccessCallback:^(NSArray<Category*> *categories)
      {
          [_categories removeAllObjects];
           [_categoryRequests removeAllObjects];
@@ -82,7 +82,7 @@
     __weak CategoryManager *weakSelf = self;
     int page =[self getCategoryRequestWithID:id].page;
     
-    [_unsplashAPIHelper GetPhotosInCategoryWithID:id page:page
+    [_unsplashAPIService GetPhotosInCategoryWithID:id page:page
                                   successCallback:^(NSArray *photos)
      {
          NSMutableArray *array = [self getCategoryRequestWithID:id].result;

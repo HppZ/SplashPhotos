@@ -1,5 +1,5 @@
 //
-//  UnsplashAPIHelper.h
+//  UnsplashAPIService.h
 //  SplashPhotos
 //
 //  Created by HaoPeng on 16/8/4.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Photo.h"
 
-@interface UnsplashAPIHelper : NSObject
+@interface UnsplashAPIService : NSObject
 
 -(void)GetPhotosWithPageNum:(int) num
             successCallback:(void (^)(NSArray * photos)) resultCallback

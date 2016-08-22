@@ -1,19 +1,19 @@
 //
-//  UnsplashAPIHelper.m
+//  UnsplashAPIService.m
 //  SplashPhotos
 //
 //  Created by HaoPeng on 16/8/4.
 //  Copyright © 2016年 HaoPeng. All rights reserved.
 //
 
-#import "UnsplashAPIHelper.h"
+#import "UnsplashAPIService.h"
 #import "UrlHelper.h"
 #import "AFNetworking.h"
 #import "NetworkHelper.h"
 #import "NetworkRequestHelper.h"
 #import "Category.h"
 
-@implementation UnsplashAPIHelper
+@implementation UnsplashAPIService
 
 #pragma mark get
 // GET /photos
