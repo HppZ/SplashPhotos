@@ -356,13 +356,13 @@
 			name = Resource;
 			sourceTree = "<group>";
 		};
-		63C5BB871D65D16E00A5096E /* Vender */ = {
+		63C5BB871D65D16E00A5096E /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
 				63BBEE271D683A880053FD61 /* UzysPullToRefresh */,
 				63C5BB911D65D1DA00A5096E /* RESideMenu */,
 			);
-			name = Vender;
+			name = Vendor;
 			sourceTree = "<group>";
 		};
 		63C5BB911D65D1DA00A5096E /* RESideMenu */ = {
@@ -436,7 +436,7 @@
 			children = (
 				63F833571D6AA436003EB010 /* Controller */,
 				63BBEE2F1D683D250053FD61 /* Resource */,
-				63C5BB871D65D16E00A5096E /* Vender */,
+				63C5BB871D65D16E00A5096E /* Vendor */,
 				63BB650A1D5623D40057004B /* Service */,
 				63A5391F1D558636001444F0 /* Category */,
 				633AEA491D519BFD00E50FA1 /* Entity */,
