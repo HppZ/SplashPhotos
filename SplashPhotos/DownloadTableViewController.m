@@ -12,16 +12,23 @@
 #import "DownloadTableViewCell.h"
 #import "ToastService.h"
 #import "UITableView+NoData.h"
+#import "SPPhotoBrowserDelegate.h"
+#import "ArrayDataSource.h"
+#import "DownloadTableViewCell+ConfigureCell.h"
 
 @interface DownloadTableViewController ()
 {
     PhotoService* _photoService;
-    NSMutableArray * _downloadPhotos;
-    NSMutableArray* _phototoscan;
 }
+
+@property SPPhotoBrowserDelegate* photoBrowserDelegate;
+@property ArrayDataSource* arrayDataSource;
+
 @end
 
 @implementation DownloadTableViewController
+
+static NSString * const reuseIdentifier = @"downloadTableViewCell";
 
 #pragma mark view setup
 - (void)viewDidLoad
@@ -37,18 +44,36 @@
 
 -(void)setup
 {
-    _photoService = [[PhotoService alloc] init];
-    _downloadPhotos = [_photoService  getDownloadDataSource];
-    _phototoscan  = [[NSMutableArray alloc] init];
+    // ui set
     self.tableView.rowHeight = 62;
     
+    // init
+    _photoService = [[PhotoService alloc] init];
+    _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
+                                                    actionButtonCallback:nil actionButton:false];
+    // get photos data
+    NSMutableArray<Photo *>* photos  = [_photoService getDownloadDataSource];
+    
+    // configure cell
+    CellConfigureBlock configureCell = ^(DownloadTableViewCell *cell, DownloadPhoto *photo)
+    {
+        [cell configureForPhoto:photo delegate: self];
+    };
+    
+    // data source
+    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:photos
+                                                         cellIdentifier:reuseIdentifier
+                                                     configureCellBlock:configureCell];
+    self.tableView.dataSource = self.arrayDataSource;
+    
+    // notification
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
                                                  name:[PhotoService downloadSourceChangedNotification]
                                                object:nil];
 }
 
-#pragma mark 通知
+#pragma mark notification
 - (void) receiveNotification:(NSNotification *) notification
 {
     if ([[notification name] isEqualToString: [PhotoService downloadSourceChangedNotification]])
@@ -60,10 +85,11 @@
 #pragma mark data
 -(void)insertNewItems
 {
-    NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
+   
     NSInteger count = [self.tableView numberOfRowsInSection:0];
+    NSInteger max = ((NSArray*)[self.arrayDataSource allItems]).count - count;
     
-    NSInteger max = _downloadPhotos.count - count;
+    NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
     for (NSInteger i = 0; i <  max; i++)
     {
         [arrayWithIndexPaths addObject:[NSIndexPath indexPathForRow: i inSection:0]];
@@ -71,13 +97,13 @@
     [self.tableView  insertRowsAtIndexPaths:arrayWithIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-#pragma mark 重新下载
-- (void)didClickOnCell:(DownloadTableViewCell*)cell sender:(id)sender;
+#pragma mark redownload
+- (void)restartClickedWithCell:(DownloadTableViewCell*)cell sender:(id)sender
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     if(indexPath != nil)
     {
-        DownloadPhoto* downloadPhoto = [_downloadPhotos objectAtIndex:indexPath.item];
+        DownloadPhoto* downloadPhoto = [self.arrayDataSource itemAtIndexPath:indexPath];
         if(downloadPhoto)
         {
             [_photoService restartDownload:downloadPhoto];
@@ -90,61 +116,7 @@
     }
 }
 
-#pragma mark 查看图片
--(void)cellClicked: (long) pos
-{
-    [_phototoscan removeAllObjects];
-    
-    DownloadPhoto * photo = [_downloadPhotos objectAtIndex:pos];
-    if(!photo.downloadSucceed )
-    {
-        [self showPop:@"not now"];
-        return;
-    }
-    
-    for (DownloadPhoto* photo in _downloadPhotos)
-    {
-        if( photo.downloadSucceed)
-        {
-            NSString* url = photo.filepath;
-            [_phototoscan addObject: [MWPhoto photoWithURL:[NSURL URLWithString:  url]]];
-        }
-    }
-    
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    
-    // Set options
-    browser.displayActionButton = NO; // Show action button to allow sharing, copying, etc (defaults to YES)
-    browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
-    browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
-    browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
-    browser.alwaysShowControls = YES; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
-    browser.enableGrid = YES; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
-    browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
-    browser.autoPlayOnAppear = NO; // Auto-play first video
-    
-    // Optionally set the current visible photo before displaying
-    [browser setCurrentPhotoIndex: pos];
-    
-    // Present
-    [self.navigationController pushViewController:browser animated:YES];
-}
-
-#pragma mark MWPhotoBrowser
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-{
-    return _phototoscan.count;
-}
-
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{
-    if (index < _phototoscan.count) {
-        return [_phototoscan objectAtIndex:index];
-    }
-    return nil;
-}
-
-#pragma mark 文字提示
+#pragma mark ui helper
 -(void)showPop:(NSString*)text
 {
      [ToastService showToastWithStatus:text];
@@ -155,40 +127,27 @@
     self.navigationItem.title = title;
 }
 
-#pragma mark - Table view data source
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    [self.tableView tableViewDisplayWitMsg:@"go download a photo" rowCount:_downloadPhotos.count];
-    return _downloadPhotos.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    DownloadTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"downloadTableViewCell" forIndexPath:indexPath];
-    DownloadPhoto *photo =  [_downloadPhotos objectAtIndex:indexPath.item];
-    [cell cellThumb:[photo thumb]];
-    [cell cellProgress: [photo proress]];
-    [cell cellDownloadState: photo.downloadState];
-    [cell setDelegate:self];
-//    [cell.restartButton addTarget:self
-//                           action:@selector(downloadTableviewCellRestartButtonPressed:event:)
-//                 forControlEvents:UIControlEventTouchUpInside];
-    
-    [photo addObserver:cell
-            forKeyPath:@"proress"
-               options:NSKeyValueObservingOptionNew
-               context:NULL];
-    [photo addObserver:cell
-            forKeyPath:@"downloadState"
-               options:NSKeyValueObservingOptionNew
-               context:NULL];
-
-    return cell;
-}
-
+#pragma mark <UITableViewDelegate>, open photo broswer
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self cellClicked:indexPath.item];
+    DownloadPhoto * photo = [self.arrayDataSource itemAtIndexPath:indexPath];
+    if(!photo.downloadSucceed )
+    {
+        [self showPop:@"not now"];
+        return;
+    }
+    
+    NSMutableArray* photos = [NSMutableArray new];
+    for (DownloadPhoto* photo in [self.arrayDataSource allItems])
+    {
+        if( photo.downloadSucceed)
+        {
+            NSString* url = photo.filepath;
+            [photos addObject: [MWPhoto photoWithURL:[NSURL URLWithString:  url]]];
+        }
+    }
+    
+    [_photoBrowserDelegate showPhotoBroswerWithArray:photos startIndex:indexPath.item];
 }
 
 #pragma mark dealloc

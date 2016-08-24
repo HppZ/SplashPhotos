@@ -8,7 +8,7 @@
 
 #import "ArrayDataSource.h"
 #import "UICollectionView+NoData.h"
-
+#import "UITableView+NoData.h"
 
 @interface ArrayDataSource ()
 
@@ -63,6 +63,21 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier forIndexPath:indexPath];
     
     id item =  [self getItemWithIndexPath:indexPath];
+    self.configureCellBlock(cell, item);
+    return cell;
+}
+
+#pragma mark UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    [tableView tableViewDisplayWitMsg:@"go download a photo" rowCount:self.items.count];
+    return self.items.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: self.cellIdentifier forIndexPath:indexPath];
+    id item =  [self.items objectAtIndex:indexPath.item];
     self.configureCellBlock(cell, item);
     return cell;
 }

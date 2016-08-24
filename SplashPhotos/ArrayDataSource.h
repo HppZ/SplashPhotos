@@ -11,7 +11,7 @@
 
 typedef void (^CellConfigureBlock)(id cell, id item);
 
-@interface ArrayDataSource : NSObject<UICollectionViewDataSource>
+@interface ArrayDataSource : NSObject<UICollectionViewDataSource, UITableViewDataSource>
 
 
 - (id)initWithItems:(NSArray *)anItems

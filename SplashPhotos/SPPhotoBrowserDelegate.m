@@ -9,6 +9,9 @@
 #import "SPPhotoBrowserDelegate.h"
 
 @interface SPPhotoBrowserDelegate()
+{
+    BOOL isShowActionButton;
+}
 
 @property (nonatomic) UINavigationController* navigationController;
 @property (nonatomic, copy) NSArray<MWPhoto*>* items;
@@ -20,12 +23,14 @@
 
 - (id)initWithItems:(UINavigationController *)navigationController
 actionButtonCallback: (ActionButtonCallback) actionButtonCallback
+       actionButton:(BOOL) flag
 {
     self = [super init];
     if (self)
     {
         _navigationController = navigationController;
         _actionButtonCallback = [actionButtonCallback copy];
+        isShowActionButton = flag;
     }
     return self;
 }
@@ -37,7 +42,7 @@ actionButtonCallback: (ActionButtonCallback) actionButtonCallback
     MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
     
     // Set options
-    browser.displayActionButton = YES; // Show action button to allow sharing, copying, etc (defaults to YES)
+    browser.displayActionButton = isShowActionButton; // Show action button to allow sharing, copying, etc (defaults to YES)
     browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
     browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
     browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)

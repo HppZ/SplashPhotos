@@ -65,7 +65,7 @@ static NSString * const reuseIdentifier = @"mainCell";
     
     _photoService = [[PhotoService alloc] init];
     _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
-                                                    actionButtonCallback:actioncallback];
+                                                    actionButtonCallback:actioncallback actionButton:true];
     
     // get photos data
     NSMutableArray<Photo *>* photos  = [_photoService getDataSource];
@@ -112,7 +112,7 @@ static NSString * const reuseIdentifier = @"mainCell";
      }];
 }
 
-#pragma mark 通知
+#pragma mark notification
 - (void) receiveNotification:(NSNotification *) notification
 {
     if ([[notification name] isEqualToString: [PhotoService photoSourceChangedNotification]])
@@ -121,7 +121,7 @@ static NSString * const reuseIdentifier = @"mainCell";
     }
 }
 
-#pragma mark - data
+#pragma mark data
 -(void)loadData
 {
     __weak PhotoCollectionViewController * weakSelf = self;
@@ -144,10 +144,10 @@ static NSString * const reuseIdentifier = @"mainCell";
 -(void)insertNewItems
 {
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
-    NSInteger max = ((NSArray*)[self.photosArrayDataSource allItems]).count;
+    NSInteger max = ((NSArray*)[self.photosArrayDataSource allItems]).count - count;
     
     NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
-    for (NSInteger i = 0; i <  max - count; i++)
+    for (NSInteger i = 0; i <  max ; i++)
     {
         [arrayWithIndexPaths addObject:[NSIndexPath indexPathForRow: i inSection:0]];
     }
@@ -168,8 +168,6 @@ static NSString * const reuseIdentifier = @"mainCell";
     
     [_photoBrowserDelegate showPhotoBroswerWithArray:photos startIndex:indexPath.item];
 }
-
-
 
 #pragma mark UI helper
 -(void)stopRefresh
@@ -192,7 +190,6 @@ static NSString * const reuseIdentifier = @"mainCell";
 {
     [ToastService showToastWithStatus:text];
 }
-
 
 #pragma mark download
 -(void)savePhotoAt: (NSInteger)index

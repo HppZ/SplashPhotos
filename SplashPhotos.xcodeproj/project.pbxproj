@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3FA3B3BB40C88C9222AA0C2C /* libPods-SplashPhotos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D5AC88D43B138B013C21650 /* libPods-SplashPhotos.a */; };
+		6307B5D81D6DB93B0074153C /* DownloadTableViewCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6307B5D71D6DB93B0074153C /* DownloadTableViewCell+ConfigureCell.m */; };
 		63153EFC1D5AD73C00443497 /* UITableView+NoData.m in Sources */ = {isa = PBXBuildFile; fileRef = 63153EFB1D5AD73C00443497 /* UITableView+NoData.m */; };
 		6316E35D1D689AE900119522 /* CategoryPhotosCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6316E35C1D689AE900119522 /* CategoryPhotosCollectionViewLayout.m */; };
 		631E56981D54D962003B3800 /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E56971D54D962003B3800 /* DownloadManager.m */; };
@@ -70,6 +71,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6307B5D61D6DB93B0074153C /* DownloadTableViewCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DownloadTableViewCell+ConfigureCell.h"; sourceTree = "<group>"; };
+		6307B5D71D6DB93B0074153C /* DownloadTableViewCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DownloadTableViewCell+ConfigureCell.m"; sourceTree = "<group>"; };
 		63153EFA1D5AD73C00443497 /* UITableView+NoData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+NoData.h"; sourceTree = "<group>"; };
 		63153EFB1D5AD73C00443497 /* UITableView+NoData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+NoData.m"; sourceTree = "<group>"; };
 		6316E35B1D689AE900119522 /* CategoryPhotosCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryPhotosCollectionViewLayout.h; sourceTree = "<group>"; };
@@ -213,6 +216,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6307B5D51D6DB90F0074153C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				63A5391C1D55777C001444F0 /* DownloadTableViewCell.h */,
+				63A5391D1D55777C001444F0 /* DownloadTableViewCell.m */,
+				6307B5D61D6DB93B0074153C /* DownloadTableViewCell+ConfigureCell.h */,
+				6307B5D71D6DB93B0074153C /* DownloadTableViewCell+ConfigureCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
 		631E56991D54E626003B3800 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,10 +316,9 @@
 		63A539181D557740001444F0 /* Download */ = {
 			isa = PBXGroup;
 			children = (
+				6307B5D51D6DB90F0074153C /* Cell */,
 				63A539191D55775A001444F0 /* DownloadTableViewController.h */,
 				63A5391A1D55775A001444F0 /* DownloadTableViewController.m */,
-				63A5391C1D55777C001444F0 /* DownloadTableViewCell.h */,
-				63A5391D1D55777C001444F0 /* DownloadTableViewCell.m */,
 			);
 			name = Download;
 			sourceTree = "<group>";
@@ -735,6 +748,7 @@
 				632604871D5224C800A96425 /* PhotoCollectionViewController.m in Sources */,
 				63A539291D55CA07001444F0 /* DownloadPhoto.m in Sources */,
 				63C5BBA51D65E0CF00A5096E /* LeftViewController.m in Sources */,
+				6307B5D81D6DB93B0074153C /* DownloadTableViewCell+ConfigureCell.m in Sources */,
 				63E91ACF1D53149B0071546E /* User.m in Sources */,
 				63E91AD51D5318830071546E /* UnsplashAPIService.m in Sources */,
 				63C7B3FB1D6BFFC5004F7386 /* UIViewController+RESideMenu.m in Sources */,

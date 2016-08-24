@@ -14,7 +14,8 @@ typedef void (^ ActionButtonCallback)(NSInteger index);
 @interface SPPhotoBrowserDelegate : NSObject<MWPhotoBrowserDelegate>
 
 - (id)initWithItems:(UINavigationController *)navigationController
-actionButtonCallback: (ActionButtonCallback) actionButtonCallback;
+actionButtonCallback: (ActionButtonCallback) actionButtonCallback
+       actionButton:(BOOL) flag;
 
 -(void)showPhotoBroswerWithArray: (NSArray*)items startIndex: (NSInteger) index;
 
