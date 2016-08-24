@@ -46,11 +46,13 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
 {
     // ui set
     self.tableView.rowHeight = 62;
+
+    _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
+                                                    actionButtonCallback:nil actionButton:false];
     
     // init
     _photoService = [[PhotoService alloc] init];
-    _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
-                                                    actionButtonCallback:nil actionButton:false];
+    
     // get photos data
     NSMutableArray<Photo *>* photos  = [_photoService getDownloadDataSource];
     
@@ -127,7 +129,7 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
     self.navigationItem.title = title;
 }
 
-#pragma mark <UITableViewDelegate>, open photo broswer
+#pragma mark <UITableViewDelegate>, open photo browser
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DownloadPhoto * photo = [self.arrayDataSource itemAtIndexPath:indexPath];

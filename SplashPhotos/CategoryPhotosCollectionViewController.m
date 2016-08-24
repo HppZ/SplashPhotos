@@ -13,15 +13,18 @@
 #import "CategoryCollectionViewCell.h"
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 #import "ToastService.h"
+#import "SPPhotoBrowserDelegate.h"
+#import "ArrayDataSource.h"
+#import "CategoryCollectionViewCell+ConfigureCell.h"
 
 @interface CategoryPhotosCollectionViewController()
 {
-    bool _isloading;
-
-    NSMutableArray<Photo *>* _categoryPhotos;
     PhotoService * _photoService;
-    NSMutableArray *_photosForBrowsing;
 }
+
+@property SPPhotoBrowserDelegate* photoBrowserDelegate;
+@property ArrayDataSource* arrayDataSource;
+
 @end
 
 @implementation CategoryPhotosCollectionViewController
@@ -52,6 +55,32 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 
 -(void)setup
 {
+    // configure photo browser
+    ActionButtonCallback actioncallback = ^(NSInteger index)
+    {
+        [self savePhotoAt: index];
+    };
+    
+    _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
+                                                    actionButtonCallback:actioncallback actionButton:true];
+    
+    _photoService = [[PhotoService alloc] init];
+    
+    // get photos data
+    NSMutableArray<Photo *>* photos  = [_photoService getPhotosInCurrentCategory];
+    
+    // configure cell
+    CellConfigureBlock configureCell = ^(CategoryCollectionViewCell *cell, Photo *photo)
+    {
+        [cell configureForPhoto:photo];
+    };
+    
+    // data source
+    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:photos
+                                                         cellIdentifier:reuseIdentifier
+                                                     configureCellBlock:configureCell];
+    self.collectionView.dataSource = self.arrayDataSource;
+
     // pull to refresh
     __weak typeof(self) weakSelf =self;
     [self.collectionView addPullToRefreshActionHandler:
@@ -64,17 +93,14 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
                                ProgressScrollThreshold:60
                                  LoadingImageFrameRate:30];
     
+    // notification
     [[NSNotificationCenter defaultCenter] addObserver:self
                                           selector:@selector(receiveNotification:)
                                               name:[PhotoService photosInCategoryChangedNotification]
                                             object:nil];
-
-    _photoService = [[PhotoService alloc] init];
-    _categoryPhotos  = [_photoService getPhotosInCurrentCategory];
-    _photosForBrowsing = [[NSMutableArray alloc] init];
 }
 
-#pragma mark 通知
+#pragma mark notification
 - (void) receiveNotification:(NSNotification *) notification
 {
     if ([[notification name] isEqualToString: [PhotoService photosInCategoryChangedNotification]])
@@ -106,17 +132,17 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 -(void)insertNewItems
 {
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
-    NSInteger max = _categoryPhotos.count;
+    NSInteger max = ((NSArray*)[self.arrayDataSource allItems]).count - count;
     
     NSMutableArray *arrayWithIndexPaths = [NSMutableArray array];
-    for (NSInteger i = 0; i <  max - count; i++)
+    for (NSInteger i = 0; i <  max; i++)
     {
         [arrayWithIndexPaths addObject:[NSIndexPath indexPathForRow: i inSection:0]];
     }
     [self.collectionView insertItemsAtIndexPaths: arrayWithIndexPaths];
 }
 
-#pragma mark UI 设置
+#pragma mark UI helper
 -(void)stopRefresh
 {
     [self.collectionView stopPullToRefreshAnimation];
@@ -139,86 +165,28 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     [ToastService showToastWithStatus:text];
 }
 
-#pragma mark MWPhotoBrowser
--(void)cellClicked: (NSIndexPath*) indexPath
+#pragma mark UICollectionViewDelegate, open photo browser
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [_photosForBrowsing removeAllObjects];
-    
-    NSUInteger first = _categoryPhotos.count;
+    NSArray* items = [self.arrayDataSource allItems];
+    NSMutableArray* photos = [NSMutableArray new];
+    NSUInteger first = items.count;
     for (NSUInteger i = first; i >= 1; i--)
     {
-        Photo* p = [_categoryPhotos objectAtIndex: i-1];
-        [_photosForBrowsing addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[p urls] regular]]]];
+        Photo* p = [items objectAtIndex: i-1];
+        [photos addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[p urls] regular]]]];
     }
     
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    
-    // Set options
-    browser.displayActionButton = YES; // Show action button to allow sharing, copying, etc (defaults to YES)
-    browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
-    browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
-    browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
-    browser.alwaysShowControls = YES; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
-    browser.enableGrid = YES; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
-    browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
-    browser.autoPlayOnAppear = NO; // Auto-play first video
-    
-    // Optionally set the current visible photo before displaying
-    [browser setCurrentPhotoIndex: indexPath.item];
-    
-    // Present
-    [self.navigationController pushViewController:browser animated:YES];
+    [_photoBrowserDelegate showPhotoBroswerWithArray:photos startIndex:indexPath.item];
 }
 
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-{
-    return _photosForBrowsing.count;
-}
-
-- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{
-    if (index < _photosForBrowsing.count) {
-        return [_photosForBrowsing objectAtIndex:index];
-    }
-    return nil;
-}
-
-- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index
+#pragma mark download
+-(void)savePhotoAt: (NSInteger)index
 {
     [self showPop: @"Downloading..."];
     
-    Photo * photo = [self getItemWithIndexPath: [NSIndexPath indexPathForItem:index inSection:0]];
+    Photo * photo = [self.arrayDataSource itemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     [_photoService requestDownload: photo];
-}
-
-#pragma mark <UICollectionViewDataSource>
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return _categoryPhotos.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    CategoryCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    Photo *photo =  [self getItemWithIndexPath:indexPath];
-    [cell cellThumb:[[photo urls] small]];
-    
-    return cell;
-}
-
-#pragma mark 点击图片 <UICollectionViewDelegate>
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self cellClicked: indexPath];
-}
-
--(id)getItemWithIndexPath:(NSIndexPath*)indexPath
-{
-    if(indexPath != nil)
-    {
-        return  [_categoryPhotos objectAtIndex: _categoryPhotos.count -1 - indexPath.item];
-    }
-    return nil;
 }
 
 #pragma mark dealloc

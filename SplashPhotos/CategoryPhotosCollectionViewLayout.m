@@ -11,6 +11,8 @@
 @implementation CategoryPhotosCollectionViewLayout
 
 #pragma mark override
+// no good idea yet
+
 //- (CGSize)collectionViewContentSize
 //{
 //

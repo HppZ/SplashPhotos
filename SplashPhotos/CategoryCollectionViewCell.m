@@ -12,8 +12,6 @@
 
 @interface CategoryCollectionViewCell()
 
-@property (weak, nonatomic) IBOutlet UIImageView *image;
-
 @end
 
 @implementation CategoryCollectionViewCell
@@ -22,11 +20,6 @@
 {
     [super awakeFromNib];
     self.backgroundColor = [UIColor randomColor];
-}
-
--(void)cellThumb: (NSString*)url
-{
-    [_image sd_setImageWithURL:[NSURL URLWithString: url] placeholderImage: nil];
 }
 
 @end

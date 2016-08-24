@@ -57,15 +57,16 @@ static NSString * const reuseIdentifier = @"mainCell";
 
 -(void)setup
 {
-    // photo broswer configure
+    // photo browser configure
     ActionButtonCallback actioncallback = ^(NSInteger index)
     {
         [self savePhotoAt: index];
     };
-    
-    _photoService = [[PhotoService alloc] init];
+
     _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
                                                     actionButtonCallback:actioncallback actionButton:true];
+    
+    _photoService = [[PhotoService alloc] init];
     
     // get photos data
     NSMutableArray<Photo *>* photos  = [_photoService getDataSource];
@@ -154,7 +155,7 @@ static NSString * const reuseIdentifier = @"mainCell";
     [self.collectionView insertItemsAtIndexPaths: arrayWithIndexPaths];
 }
 
-#pragma mark <UICollectionViewDelegate>, open photo broswer
+#pragma mark <UICollectionViewDelegate>, open photo browser
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray* items = [self.photosArrayDataSource allItems];
