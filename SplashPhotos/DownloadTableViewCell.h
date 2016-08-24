@@ -11,14 +11,18 @@
 
 @class DownloadTableViewCell;
 
-@protocol CellDelegate <NSObject>
-- (void)didClickOnCell:(DownloadTableViewCell*)cell sender:(id)sender;
+
+@protocol DownloadTableViewCellDelegate <NSObject>
+- (void)restartClickedWithCell:(DownloadTableViewCell*)cell sender:(id)sender;
 @end
+
+
 
 @interface DownloadTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIButton *restartButton;
-@property (weak, nonatomic) id<CellDelegate> delegate;
+
+@property (weak, nonatomic) id<DownloadTableViewCellDelegate> delegate;
 
 -(void)cellThumb: (NSString*)url;
 -(void)cellProgress: (float) value;

@@ -10,6 +10,6 @@
 #import "MWPhotoBrowser.h"
 #import "DownloadTableViewCell.h"
 
-@interface DownloadTableViewController : UITableViewController <MWPhotoBrowserDelegate, CellDelegate>
+@interface DownloadTableViewController : UITableViewController <DownloadTableViewCellDelegate>
  
 @end

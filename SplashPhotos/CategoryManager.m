@@ -23,6 +23,7 @@
 
 @implementation CategoryManager
 
+#pragma mark init
 + (id)sharedCategoryManager
 {
     static CategoryManager *sharedInstance = nil;
@@ -124,7 +125,6 @@
     return _categories;
 }
 
-
 -(NSMutableArray*)getPhotosInCurrentCategory
 {
     return [self getPhotosInCategoryWithID:_currentCategoryId];
@@ -151,7 +151,6 @@
 }
 
 #pragma mark private
-
 -(CategoryRequest*)getCategoryRequestWithName:(NSString*)name
 {
     int id = [self getCategoryIDWithName:name];

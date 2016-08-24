@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "MWPhotoBrowser.h"
 
-@interface PhotoCollectionViewController : UICollectionViewController <MWPhotoBrowserDelegate>
+@interface PhotoCollectionViewController : UICollectionViewController
 
 @end

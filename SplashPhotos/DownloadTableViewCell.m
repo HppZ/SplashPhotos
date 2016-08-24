@@ -25,12 +25,12 @@
     [self showRestartButton: false];
 }
 
-#pragma mark 设置属性
+#pragma mark UI helper
 -(void)cellProgress: (float) value
 {
     _progressView.progress = value;
     
-    int val = value *100;
+    int val = value * 100;
     _numprogress.text = [[NSString stringWithFormat:@"%d", val] stringByAppendingString:@"%"];
 }
 
@@ -61,13 +61,12 @@
 }
 
 #pragma mark click
-
 - (IBAction)restartClicked:(id)sender
 {
-    [self.delegate didClickOnCell:self sender:nil];
+    [self.delegate restartClickedWithCell:self sender:nil];
 }
 
-#pragma mark 通知
+#pragma mark notification
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"proress"])
