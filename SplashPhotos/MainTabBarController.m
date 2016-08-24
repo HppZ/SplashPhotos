@@ -65,7 +65,7 @@
     
     UINavigationController * nc = [self.viewControllers  objectAtIndex:0];
     [nc popToRootViewControllerAnimated:false];
-    UIViewController* second =  [self.storyboard instantiateViewControllerWithIdentifier:@"firstTabBarNavigationController"];
+    UIViewController* second =  [self.storyboard instantiateViewControllerWithIdentifier:@"categoryViewController"];
     [nc pushViewController:second animated:true];
     self.selectedIndex = 0;
 }
