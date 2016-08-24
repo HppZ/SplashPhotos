@@ -250,6 +250,14 @@
 			name = Layout;
 			sourceTree = "<group>";
 		};
+		6307B5DE1D6DD4660074153C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				63D7F39A1D50AF3700DE068A /* SplashPhotos.xcdatamodeld */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
 		631E56991D54E626003B3800 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -514,6 +522,7 @@
 		63D7F38D1D50AF3700DE068A /* SplashPhotos */ = {
 			isa = PBXGroup;
 			children = (
+				6307B5DE1D6DD4660074153C /* CoreData */,
 				63A9A1951D6D955700462AAB /* Common */,
 				63F833571D6AA436003EB010 /* Controller */,
 				63BBEE2F1D683D250053FD61 /* Resource */,
@@ -530,7 +539,6 @@
 				63D7F39D1D50AF3700DE068A /* Assets.xcassets */,
 				63D7F39F1D50AF3700DE068A /* LaunchScreen.storyboard */,
 				63D7F3A21D50AF3700DE068A /* Info.plist */,
-				63D7F39A1D50AF3700DE068A /* SplashPhotos.xcdatamodeld */,
 				63D7F38E1D50AF3700DE068A /* Supporting Files */,
 			);
 			path = SplashPhotos;

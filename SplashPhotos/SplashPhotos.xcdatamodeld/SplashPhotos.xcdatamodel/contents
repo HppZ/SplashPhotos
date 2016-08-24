@@ -5,6 +5,8 @@
         <attribute name="likes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="photos" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="self_" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="links" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="links" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Photo" representedClassName="Photo" syncable="YES">
         <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,14 +16,15 @@
         <attribute name="liked_by_user" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="likes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="width" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="links" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Links" syncable="YES"/>
-        <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Urls" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+        <relationship name="links" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Links" inverseName="photo" inverseEntity="Links" syncable="YES"/>
+        <relationship name="urls" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Urls" inverseName="photo" inverseEntity="Urls" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="photo" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="ProfileImage" representedClassName="ProfileImage" syncable="YES">
         <attribute name="large" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="medium" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="small" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="profile_image" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Urls" representedClassName="Urls" syncable="YES">
         <attribute name="full" optional="YES" attributeType="String" syncable="YES"/>
@@ -29,19 +32,21 @@
         <attribute name="regular" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="small" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumb" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="urls" inverseEntity="Photo" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="links" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Links" syncable="YES"/>
-        <relationship name="profile_image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileImage" syncable="YES"/>
+        <relationship name="links" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Links" inverseName="user" inverseEntity="Links" syncable="YES"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Photo" inverseName="user" inverseEntity="Photo" syncable="YES"/>
+        <relationship name="profile_image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfileImage" inverseName="user" inverseEntity="ProfileImage" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Links" positionX="-108" positionY="-333" width="128" height="103"/>
+        <element name="Links" positionX="-108" positionY="-333" width="128" height="133"/>
         <element name="Photo" positionX="-297" positionY="-36" width="128" height="193"/>
-        <element name="ProfileImage" positionX="-333" positionY="-180" width="128" height="88"/>
-        <element name="Urls" positionX="27" positionY="288" width="128" height="118"/>
-        <element name="User" positionX="405" positionY="36" width="128" height="118"/>
+        <element name="ProfileImage" positionX="-333" positionY="-180" width="128" height="103"/>
+        <element name="Urls" positionX="27" positionY="288" width="128" height="133"/>
+        <element name="User" positionX="405" positionY="36" width="128" height="133"/>
     </elements>
 </model>

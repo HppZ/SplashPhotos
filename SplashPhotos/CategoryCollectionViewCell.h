@@ -10,8 +10,6 @@
 
 @interface CategoryCollectionViewCell : UICollectionViewCell
 
--(void)cellThumb: (NSString*)url;
-
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 
 @end

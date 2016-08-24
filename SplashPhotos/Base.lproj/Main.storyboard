@@ -17,7 +17,7 @@
                     </navigationBar>
                     <connections>
                         <segue destination="yrl-Ls-1Ow" kind="relationship" relationship="rootViewController" id="DAX-Nd-EaJ"/>
-                        <segue destination="IFb-yY-QfN" kind="show" id="fiB-2K-DgB"/>
+                        <segue destination="IFb-yY-QfN" kind="show" identifier="categorySegue" id="fiB-2K-DgB"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Kn-fQ-jSy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -27,7 +27,7 @@
         <!--Category Photos Collection View Controller-->
         <scene sceneID="BPm-sq-oSJ">
             <objects>
-                <collectionViewController storyboardIdentifier="firstTabBarNavigationController" id="IFb-yY-QfN" customClass="CategoryPhotosCollectionViewController" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="categoryViewController" id="IFb-yY-QfN" customClass="CategoryPhotosCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" id="EgQ-LV-IhA">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
