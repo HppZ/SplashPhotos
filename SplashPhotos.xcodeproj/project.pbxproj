@@ -24,6 +24,9 @@
 		63A539291D55CA07001444F0 /* DownloadPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A539281D55CA07001444F0 /* DownloadPhoto.m */; };
 		63A5392E1D55D41F001444F0 /* SystemServiceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A5392D1D55D41F001444F0 /* SystemServiceHelper.m */; };
 		63A539311D55F486001444F0 /* NetworkRequestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A539301D55F486001444F0 /* NetworkRequestHelper.m */; };
+		63A9A1901D6D924C00462AAB /* PhotosCollectionViewCell+ConfigureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A9A18F1D6D924C00462AAB /* PhotosCollectionViewCell+ConfigureCell.m */; };
+		63A9A1981D6D98CC00462AAB /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A9A1971D6D98CC00462AAB /* ArrayDataSource.m */; };
+		63A9A19C1D6D9D1A00462AAB /* SPPhotoBrowserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A9A19B1D6D9D1A00462AAB /* SPPhotoBrowserDelegate.m */; };
 		63BBEE321D683D710053FD61 /* run@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = 63BBEE301D683D710053FD61 /* run@2x.gif */; };
 		63BBEE331D683D710053FD61 /* spinner_dropbox@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = 63BBEE311D683D710053FD61 /* spinner_dropbox@2x.gif */; };
 		63C5BBA11D65DEBF00A5096E /* InitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C5BBA01D65DEBF00A5096E /* InitViewController.m */; };
@@ -100,6 +103,12 @@
 		63A5392D1D55D41F001444F0 /* SystemServiceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemServiceHelper.m; sourceTree = "<group>"; };
 		63A5392F1D55F486001444F0 /* NetworkRequestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkRequestHelper.h; sourceTree = "<group>"; };
 		63A539301D55F486001444F0 /* NetworkRequestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkRequestHelper.m; sourceTree = "<group>"; };
+		63A9A18E1D6D924C00462AAB /* PhotosCollectionViewCell+ConfigureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PhotosCollectionViewCell+ConfigureCell.h"; sourceTree = "<group>"; };
+		63A9A18F1D6D924C00462AAB /* PhotosCollectionViewCell+ConfigureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PhotosCollectionViewCell+ConfigureCell.m"; sourceTree = "<group>"; };
+		63A9A1961D6D98CC00462AAB /* ArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayDataSource.h; sourceTree = "<group>"; };
+		63A9A1971D6D98CC00462AAB /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
+		63A9A19A1D6D9D1A00462AAB /* SPPhotoBrowserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPPhotoBrowserDelegate.h; sourceTree = "<group>"; };
+		63A9A19B1D6D9D1A00462AAB /* SPPhotoBrowserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPPhotoBrowserDelegate.m; sourceTree = "<group>"; };
 		63BBEE301D683D710053FD61 /* run@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "run@2x.gif"; path = "Assets/run@2x.gif"; sourceTree = SOURCE_ROOT; };
 		63BBEE311D683D710053FD61 /* spinner_dropbox@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = "spinner_dropbox@2x.gif"; path = "Assets/spinner_dropbox@2x.gif"; sourceTree = SOURCE_ROOT; };
 		63C5BB9F1D65DEBF00A5096E /* InitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitViewController.h; sourceTree = "<group>"; };
@@ -216,10 +225,9 @@
 		632604841D52249D00A96425 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
+				63A9A18D1D6D916A00462AAB /* Cell */,
 				632604851D5224C800A96425 /* PhotoCollectionViewController.h */,
 				632604861D5224C800A96425 /* PhotoCollectionViewController.m */,
-				632604881D52290800A96425 /* PhotosCollectionViewCell.h */,
-				632604891D52290800A96425 /* PhotosCollectionViewCell.m */,
 			);
 			name = Photos;
 			sourceTree = "<group>";
@@ -322,6 +330,44 @@
 				63A539281D55CA07001444F0 /* DownloadPhoto.m */,
 			);
 			name = Download;
+			sourceTree = "<group>";
+		};
+		63A9A18C1D6D911200462AAB /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				63A9A1961D6D98CC00462AAB /* ArrayDataSource.h */,
+				63A9A1971D6D98CC00462AAB /* ArrayDataSource.m */,
+			);
+			name = DataSource;
+			sourceTree = "<group>";
+		};
+		63A9A18D1D6D916A00462AAB /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				632604881D52290800A96425 /* PhotosCollectionViewCell.h */,
+				632604891D52290800A96425 /* PhotosCollectionViewCell.m */,
+				63A9A18E1D6D924C00462AAB /* PhotosCollectionViewCell+ConfigureCell.h */,
+				63A9A18F1D6D924C00462AAB /* PhotosCollectionViewCell+ConfigureCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		63A9A1951D6D955700462AAB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				63A9A1991D6D9C2D00462AAB /* PhotoViewDelegate */,
+				63A9A18C1D6D911200462AAB /* DataSource */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		63A9A1991D6D9C2D00462AAB /* PhotoViewDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				63A9A19A1D6D9D1A00462AAB /* SPPhotoBrowserDelegate.h */,
+				63A9A19B1D6D9D1A00462AAB /* SPPhotoBrowserDelegate.m */,
+			);
+			name = PhotoViewDelegate;
 			sourceTree = "<group>";
 		};
 		63BB650A1D5623D40057004B /* Service */ = {
@@ -434,6 +480,7 @@
 		63D7F38D1D50AF3700DE068A /* SplashPhotos */ = {
 			isa = PBXGroup;
 			children = (
+				63A9A1951D6D955700462AAB /* Common */,
 				63F833571D6AA436003EB010 /* Controller */,
 				63BBEE2F1D683D250053FD61 /* Resource */,
 				63C5BB871D65D16E00A5096E /* Vendor */,
@@ -680,6 +727,7 @@
 				63A5391B1D55775A001444F0 /* DownloadTableViewController.m in Sources */,
 				631E569F1D54E734003B3800 /* SettingManager.m in Sources */,
 				6326048A1D52290800A96425 /* PhotosCollectionViewCell.m in Sources */,
+				63A9A1981D6D98CC00462AAB /* ArrayDataSource.m in Sources */,
 				631E56981D54D962003B3800 /* DownloadManager.m in Sources */,
 				63C7B3F21D6BFFB2004F7386 /* UzysAnimatedGifActivityIndicator.m in Sources */,
 				63E91ACD1D53149B0071546E /* Links.m in Sources */,
@@ -715,11 +763,13 @@
 				63A373CA1D56BB34006BF19F /* PhotoService.m in Sources */,
 				63D7F3901D50AF3700DE068A /* main.m in Sources */,
 				63E91AC71D53149B0071546E /* ProfileImage.m in Sources */,
+				63A9A1901D6D924C00462AAB /* PhotosCollectionViewCell+ConfigureCell.m in Sources */,
 				63A5391E1D55777C001444F0 /* DownloadTableViewCell.m in Sources */,
 				63A539171D5569AA001444F0 /* MainTabBarController.m in Sources */,
 				63C7B3F11D6BFFB2004F7386 /* UIScrollView+UzysAnimatedGifPullToRefresh.m in Sources */,
 				63C680C91D66C6570053B871 /* CategoryRequest.m in Sources */,
 				63E91AE11D536BCF0071546E /* NetworkHelper.m in Sources */,
+				63A9A19C1D6D9D1A00462AAB /* SPPhotoBrowserDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
