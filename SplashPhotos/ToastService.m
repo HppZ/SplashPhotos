@@ -7,18 +7,32 @@
 //
 
 #import "ToastService.h"
-#import "JDStatusBarNotification.h"
+#import "CRToast.h"
 
 @implementation ToastService
 
 +(void)showToastWithStatus:(NSString*)text
 {
-    [JDStatusBarNotification showWithStatus:text dismissAfter:1];
+    [CRToastManager dismissNotification: true];
+    
+    NSDictionary *options = @{
+                              kCRToastTextKey : text,
+                              kCRToastTextColorKey : [UIColor blackColor],
+                              kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                              kCRToastBackgroundColorKey : [UIColor whiteColor],
+                              kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                              kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionTop),
+                              kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionTop)
+                              };
+    
+    [CRToastManager showNotificationWithOptions:options
+                                completionBlock:^{}];
 }
 
 +(void)showToastWithStatus:(NSString*)text dissmissAfter:(NSTimeInterval)time
 {
-    [JDStatusBarNotification showWithStatus:text dismissAfter: time];
+    
 }
 
 @end
