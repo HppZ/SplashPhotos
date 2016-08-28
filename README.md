@@ -34,10 +34,10 @@ What's NEXT:
 ![][6]
   [1]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot4.png
   [2]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot3.png
-  [3]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot7.png
+  [3]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot6.png
   [4]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot2.png
   [5]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot5.png
-  [6]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot6.png
+  [6]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot7.png
 
 
 
