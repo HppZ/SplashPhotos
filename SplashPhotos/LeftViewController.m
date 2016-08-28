@@ -7,9 +7,9 @@
 //
 
 #import "LeftViewController.h"
-#import "UIViewController+RESideMenu.h"
 #import "PhotoService.h"
 #import "Category.h"
+#import "UIViewController+HPSideMenu.h"
 
 @interface LeftViewController ()
 {

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RESideMenu.h"
+#import "HPSideMenu.h"
 
-@interface LeftViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, RESideMenuDelegate>
+@interface LeftViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
