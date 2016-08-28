@@ -56,7 +56,7 @@
     _panGestureEnabled = YES;
     _panFromEdge = YES;
     _panMinimumOpenThreshold = 60.0;
-    _contentViewInLandscapeOffsetCenterX = 70.f;
+    _contentViewInLandscapeOffsetCenterX = 40.f;
     _menuViewInLandscapeOffsetCenterX = 10.f;
     _originalMenuViewOffset = -50;
     _menuViewTotalDistance = _menuViewInLandscapeOffsetCenterX - _originalMenuViewOffset;

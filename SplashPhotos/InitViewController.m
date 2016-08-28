@@ -20,8 +20,6 @@
 -(void)setupSideMenu
 {
     self.panMinimumOpenThreshold = 30;
-    self.contentViewInLandscapeOffsetCenterX = -30.f;
-
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainTabBarController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftViewController"];
     UIImage * bg = [UIImage imageNamed:@"bg"];
