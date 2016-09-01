@@ -27,7 +27,7 @@
     NSString* url1 = [[[collection user] profile_image] small];
     [self.userIconElement animateImageWithURL:[NSURL URLWithString: url1] placeholderImage: nil];
 
-    NSString* url2 = [[[collection cover_photo] urls] small];
+    NSString* url2 = [[[collection cover_photo] urls] regular];
     [self.coverPhotoElement animateImageWithURL:[NSURL URLWithString: url2] placeholderImage: nil];
 }
 
