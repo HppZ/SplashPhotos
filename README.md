@@ -49,5 +49,4 @@ What's NEXT:
   [8]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot7.png
   [9]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot8.png
   [10]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot9.png
-  [11]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot10.png
   [12]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot11.png
