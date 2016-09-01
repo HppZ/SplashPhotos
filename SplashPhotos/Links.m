@@ -12,12 +12,15 @@
 
 +(Links*) fromDictionary: (NSDictionary*) dic
 {
-    Links * urls = [[Links alloc] init];
+    Links * links = [[Links alloc] init];
     
-    urls.download = [dic objectForKey: @"download"];
-    urls.html = [dic objectForKey: @"html"];
-    urls.self_ = [dic objectForKey: @"self"];
+    links.download = [dic objectOrNilForKey: @"download"];
+    links.html = [dic objectOrNilForKey: @"html"];
+    links.self_ = [dic objectOrNilForKey: @"self"];
+    links.photos = [dic objectOrNilForKey: @"photos"];
+    links.likes = [dic objectOrNilForKey: @"likes"];
+    links.related = [dic objectOrNilForKey: @"related"];
     
-    return urls;
+    return links;
 }
 @end

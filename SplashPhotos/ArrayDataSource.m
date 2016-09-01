@@ -15,12 +15,12 @@
 @property (nonatomic) NSArray *items;
 @property (nonatomic, copy) NSString *cellIdentifier;
 @property (nonatomic, copy) CellConfigureBlock configureCellBlock;
-
+@property (nonatomic, copy) NSString* nodata;
 @end
-
 
 @implementation ArrayDataSource
 
+#pragma mark init
 - (id)init
 {
     return nil;
@@ -29,6 +29,7 @@
 - (id)initWithItems:(NSArray *)anItems
      cellIdentifier:(NSString *)aCellIdentifier
  configureCellBlock:(CellConfigureBlock)ConfigureCellBlock
+          noDataTip: (NSString*) noData
 {
     self = [super init];
     if (self)
@@ -36,10 +37,13 @@
         _items = anItems;
         _cellIdentifier = [aCellIdentifier copy];
         _configureCellBlock = [ConfigureCellBlock copy];
+        _nodata = [noData copy];
+        _isReverse = false;
     }
     return self;
 }
 
+#pragma mark public
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self getItemWithIndexPath: indexPath];
@@ -54,7 +58,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    [collectionView collectionViewDisplayWitMsg:@"pull to refresh" rowCount: self.items.count];
+    [collectionView collectionViewDisplayWitMsg: self.nodata rowCount: self.items.count];
     return self.items.count;
 }
 
@@ -70,14 +74,14 @@
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    [tableView tableViewDisplayWitMsg:@"go download a photo" rowCount:self.items.count];
+    [tableView tableViewDisplayWitMsg: self.nodata rowCount:self.items.count];
     return self.items.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: self.cellIdentifier forIndexPath:indexPath];
-    id item =  [self.items objectAtIndex:indexPath.item];
+    id item =  [self getItemWithIndexPath : indexPath];
     self.configureCellBlock(cell, item);
     return cell;
 }
@@ -87,7 +91,7 @@
 {
     if(indexPath != nil)
     {
-        return  [self.items objectAtIndex: self.items.count -1 - indexPath.item];
+        return  [self.items objectAtIndex: _isReverse? (self.items.count -1 - indexPath.item) :indexPath.item ];
     }
     return nil;
 }

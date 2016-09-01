@@ -16,7 +16,7 @@
     [self cellThumb:[photo thumb]];
     [self cellProgress: [photo proress]];
     [self cellDownloadState: photo.downloadState];
-    [self setDelegate:delegate];
+    self.delegate = delegate;
     
     [photo addObserver:self
             forKeyPath:@"proress"

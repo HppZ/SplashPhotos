@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProfileImage: NSObject
 
-@property (nullable, nonatomic, copy) NSString *small;
-@property (nullable, nonatomic, copy) NSString *medium;
-@property (nullable, nonatomic, copy) NSString *large;
+@property ( nonatomic, copy) NSString *small;
+@property ( nonatomic, copy) NSString *medium;
+@property ( nonatomic, copy) NSString *large;
 
 +(ProfileImage*) fromDictionary: (NSDictionary*) dic;
 @end

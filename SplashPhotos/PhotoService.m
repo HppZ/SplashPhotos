@@ -11,6 +11,10 @@
 #import "DownloadManager.h"
 #import "NetworkHelper.h"
 #import "CategoryManager.h"
+#import "CollectionManager.h"
+#import "UserManager.h"
+
+@class UserProfile;
 
 @interface PhotoService()
 {
@@ -18,12 +22,14 @@
     PhotoManager * photoManager;
     DownloadManager * downloadManager;
     CategoryManager* categoryManager;
+    CollectionManager * collectionManager;
+    UserManager * userManager;
 }
 @end
 
 @implementation PhotoService
 
-#pragma mark static string
+#pragma mark notification
 +(NSString*)photoSourceChangedNotification
 {
     return @"PhotoSourceChangedNotification";
@@ -39,6 +45,10 @@
     return @"photosInCategoryChangedNotification";
 }
 
++(NSString*)collectionsChangedNotification
+{
+    return @"collectionsChangedNotification";
+}
 
 #pragma mark init
 -(id)init
@@ -47,9 +57,12 @@
     if(self)
     {
         isWIFI = [NetworkHelper isWIFI];
+        
         photoManager = [PhotoManager sharedPhotoManager];
         downloadManager = [DownloadManager sharedDownloadManager];
         categoryManager = [CategoryManager sharedCategoryManager];
+        collectionManager = [CollectionManager sharedCollectionManager];
+        userManager = [UserManager sharedUserManager];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(receiveNotification:)
@@ -61,7 +74,7 @@
     return self;
 }
 
-#pragma mark 网络状态
+#pragma mark network state
 - (void) receiveNotification:(NSNotification *) notification
 {
     if ([[notification name] isEqualToString:[NetworkHelper networkChangedNotification]])
@@ -75,7 +88,7 @@
     isWIFI = [NetworkHelper isWIFI];
 }
 
-#pragma mark 数据源
+#pragma mark source
 -(NSMutableArray*)getDataSource
 {
     return [photoManager getDataSource];
@@ -91,12 +104,15 @@
     return [categoryManager getCategories];
 }
 
--(NSMutableArray*)getPhotosInCurrentCategory
+-(NSMutableArray*)getPhotosInCategoryWithName:(NSString*) name
 {
-    return [categoryManager getPhotosInCurrentCategory];
+    return [categoryManager getPhotosInCategoryWithName:name];
 }
 
-#pragma mark 请求
+-(NSMutableArray*)getCollections
+{
+    return [collectionManager getCollections];
+}
 
 #pragma mark photo & download
 -(void)loadMoreDataWithCallback:(void(^) (NSString* errormsg)) success
@@ -124,7 +140,6 @@
     [downloadManager  restartDownload:downloadphoto];
 }
 
-
 #pragma mark category
 -(void)requestCategoriesWithCallback: (void(^) (NSString* errormsg)) success
 {
@@ -134,7 +149,7 @@
     }];
 }
 
--(void)loadPhotosInCategoryWithName:(NSString*)name
+-(void)loadPhotosInCategoryWithName:(NSString*)name callback: (void(^) (NSString* errormsg)) callback
 {
     [categoryManager loadPhotosInCategoryWithName:name
                                           success:^(NSString* error)
@@ -143,43 +158,45 @@
         {
             [[NSNotificationCenter defaultCenter] postNotificationName: [PhotoService photosInCategoryChangedNotification] object:self];
         }
-
+        callback(error);
     }];
 }
 
--(void)loadPhotosInCurrentCategoryWithCallback:(void(^) (NSString* errormsg)) success
+#pragma mark collections
+-(void)loadMoreCollectionsWithCallbak : (void(^) (NSString* errormsg)) callback
 {
-    [categoryManager loadPhotosInCurrentCategoryWithCallback:^(NSString *errormsg)
-    {
-        if(!errormsg)
-        {
-            [[NSNotificationCenter defaultCenter] postNotificationName: [PhotoService photosInCategoryChangedNotification] object:self];
-        }
-       
-        success(errormsg);
+    [collectionManager loadMoreCollectionsWithCallback:
+     ^(NSString *errormsg) {
+         if(!errormsg)
+         {
+             [[NSNotificationCenter defaultCenter] postNotificationName: [PhotoService collectionsChangedNotification] object:self];
+         }
+         
+         callback(errormsg);
     }];
 }
 
--(void)setCurrentCategoryWithName:(NSString*)name
+#pragma user
+-(void)loadUserPublicProfile: (NSString*)userName callback: ( void(^)(UserProfile *profile, NSString *errormsg)) callback
 {
-    [categoryManager setCurrentCategoryWithName:name];
+    [userManager getUserPublicProfileWith:userName callback:callback];
 }
 
 
-#pragma mark get info
+#pragma mark page info
 -(int)getCurrentPageNum
 {
     return [photoManager getCurrentPageNum];
 }
 
--(int)getCurrentCategoryPageNum
+-(int)getCategoryPageWithName: (NSString*)name
 {
-    return [categoryManager getCurrentCategoryPage];
+    return [categoryManager getCategoryPageWithName:name];
 }
 
--(NSString*)getCurrentCategoryName
+-(int)getCollectionsPageNum
 {
-    return [categoryManager  getCurrentCategoryName];
+    return [collectionManager getCurrentPageNum];
 }
 
 #pragma mark dealloc

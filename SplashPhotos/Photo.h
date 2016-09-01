@@ -18,16 +18,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Photo: NSObject
 
-@property (nullable, nonatomic, copy) NSString *id;
-@property (nullable, nonatomic, copy) NSString *likes;
-@property (nullable, nonatomic, copy) NSString *width;
-@property (nullable, nonatomic, copy) NSString *height;
-@property (nullable, nonatomic, copy) NSString *color;
-@property (nullable, nonatomic, copy) NSString *liked_by_user;
-@property (nullable, nonatomic, copy) NSString *created_at;
-@property (nullable, nonatomic, strong) User *user;
-@property (nullable, nonatomic, strong) Urls *urls;
-@property (nullable, nonatomic, strong) Links *links;
+@property ( nonatomic, copy) NSString *id;
+@property ( nonatomic, copy) NSString *likes;
+@property ( nonatomic, copy) NSString *width;
+@property ( nonatomic, copy) NSString *height;
+@property ( nonatomic, copy) NSString *color;
+@property ( nonatomic, copy) NSString *liked_by_user;
+@property ( nonatomic, copy) NSString *created_at;
+@property ( nonatomic, strong) User *user;
+@property ( nonatomic, strong) Urls *urls;
+@property ( nonatomic, strong) Links *links;
 
 
 +(Photo*) fromDictionary: (NSDictionary*) dic;

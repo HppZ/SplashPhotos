@@ -6,7 +6,6 @@
 //  Copyright © 2016年 HaoPeng. All rights reserved.
 //
 
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "PhotoCollectionViewController.h"
 #import "PhotosCollectionViewCell.h"
 #import "Photo.h"
@@ -80,7 +79,9 @@ static NSString * const reuseIdentifier = @"mainCell";
     // data source
     self.photosArrayDataSource = [[ArrayDataSource alloc] initWithItems:photos
                                                          cellIdentifier:reuseIdentifier
-                                                     configureCellBlock:configureCell];
+                                                     configureCellBlock:configureCell
+                                                              noDataTip:@"pull to refresh"];
+    self.photosArrayDataSource.isReverse = true;
     self.collectionView.dataSource = self.photosArrayDataSource;
 
     // pull to refresh
@@ -108,7 +109,7 @@ static NSString * const reuseIdentifier = @"mainCell";
          if(errormsg)
          {
              NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
-             [weakSelf showPop: errormsg];
+             [weakSelf topBarMsg: errormsg];
          }
      }];
 }
@@ -133,7 +134,7 @@ static NSString * const reuseIdentifier = @"mainCell";
          if(errormsg)
          {
              NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
-             [weakSelf showPop: errormsg];
+             [weakSelf topBarMsg: errormsg];
          }
          else
          {
@@ -183,11 +184,11 @@ static NSString * const reuseIdentifier = @"mainCell";
 
 -(void)navBarTitle
 {
-    int pagenum = [_photoService getCurrentPageNum];
-    self.navigationItem.title = [NSString  stringWithFormat:@"New-%d" ,pagenum];
+    //int pagenum = [_photoService getCurrentPageNum];
+    self.navigationItem.title = [NSString  stringWithFormat:@"NEW"];
 }
 
--(void)showPop:(NSString*)text
+-(void)topBarMsg:(NSString*)text
 {
     [ToastService showToastWithStatus:text];
 }
@@ -195,7 +196,7 @@ static NSString * const reuseIdentifier = @"mainCell";
 #pragma mark download
 -(void)savePhotoAt: (NSInteger)index
 {
-    [self showPop: @"Downloading..."];
+    [self topBarMsg: @"Downloading..."];
     
     Photo * photo = [self.photosArrayDataSource itemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     [_photoService requestDownload: photo];

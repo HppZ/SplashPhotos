@@ -8,15 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class Links2;
+@class Links;
 
 @interface Category : NSObject
 
-@property (nullable, nonatomic, copy) NSString *id;
-@property (nullable, nonatomic, copy) NSString *title;
-@property (nullable, nonatomic, copy) NSString *photo_count;
-@property (nullable, nonatomic, strong) Links2 *links;
-
+@property ( nonatomic, copy) NSString *id;
+@property ( nonatomic, copy) NSString *title;
+@property ( nonatomic, copy) NSString *photo_count;
+@property ( nonatomic, strong) Links *links;
 
 +(Category*) fromDictionary: (NSDictionary*) dic;
 @end

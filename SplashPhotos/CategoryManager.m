@@ -13,8 +13,6 @@
 
 @interface CategoryManager ()
 {
-    int _currentCategoryId;
-    
     UnsplashAPIService * _unsplashAPIService;
     NSMutableArray<Category *>* _categories;
     NSMutableArray<CategoryRequest*>* _categoryRequests;
@@ -110,39 +108,27 @@
     [self loadPhotosInCategoryWithID:id success:success];
 }
 
--(void)loadPhotosInCurrentCategoryWithCallback: (void(^)(NSString* errormsg)) callback
-{
-    [self loadPhotosInCategoryWithID:_currentCategoryId success: callback];
-}
-
--(void)setCurrentCategoryWithName:(NSString*)name
-{
-     _currentCategoryId = [self getCategoryIDWithName: name];
-}
-
 -(NSArray*)getCategories
 {
     return _categories;
 }
 
--(NSMutableArray*)getPhotosInCurrentCategory
+-(NSMutableArray*)getPhotosInCategoryWithName:(NSString*)name
 {
-    return [self getPhotosInCategoryWithID:_currentCategoryId];
+    int id = [self getCategoryIDWithName: name];
+    return [self getPhotosInCategoryWithID: id];
 }
+
 
 -(NSMutableArray*)getPhotosInCategoryWithID:(int)id
 {
     return [self getCategoryRequestWithID:id].result;
 }
 
--(int)getCurrentCategoryPage
+-(int)getCategoryPageWithName:(NSString*) categoryName
 {
-    return [self getPageNumWithID:_currentCategoryId];
-}
-
--(NSString*)getCurrentCategoryName
-{
-    return [self getCategoryWithID: _currentCategoryId].title;
+    int id = [self getCategoryIDWithName: categoryName];
+    return [self getPageNumWithID:id];
 }
 
 -(int)getPageNumWithID: (int)id

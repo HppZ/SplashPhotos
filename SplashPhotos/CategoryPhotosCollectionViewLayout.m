@@ -7,29 +7,11 @@
 //
 
 #import "CategoryPhotosCollectionViewLayout.h"
+#import "ArrayDataSource.h"
 
 @implementation CategoryPhotosCollectionViewLayout
 
 #pragma mark override
-// no good idea yet
 
-//- (CGSize)collectionViewContentSize
-//{
-//
-//}
-//
-//- (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
-//{
-//
-//}
-//
-//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//
-//}
-//
-//- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
-//{
-//
-//}
+
 @end

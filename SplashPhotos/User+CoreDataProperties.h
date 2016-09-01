@@ -15,11 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface User (CoreDataProperties)
 //
-//@property (nullable, nonatomic, retain) NSString *name;
-//@property (nullable, nonatomic, retain) NSString *username;
-//@property (nullable, nonatomic, retain) NSString *id;
-//@property (nullable, nonatomic, retain) Links *links;
-//@property (nullable, nonatomic, retain) ProfileImage *profile_image;
+//@property ( nonatomic, retain) NSString *name;
+//@property ( nonatomic, retain) NSString *username;
+//@property ( nonatomic, retain) NSString *id;
+//@property ( nonatomic, retain) Links *links;
+//@property ( nonatomic, retain) ProfileImage *profile_image;
 
 @end
 

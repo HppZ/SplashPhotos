@@ -65,7 +65,8 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
     // data source
     self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:photos
                                                          cellIdentifier:reuseIdentifier
-                                                     configureCellBlock:configureCell];
+                                                     configureCellBlock:configureCell
+                                                              noDataTip:@"go download a photo"];
     self.tableView.dataSource = self.arrayDataSource;
     
     // notification
@@ -119,7 +120,7 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
 }
 
 #pragma mark ui helper
--(void)showPop:(NSString*)text
+-(void)topBarMsg:(NSString*)text
 {
      [ToastService showToastWithStatus:text];
 }
@@ -135,7 +136,7 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
     DownloadPhoto * photo = [self.arrayDataSource itemAtIndexPath:indexPath];
     if(!photo.downloadSucceed )
     {
-        [self showPop:@"not now"];
+        [self topBarMsg:@"not now"];
         return;
     }
     

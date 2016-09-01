@@ -15,10 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Links (CoreDataProperties)
 //
-//@property (nullable, nonatomic, retain) NSString *likes;
-//@property (nullable, nonatomic, retain) NSString *photos;
-//@property (nullable, nonatomic, retain) NSString *html;
-//@property (nullable, nonatomic, retain) NSString *self_;
+//@property ( nonatomic, retain) NSString *likes;
+//@property ( nonatomic, retain) NSString *photos;
+//@property ( nonatomic, retain) NSString *html;
+//@property ( nonatomic, retain) NSString *self_;
 
 @end
 

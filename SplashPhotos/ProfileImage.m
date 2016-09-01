@@ -14,9 +14,9 @@
 {
     ProfileImage * urls = [[ProfileImage alloc] init];
     
-    urls.small = [dic objectForKey: @"small"];
-    urls.medium = [dic objectForKey: @"medium"];
-    urls.large = [dic objectForKey: @"large"];
+    urls.small = [dic objectOrNilForKey: @"small"];
+    urls.medium = [dic objectOrNilForKey: @"medium"];
+    urls.large = [dic objectOrNilForKey: @"large"];
     
     return urls;
 }

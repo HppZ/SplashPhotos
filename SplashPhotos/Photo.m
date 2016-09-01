@@ -15,16 +15,16 @@
 {
     Photo * photo  = [[Photo alloc] init];
     
-    photo.id = [dic objectForKey: @"id"];
-    photo.likes = [dic objectForKey: @"likes"];
-    photo.width = [dic objectForKey: @"width"];
-    photo.height = [dic objectForKey: @"height"];
-    photo.color = [dic objectForKey: @"color"];
-    photo.liked_by_user = [dic objectForKey: @"liked_by_user"];
-    photo.created_at = [dic objectForKey: @"created_at"];
-    photo.user = [User fromDictionary:[dic objectForKey: @"user"]];
-    photo.urls = [Urls fromDictionary:[dic objectForKey: @"urls"]];
-    photo.links = [Links fromDictionary:[dic objectForKey: @"links"]];
+    photo.id = [dic objectOrNilForKey: @"id"];
+    photo.likes = [dic objectOrNilForKey: @"likes"];
+    photo.width = [dic objectOrNilForKey: @"width"];
+    photo.height = [dic objectOrNilForKey: @"height"];
+    photo.color = [dic objectOrNilForKey: @"color"];
+    photo.liked_by_user = [dic objectOrNilForKey: @"liked_by_user"];
+    photo.created_at = [dic objectOrNilForKey: @"created_at"];
+    photo.user = [User fromDictionary:[dic objectOrNilForKey: @"user"]];
+    photo.urls = [Urls fromDictionary:[dic objectOrNilForKey: @"urls"]];
+    photo.links = [Links fromDictionary:[dic objectOrNilForKey: @"links"]];
     
     return photo;
 }

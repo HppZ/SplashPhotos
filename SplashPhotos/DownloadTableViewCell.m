@@ -5,10 +5,11 @@
 //  Created by HaoPeng on 16/8/6.
 //  Copyright © 2016年 HaoPeng. All rights reserved.
 //
-#import <SDWebImage/UIImageView+WebCache.h>
+
 #import "DownloadTableViewCell.h"
 #import "UIColor+HPZColor.h"
 #import "DownloadPhoto.h"
+#import "UIImageView+UIImageViewWithAnimation.h"    
 
 @interface DownloadTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *thumb;
@@ -36,7 +37,7 @@
 
 -(void)cellThumb: (NSString*)url
 {
-    [_thumb sd_setImageWithURL:[NSURL URLWithString: url] placeholderImage: nil];
+    [_thumb animateImageWithURL:[NSURL URLWithString: url] placeholderImage: nil];
 }
 
 -(void)cellDownloadState:(DownloadState ) state

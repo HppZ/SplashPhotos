@@ -13,9 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Links: NSObject
 
-@property (nullable, nonatomic, copy) NSString *download;
-@property (nullable, nonatomic, copy) NSString *html;
-@property (nullable, nonatomic, copy) NSString *self_;
+@property ( nonatomic, copy) NSString *download;
+@property ( nonatomic, copy) NSString *html;
+@property ( nonatomic, copy) NSString *self_;
+@property ( nonatomic, copy) NSString *photos;
+@property (nonatomic, strong) NSString *likes;
+@property (nonatomic, strong) NSString *related;
 
 +(Links*) fromDictionary: (NSDictionary*) dic;
 @end

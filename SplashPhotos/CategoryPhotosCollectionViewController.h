@@ -11,4 +11,6 @@
 
 @interface CategoryPhotosCollectionViewController : UICollectionViewController
 
+@property (nonatomic, copy) NSString* categoryName;
+
 @end

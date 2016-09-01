@@ -9,10 +9,10 @@
 #import "MainTabBarController.h"
 #import "PhotoCollectionViewController.h"
 #import "PhotoService.h"
+#import "CategoryPhotosCollectionViewController.h"
 
 @interface MainTabBarController ()
 {
-    PhotoService* _photoService ;
 }
 @end
 
@@ -40,17 +40,15 @@
 
 -(void)setup
 {
-    _photoService = [[PhotoService alloc] init];
-    
     float fontsize = 15.0f;
     
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:fontsize],NSFontAttributeName,nil] forState:UIControlStateNormal];
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blueColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:fontsize],NSFontAttributeName,nil] forState:UIControlStateSelected];
     
-    for(UITabBarItem *tabitem in  self.tabBar.items)
-    {
-         tabitem.titlePositionAdjustment =  UIOffsetMake(0, -15);
-    }
+    self.tabBar.items[0].titlePositionAdjustment=  UIOffsetMake(0, -15);
+    self.tabBar.items[1].titlePositionAdjustment=  UIOffsetMake(-4, -15);
+    self.tabBar.items[2].titlePositionAdjustment=  UIOffsetMake(9, -15);
+    self.tabBar.items[3].titlePositionAdjustment=  UIOffsetMake(0, -15);
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
@@ -61,12 +59,13 @@
 #pragma mark navigate
 -(void)navigateToCategoryWithName:(NSString*)name
 {
-    [_photoService setCurrentCategoryWithName:name];
-    
     UINavigationController * nc = [self.viewControllers  objectAtIndex:0];
     [nc popToRootViewControllerAnimated:false];
-    UIViewController* second =  [self.storyboard instantiateViewControllerWithIdentifier:@"categoryViewController"];
-    [nc pushViewController:second animated:true];
+    
+    // to category
+    CategoryPhotosCollectionViewController* category =  [self.storyboard instantiateViewControllerWithIdentifier:@"categoryViewController"];
+    category.categoryName = name;
+    [nc pushViewController:category animated:true];
     self.selectedIndex = 0;
 }
 

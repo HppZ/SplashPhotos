@@ -13,11 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Urls: NSObject
 
-@property (nullable, nonatomic, copy) NSString *full;
-@property (nullable, nonatomic, copy) NSString *raw;
-@property (nullable, nonatomic, copy) NSString *regular;
-@property (nullable, nonatomic, copy) NSString *small;
-@property (nullable, nonatomic, copy) NSString *thumb;
+@property ( nonatomic, copy) NSString *full;
+@property ( nonatomic, copy) NSString *raw;
+@property ( nonatomic, copy) NSString *regular;
+@property ( nonatomic, copy) NSString *small;
+@property ( nonatomic, copy) NSString *thumb;
 
 
 +(Urls*) fromDictionary: (NSDictionary*) dic;

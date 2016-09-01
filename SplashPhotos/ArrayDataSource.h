@@ -13,10 +13,12 @@ typedef void (^CellConfigureBlock)(id cell, id item);
 
 @interface ArrayDataSource : NSObject<UICollectionViewDataSource, UITableViewDataSource>
 
+@property (nonatomic) BOOL isReverse;
 
 - (id)initWithItems:(NSArray *)anItems
      cellIdentifier:(NSString *)aCellIdentifier
- configureCellBlock:(CellConfigureBlock)aConfigureCellBlock;
+ configureCellBlock:(CellConfigureBlock)ConfigureCellBlock
+          noDataTip: (NSString*) noData;
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
 

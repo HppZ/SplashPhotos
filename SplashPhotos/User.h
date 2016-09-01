@@ -18,13 +18,10 @@
 @property (nonatomic, copy) NSString *id;
 @property (nonatomic, strong) Links *links;
 @property (nonatomic, strong) ProfileImage *profile_image;
+@property (nonatomic, strong) NSString *bio;
 
 +(User*) fromDictionary: (NSDictionary*) dic;
 
--(id)initWithName:(NSString*) name username: (NSString*)username id:(NSString*)id links: (Links*)links profileimage: (ProfileImage*)profileimage;
-
 @end
-
-
 
 #import "User+CoreDataProperties.h"

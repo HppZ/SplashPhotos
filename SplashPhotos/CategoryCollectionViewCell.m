@@ -6,7 +6,6 @@
 //  Copyright © 2016年 HaoPeng. All rights reserved.
 //
 
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "CategoryCollectionViewCell.h"
 #import "UIColor+HPZColor.h"
 

@@ -14,11 +14,11 @@
 {
     Urls * urls = [[Urls alloc] init];
     
-    urls.full = [dic objectForKey: @"full"];
-    urls.raw = [dic objectForKey: @"raw"];
-    urls.small = [dic objectForKey: @"small"];
-    urls.regular = [dic objectForKey: @"regular"];
-    urls.thumb = [dic objectForKey: @"thumb"];
+    urls.full = [dic objectOrNilForKey: @"full"];
+    urls.raw = [dic objectOrNilForKey: @"raw"];
+    urls.small = [dic objectOrNilForKey: @"small"];
+    urls.regular = [dic objectOrNilForKey: @"regular"];
+    urls.thumb = [dic objectOrNilForKey: @"thumb"];
     
     return urls;
 }

@@ -13,15 +13,13 @@
 + (id)sharedCategoryManager;
 
 -(void)loadCategories:(void(^) (NSString* errormsg)) success;
+
 -(void)loadPhotosInCategoryWithID:(int)id success:(void(^) (NSString* errormsg)) success;
 -(void)loadPhotosInCategoryWithName:(NSString*)name success:(void(^) (NSString* errormsg)) success;
--(void)loadPhotosInCurrentCategoryWithCallback: (void(^)(NSString* errormsg)) callback;
 
 -(NSArray*)getCategories;
--(void)setCurrentCategoryWithName:(NSString*)name;
--(NSMutableArray*)getPhotosInCurrentCategory;
+-(NSMutableArray*)getPhotosInCategoryWithName:(NSString*)name;
+-(int)getCategoryPageWithName:(NSString*) categoryName;
 
--(int)getCurrentCategoryPage;
--(NSString*)getCurrentCategoryName;
 
 @end

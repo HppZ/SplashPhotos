@@ -47,15 +47,21 @@ return @"https://unsplash.com/";
     return [self GetUrlHelper: p];
 }
 
-// helper
-+(NSString*)GetUrlHelper:(id)param
++(NSString*) GetCollectionsUrl
 {
-    return [NSString  stringWithFormat:@"%@%@%@%@", self.Host, param , @"?client_id=", self.AppID];
+    return [self GetUrlHelper: @"/collections"];
 }
 
-+(int)randomNum
++(NSString*) GetPhotosInCollectionUrl:(int)id
 {
-    return arc4random() % 1024;
+    NSString* p = [NSString  stringWithFormat:@"%@%d%@", @"/collections/", id, @"/photos"];
+    return [self GetUrlHelper:p];
+}
+
++(NSString*)GetUserPublicProfileUrl:(NSString *)username
+{
+    NSString* p = [NSString  stringWithFormat:@"%@%@", @"/users/", username];
+    return [self GetUrlHelper:p];
 }
 
 #pragma mark params
@@ -90,5 +96,50 @@ return @"https://unsplash.com/";
                            nil];
     return param;
 }
+
++(NSDictionary*) GetCollectionsParamsWithPage: (int) num
+{
+    NSDictionary *param = [[NSDictionary alloc]
+                           initWithObjectsAndKeys:
+                           [NSNumber numberWithInt: num], @"page",
+                           @"5",  @"per_page",
+                           nil];
+    return param;
+}
+
++(NSDictionary*)GetPhotosInCollectionParamsWithID:(int)id page:(int)num
+{
+    NSDictionary *param = [[NSDictionary alloc]
+                           initWithObjectsAndKeys:
+                           [NSNumber numberWithInt: id], @"id",
+                           [NSNumber numberWithInt: num], @"page",
+                           @"30",  @"per_page",
+                           nil];
+    return param;
+
+}
+
++(NSDictionary*) GetUserPublicProfileParamsWithUsername:(NSString *)username
+{
+    NSDictionary *param = [[NSDictionary alloc]
+                           initWithObjectsAndKeys:
+                           username, @"username",
+//                           [NSNumber numberWithInt: 100], @"w",
+//                           [NSNumber numberWithInt: 100],  @"h",
+                           nil];
+    return param;
+}
+
+// helper
++(NSString*)GetUrlHelper:(id)param
+{
+    return [NSString  stringWithFormat:@"%@%@%@%@", self.Host, param , @"?client_id=", self.AppID];
+}
+
++(int)randomNum
+{
+    return arc4random() % 1024;
+}
+
 
 @end

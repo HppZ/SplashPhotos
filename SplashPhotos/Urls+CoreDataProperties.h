@@ -15,11 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Urls (CoreDataProperties)
 
-//@property (nullable, nonatomic, retain) NSString *full;
-//@property (nullable, nonatomic, retain) NSString *raw;
-//@property (nullable, nonatomic, retain) NSString *regular;
-//@property (nullable, nonatomic, retain) NSString *small;
-//@property (nullable, nonatomic, retain) NSString *thumb;
+//@property ( nonatomic, retain) NSString *full;
+//@property ( nonatomic, retain) NSString *raw;
+//@property ( nonatomic, retain) NSString *regular;
+//@property ( nonatomic, retain) NSString *small;
+//@property ( nonatomic, retain) NSString *thumb;
 
 @end
 

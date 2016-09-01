@@ -12,6 +12,9 @@
 #import "NetworkHelper.h"
 #import "NetworkRequestHelper.h"
 #import "Category.h"
+#import "Collection.h"
+#import "UserProfile.h"
+
 
 @implementation UnsplashAPIService
 
@@ -107,6 +110,89 @@
      ];
     
 }
+
+// GET /collections
+-(void)GetCollectionsWithPage: (int) num
+              successCallback:(void (^)(NSArray * result)) resultCallback
+                errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+{
+    NSString * url =  [UrlHelper GetCollectionsUrl];
+    NSDictionary *param = [UrlHelper GetCollectionsParamsWithPage:num];
+    
+    [NetworkRequestHelper GETWithUrl: url andParameters:param
+                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         NSArray* array= [NSArray arrayWithArray:responseObject];
+         NSMutableArray* result = [[NSMutableArray alloc] init];
+         for (id obj in array)
+         {
+             Collection *collection =[Collection fromDictionary: obj];
+             [result addObject: collection];
+         }
+         
+         resultCallback(result);
+     }
+                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     
+     {
+         errorCallback([error localizedDescription]);
+     }
+     ];
+}
+
+// GET /collections/:id/photos
+-(void)GetPhotosInCollectionWith:(int)collectionID
+                            page: (int)page
+                successCallback:(void (^)(NSArray * result)) resultCallback
+                  errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+{
+    NSString * url =  [UrlHelper GetPhotosInCollectionUrl:collectionID];
+    NSDictionary *param = [UrlHelper GetPhotosInCollectionParamsWithID:collectionID page:page];
+    
+    [NetworkRequestHelper GETWithUrl: url andParameters:param
+                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         NSArray* array= [NSArray arrayWithArray:responseObject];
+         NSMutableArray* result = [[NSMutableArray alloc] init];
+         for (id obj in array)
+         {
+             Collection *collection =[Collection fromDictionary: obj];
+             [result addObject: collection];
+         }
+         
+         resultCallback(result);
+     }
+                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     
+     {
+         errorCallback([error localizedDescription]);
+     }
+     ];
+}
+
+
+// GET /users/:username
+-(void)GetUserPublicProfileWith:(NSString*)username
+                successCallback:(void (^)(UserProfile * result)) resultCallback
+                  errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+{
+    NSString * url =  [UrlHelper GetUserPublicProfileUrl:username];
+    NSDictionary *param = [UrlHelper GetUserPublicProfileParamsWithUsername:username];
+    
+    [NetworkRequestHelper GETWithUrl: url andParameters:param
+                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+     {
+         UserProfile * profile = [UserProfile fromDictionary:responseObject];
+         resultCallback(profile);
+     }
+                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+     
+     {
+         errorCallback([error localizedDescription]);
+     }
+     ];
+}
+
 
 //----------------------------------------------------------
 

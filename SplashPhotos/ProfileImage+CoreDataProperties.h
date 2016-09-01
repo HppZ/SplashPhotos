@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProfileImage (CoreDataProperties)
 //
-//@property (nullable, nonatomic, retain) NSString *small;
-//@property (nullable, nonatomic, retain) NSString *medium;
-//@property (nullable, nonatomic, retain) NSString *large;
+//@property ( nonatomic, retain) NSString *small;
+//@property ( nonatomic, retain) NSString *medium;
+//@property ( nonatomic, retain) NSString *large;
 
 @end
 

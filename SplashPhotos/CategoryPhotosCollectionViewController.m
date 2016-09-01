@@ -67,7 +67,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     _photoService = [[PhotoService alloc] init];
     
     // get photos data
-    NSMutableArray<Photo *>* photos  = [_photoService getPhotosInCurrentCategory];
+    NSMutableArray<Photo *>* photos  = [_photoService getPhotosInCategoryWithName:_categoryName];
     
     // configure cell
     CellConfigureBlock configureCell = ^(CategoryCollectionViewCell *cell, Photo *photo)
@@ -78,7 +78,9 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     // data source
     self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:photos
                                                          cellIdentifier:reuseIdentifier
-                                                     configureCellBlock:configureCell];
+                                                     configureCellBlock:configureCell
+                                                        noDataTip:@"pull to refresh"];
+    self.arrayDataSource.isReverse = true;
     self.collectionView.dataSource = self.arrayDataSource;
 
     // pull to refresh
@@ -114,18 +116,19 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 {
     __weak CategoryPhotosCollectionViewController * weakSelf = self;
     
-    [_photoService loadPhotosInCurrentCategoryWithCallback:^(NSString *errormsg)
-    {
-        [weakSelf stopRefresh];
-        if(errormsg)
-        {
-            NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
-            [weakSelf showPop: errormsg];
-        }
-        else
-        {
-            [weakSelf navBarTitle];
-        }
+    [_photoService loadPhotosInCategoryWithName:_categoryName callback:^(NSString *errormsg)
+     {
+         [weakSelf stopRefresh];
+         if(errormsg)
+         {
+             NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
+             [weakSelf topBarMsg: errormsg];
+         }
+         else
+         {
+             [weakSelf navBarTitle];
+         }
+
     }];
 }
 
@@ -155,12 +158,11 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 
 -(void)navBarTitle
 {
-    int pagenum = [_photoService getCurrentCategoryPageNum];
-    NSString* name = [_photoService getCurrentCategoryName];
-    self.navigationItem.title = [NSString stringWithFormat:@"%@-%d" ,name,pagenum];
+    //int pagenum = [_photoService getCategoryPageWithName:_categoryName];
+    self.navigationItem.title = [NSString stringWithFormat:@"%@" ,[_categoryName uppercaseString]];
 }
 
--(void)showPop:(NSString*)text
+-(void)topBarMsg:(NSString*)text
 {
     [ToastService showToastWithStatus:text];
 }
@@ -183,7 +185,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
 #pragma mark download
 -(void)savePhotoAt: (NSInteger)index
 {
-    [self showPop: @"Downloading..."];
+    [self topBarMsg: @"Downloading..."];
     
     Photo * photo = [self.arrayDataSource itemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     [_photoService requestDownload: photo];
