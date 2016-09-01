@@ -1,8 +1,8 @@
 # SplashPhotos
 
-这是一个图片App，片源来自[https://unsplash.com/][1]，可浏览最新照片，分类照片，大图查看，下载原图，原图查看等。
+这是一个图片App，片源来自[https://unsplash.com/][1]，可浏览最新照片，分类照片，集合浏览，集合详细，用户信息，大图查看，下载原图，原图查看等。
 
-侧滑菜单：[HPSideMenu][2]
+我的侧滑菜单：[HPSideMenu][2]
 
 ---
 What's NEXT:
@@ -29,9 +29,13 @@ What's NEXT:
 
 ![][3]
 ![][4]
+![][9]
+![][10]
+![][11]
 ![][5]
 ![][6]
 ![][7]
+![][12]
 ![][8]
 
   [1]: https://unsplash.com/
@@ -43,3 +47,7 @@ What's NEXT:
   [6]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot2.png
   [7]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot5.png
   [8]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot7.png
+  [9]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot8.png
+  [10]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot9.png
+  [11]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot10.png
+  [12]: https://github.com/HppZ/SplashPhotos/blob/master/Screenshots/screenshot11.png
