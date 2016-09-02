@@ -16,4 +16,6 @@
 -(NSMutableArray*)getCollections;
 -(int)getCurrentPageNum;
 
+-(void)loadCollectionDetailWithID:(int)id page: (int)page successCallback:(void (^)(NSArray * result)) resultCallback errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
+
 @end

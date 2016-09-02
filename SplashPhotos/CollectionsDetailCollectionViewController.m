@@ -18,6 +18,8 @@
 @interface CollectionsDetailCollectionViewController() <CollectionDetailCellDelegate>
 {
     PhotoService* _photoService;
+    NSMutableArray * _collectionPhotos;
+    int _page;
 }
 
 @property ArrayDataSource* arrayDataSource;
@@ -31,15 +33,15 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
 {
     [super viewDidLoad];
     [self setup];
+    [self triggerPullToRefresh];
 }
 
 -(void)setup
 {
     // init
     _photoService = [[PhotoService alloc] init];
-    
-    // get photos data
-    NSMutableArray *collections  = [_photoService getDataSource];
+    _collectionPhotos = [[NSMutableArray alloc]init];
+    _page = 1;
     
     // configure cell
     CellConfigureBlock configureCell = ^(CollectionsDetailCollectionViewCell *cell, Photo *photo)
@@ -48,7 +50,7 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
     };
     
     // data source
-    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:collections
+    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:_collectionPhotos
                                                    cellIdentifier:reuseIdentifier
                                                configureCellBlock:configureCell
                                                         noDataTip:@"pull to refresh"];
@@ -66,22 +68,6 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
                              LoadingImagesGifName:@"run@2x.gif"
                           ProgressScrollThreshold:60
                             LoadingImageFrameRate:30];
-    
-    
-    // notification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:)
-                                                 name:[PhotoService photoSourceChangedNotification]
-                                               object:nil];
-}
-
-#pragma mark notification
-- (void) receiveNotification:(NSNotification *) notification
-{
-    if ([[notification name] isEqualToString: [PhotoService photoSourceChangedNotification]])
-    {
-        [self insertNewItems];
-    }
 }
 
 #pragma mark - data
@@ -89,19 +75,22 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
 {
     __weak CollectionsDetailCollectionViewController * weakSelf = self;
     
-    [_photoService loadMoreDataWithCallback:^(NSString *errormsg)
-     {
-         [weakSelf stopRefresh];
-         if(errormsg)
-         {
-             NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
-             [weakSelf topBarMsg: errormsg];
-         }
-         else
-         {
-             [weakSelf navBarTitle];
-         }
-     }];
+    [_photoService loadCollectionDetailWithID: [self.collection.id intValue] page: _page
+                              successCallback:^(NSArray *result)
+    {
+        _page++;
+        [weakSelf stopRefresh];
+        for (Photo* photo in result)
+        {
+            [_collectionPhotos addObject:photo];
+        }
+        
+        [self insertNewItems];
+    }
+                                errorCallback:^(NSString *errorMsg)
+    {
+        [weakSelf topBarMsg: errorMsg];
+    }];
 }
 
 #pragma mark data
@@ -131,7 +120,6 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
 
 -(void)navBarTitle
 {
-    //int pagenum = [_photoService getCurrentPageNum];
     self.navigationItem.title = [NSString stringWithFormat:@"%@" ,self.collection.title];
 }
 
@@ -143,7 +131,7 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
 #pragma mark dealloc
 -(void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 }
 
 @end

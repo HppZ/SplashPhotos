@@ -86,6 +86,13 @@
     return _num-1;
 }
 
+
+#pragma mark collections detail
+-(void)loadCollectionDetailWithID:(int)id page: (int)page successCallback:(void (^)(NSArray * result)) resultCallback errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+{
+    [_unsplashAPIService GetPhotosInCollectionWith:id page:page successCallback:resultCallback errorCallback:errorCallback];
+}
+
 #pragma mark private
 -(void)increasePageNum
 {

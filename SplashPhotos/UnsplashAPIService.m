@@ -156,7 +156,7 @@
          NSMutableArray* result = [[NSMutableArray alloc] init];
          for (id obj in array)
          {
-             Collection *collection =[Collection fromDictionary: obj];
+             Photo *collection =[Photo fromDictionary: obj];
              [result addObject: collection];
          }
          

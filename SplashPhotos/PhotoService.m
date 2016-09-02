@@ -176,6 +176,11 @@
     }];
 }
 
+-(void)loadCollectionDetailWithID:(int)id page: (int)page successCallback:(void (^)(NSArray * result)) resultCallback errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+{
+    [collectionManager loadCollectionDetailWithID:id page:page successCallback:resultCallback errorCallback:errorCallback];
+}
+
 #pragma user
 -(void)loadUserPublicProfile: (NSString*)userName callback: ( void(^)(UserProfile *profile, NSString *errormsg)) callback
 {

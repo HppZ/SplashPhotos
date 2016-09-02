@@ -36,5 +36,9 @@
                 successCallback:(void (^)(UserProfile * result)) resultCallback
                   errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
 
+-(void)GetPhotosInCollectionWith:(int)collectionID
+                            page: (int)page
+                 successCallback:(void (^)(NSArray * result)) resultCallback
+                   errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
 
 @end

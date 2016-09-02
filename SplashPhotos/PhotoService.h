@@ -35,6 +35,7 @@
 -(void)loadPhotosInCategoryWithName:(NSString*)name callback: (void(^) (NSString* errormsg)) callback;
 -(void)loadMoreCollectionsWithCallbak : (void(^) (NSString* errormsg)) callback;
 -(void)loadUserPublicProfile: (NSString*)userName callback: ( void(^)(UserProfile *profile, NSString *errormsg)) callback;
+-(void)loadCollectionDetailWithID:(int)id page: (int)page successCallback:(void (^)(NSArray * result)) resultCallback errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
 
 //
 -(int)getCurrentPageNum;
