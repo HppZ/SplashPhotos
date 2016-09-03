@@ -11,10 +11,11 @@
 
 @interface DownloadManager : NSObject
 
-+ (id)sharedDownloadManager;
++ (DownloadManager*)sharedInstance;
 
 -(void)requestDownload: (Photo*) photo;
 -(void)restartDownload: (DownloadPhoto*)downloadphoto;
 
--(NSMutableArray*)getDownloadDataSource;
+@property (nonatomic, readonly) NSArray<DownloadPhoto*>* downloadedPhotos;
+
 @end

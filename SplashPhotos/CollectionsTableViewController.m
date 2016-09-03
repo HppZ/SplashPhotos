@@ -7,7 +7,7 @@
 //
 
 #import "CollectionsTableViewController.h"
-#import "PhotoService.h"
+#import "SplashControllerAccess.h"
 #import "ArrayDataSource.h"
 #import "CollectionsTableViewCell.h"
 #import "Collection.h"
@@ -16,11 +16,14 @@
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 #import "UserProfileViewController.h"
 #import "CollectionsDetailCollectionViewController.h"
-
+#import "CollectionController.h"
+#import "User.h"
 
 @interface CollectionsTableViewController()
 {
-    PhotoService* _photoService;
+    CollectionController* _collectionController;
+    NSMutableArray * _data;
+    NSInteger _page;
     BOOL _loaded;
 }
 
@@ -68,10 +71,9 @@ static NSString * const reuseIdentifier = @"collectionTableViewCell";
 -(void)setup
 {
     // init
-    _photoService = [[PhotoService alloc] init];
-    
-    // get photos data
-    NSMutableArray *collections  = [_photoService getCollections];
+    _collectionController = SplashControllerAccess.collectionController;
+    _data = [[NSMutableArray alloc]init];
+    _page = 1;
     
     // configure cell
     CellConfigureBlock configureCell = ^(CollectionsTableViewCell *cell, Collection *collection)
@@ -80,47 +82,37 @@ static NSString * const reuseIdentifier = @"collectionTableViewCell";
     };
     
     // data source
-    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:collections
+    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:_data
                                                    cellIdentifier:reuseIdentifier
                                                configureCellBlock:configureCell
                                                         noDataTip:@"pull to refresh"];
     self.arrayDataSource.isReverse = true;
     self.tableView.dataSource = self.arrayDataSource;
-   
-    // notification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:)
-                                                 name:[PhotoService collectionsChangedNotification]
-                                               object:nil];
-}
-
-#pragma mark notification
-- (void) receiveNotification:(NSNotification *) notification
-{
-    if ([[notification name] isEqualToString: [PhotoService collectionsChangedNotification]])
-    {
-        [self insertNewItems];
-    }
 }
 
 #pragma mark - data
 -(void)loadData
 {
     __weak CollectionsTableViewController * weakSelf = self;
-    
-    [_photoService loadMoreCollectionsWithCallbak:^(NSString *errormsg)
-     {
-         [weakSelf stopRefresh];
-         if(errormsg)
-         {
-             NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
-             [weakSelf topBarMsg: errormsg];
-         }
-         else
-         {
-             [weakSelf navBarTitle];
-         }
-     }];
+    [_collectionController loadCollections:_page complete:^(NSArray * _Nullable data, NSError * _Nullable error)
+    {
+        [weakSelf stopRefresh];
+        if(error)
+        {
+            [weakSelf topBarMsg: [error localizedDescription]];
+        }
+        else
+        {
+            _page++;
+            [weakSelf navBarTitle];
+            
+            for (Collection* item in data)
+            {
+                [_data addObject:item];
+            }
+            [self insertNewItems];
+        }
+    }];
 }
 
 #pragma mark data
@@ -150,7 +142,6 @@ static NSString * const reuseIdentifier = @"collectionTableViewCell";
 
 -(void)navBarTitle
 {
-  //  int pagenum = [_photoService getCollectionsPageNum];
     self.navigationItem.title = [NSString stringWithFormat:@"%@" ,@"COLLECTION"];
 }
 
@@ -180,7 +171,6 @@ static NSString * const reuseIdentifier = @"collectionTableViewCell";
     else
     {
         assert(0);
-        NSLog(@"userClicked indexpath nil");
     }
 }
 
@@ -198,7 +188,6 @@ static NSString * const reuseIdentifier = @"collectionTableViewCell";
     else
     {
         assert(0);
-        NSLog(@"userClicked indexpath nil");
     }
 }
 
@@ -220,6 +209,6 @@ static NSString * const reuseIdentifier = @"collectionTableViewCell";
 #pragma mark dealloc
 -(void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 }
 @end

@@ -7,11 +7,11 @@
 //
 
 #import "SettingViewController.h"
-#import "SettingManager.h"
+#import "SystemService.h"
+#import "UrlHelper.h"
 
 @interface SettingViewController ()
 {
-    SettingManager* settingManager;
     BOOL flag;
 }
 
@@ -24,33 +24,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self setup];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-}
-
--(void)setup
-{
-    settingManager = [[SettingManager alloc] init];
 }
 
 #pragma mark 打开官网
 - (IBAction)gotoUnsplash:(UIButton *)sender
 {
-    [settingManager gotoUnsplash];
+    [SystemService openWithUrl:[UrlHelper Unsplash]];
 }
 
 @end

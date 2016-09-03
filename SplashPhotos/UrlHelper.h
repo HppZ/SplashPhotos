@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class GetPhotosParam;
+@class GetCategoriesParam;
+@class GetCollectionsParam;
+@class GetCategoryPhotosParam;
+@class GetCollectionPhotosParam;
+@class GetUserProfileParam;
+
 @interface UrlHelper : NSObject
 
 +(NSString*) Host;
@@ -24,11 +31,11 @@
 +(NSString*) GetUserPublicProfileUrl: (NSString*)username;
 
 // params
-+(NSDictionary*) GetPhotosParamsWithPageNum: (int) num;
-+(NSDictionary*) GetCategoriesParams;
-+(NSDictionary*) GetPhotosInCategoryParamsWithID: (int) id page: (int) num;
-+(NSDictionary*) GetCollectionsParamsWithPage: (int) num;
-+(NSDictionary*) GetPhotosInCollectionParamsWithID: (int)id page:(int)num;
-+(NSDictionary*) GetUserPublicProfileParamsWithUsername: (NSString*)username;
++(NSDictionary*)GetPhotosParams: (GetPhotosParam*) p;
++(NSDictionary*)GetCategoriesParams;
++(NSDictionary*)GetPhotosInCategoryParams:(GetCategoryPhotosParam*) p;
++(NSDictionary*) GetCollectionsParams:(GetCollectionsParam*)p;
++(NSDictionary*)GetPhotosInCollectionParams: (GetCollectionPhotosParam*)p;
++(NSDictionary*) GetUserPublicProfileParams:(GetUserProfileParam *)p;
 
 @end

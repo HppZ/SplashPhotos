@@ -1,5 +1,5 @@
 //
-//  SystemServiceHelper.m
+//  SystemService.m
 //  SplashPhotos
 //
 //  Created by HaoPeng on 16/8/6.
@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SystemServiceHelper.h"
+#import "SystemService.h"
 
-@implementation SystemServiceHelper
+@implementation SystemService
 
 +(void)openWithUrl:(NSString*) url
 {

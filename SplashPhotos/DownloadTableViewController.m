@@ -8,17 +8,18 @@
 
 #import "DownloadTableViewController.h"
 #import "DownloadPhoto.h"
-#import "PhotoService.h"
+#import "SplashControllerAccess.h"
 #import "DownloadTableViewCell.h"
 #import "ToastService.h"
 #import "UITableView+NoData.h"
 #import "SPPhotoBrowserDelegate.h"
 #import "ArrayDataSource.h"
 #import "DownloadTableViewCell+ConfigureCell.h"
+#import "PhotoController.h"
 
 @interface DownloadTableViewController ()
 {
-    PhotoService* _photoService;
+    PhotoController* _photoController;
 }
 
 @property SPPhotoBrowserDelegate* photoBrowserDelegate;
@@ -44,17 +45,16 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
 
 -(void)setup
 {
-    // ui set
     self.tableView.rowHeight = 62;
 
     _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
                                                     actionButtonCallback:nil actionButton:false];
     
     // init
-    _photoService = [[PhotoService alloc] init];
-    
+    _photoController = SplashControllerAccess.photoController;
+
     // get photos data
-    NSMutableArray<Photo *>* photos  = [_photoService getDownloadDataSource];
+    NSArray* data  = [_photoController getDownloadPhotos];
     
     // configure cell
     CellConfigureBlock configureCell = ^(DownloadTableViewCell *cell, DownloadPhoto *photo)
@@ -63,7 +63,7 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
     };
     
     // data source
-    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:photos
+    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:data
                                                          cellIdentifier:reuseIdentifier
                                                      configureCellBlock:configureCell
                                                               noDataTip:@"go download a photo"];
@@ -72,14 +72,14 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
     // notification
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
-                                                 name:[PhotoService downloadSourceChangedNotification]
+                                                 name: DownloadPhotosChangedNotification
                                                object:nil];
 }
 
 #pragma mark notification
 - (void) receiveNotification:(NSNotification *) notification
 {
-    if ([[notification name] isEqualToString: [PhotoService downloadSourceChangedNotification]])
+    if ([[notification name] isEqualToString:  DownloadPhotosChangedNotification])
     {
         [self insertNewItems];
     }
@@ -88,7 +88,6 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
 #pragma mark data
 -(void)insertNewItems
 {
-   
     NSInteger count = [self.tableView numberOfRowsInSection:0];
     NSInteger max = ((NSArray*)[self.arrayDataSource allItems]).count - count;
     
@@ -109,13 +108,12 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
         DownloadPhoto* downloadPhoto = [self.arrayDataSource itemAtIndexPath:indexPath];
         if(downloadPhoto)
         {
-            [_photoService restartDownload:downloadPhoto];
+            [_photoController restartDownload:downloadPhoto];
         }
     }
     else
     {
         assert(0);
-        NSLog(@"restart indexpath nil");
     }
 }
 
@@ -133,6 +131,8 @@ static NSString * const reuseIdentifier = @"downloadTableViewCell";
 #pragma mark <UITableViewDelegate>, open photo browser
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     DownloadPhoto * photo = [self.arrayDataSource itemAtIndexPath:indexPath];
     if(!photo.downloadSucceed )
     {

@@ -1,5 +1,5 @@
 //
-//  SystemServiceHelper.h
+//  SystemService.h
 //  SplashPhotos
 //
 //  Created by HaoPeng on 16/8/6.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SystemServiceHelper : NSObject
+@interface SystemService : NSObject
 
 +(void)openWithUrl:(NSString*) url;
 

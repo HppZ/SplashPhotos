@@ -7,6 +7,7 @@
 //
 
 #import "InitViewController.h"
+#import "MainTabBarController.h"
 
 @implementation InitViewController
 
@@ -24,6 +25,12 @@
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftViewController"];
     UIImage * bg = [UIImage imageNamed:@"bg"];
     self.backgroundImage = bg;
+}
+
+-(void)navigateTo: (id)param
+{
+    MainTabBarController* mainTabBarController = (MainTabBarController*)self.contentViewController;
+    [mainTabBarController navigateTo:param];
 }
 
 @end

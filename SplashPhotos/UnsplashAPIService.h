@@ -7,38 +7,50 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Photo.h"
 
+@class Photo;
 @class UserProfile;
+
+@class GetPhotosParam;
+@class GetCategoriesParam;
+@class GetCollectionsParam;
+@class GetCategoryPhotosParam;
+@class GetCollectionPhotosParam;
+@class GetUserProfileParam;
+
+typedef void (^APIInfoRequestCompletionBlock)(_Nullable id response, NSError *_Nullable error);
+
+typedef void (^APIDataRequestCompletionBlock)(NSArray *_Nullable data, id _Nullable response, NSError *_Nullable error);
+
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface UnsplashAPIService : NSObject
 
--(void)GetPhotosWithPageNum:(int) num
-            successCallback:(void (^)(NSArray * photos)) resultCallback
-              errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
++ (UnsplashAPIService*)sharedInstance;
 
--(void)GetCategoriesWithsuccessCallback:(void (^)(NSArray * categories)) resultCallback
-                          errorCallback:(void (^)(NSString * errorMsg)) errorCallback;
+-(void)GetPhotos:(GetPhotosParam*) param
+ completionBlock:(APIDataRequestCompletionBlock) complete;
 
--(void)GetPhotosInCategoryWithID: (int)id page:(int) num
-                 successCallback:(void (^)(NSArray * photos)) resultCallback
-                   errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
+-(void)GetCategories:(APIDataRequestCompletionBlock) complete;
 
--(void)DownloadWithUrl: (NSString*)url progressCallback: ( void(^)(float value) ) progress
-      completeCallback:( void (^)(NSURL *filePath, NSString* errormsg)) complete ;
+-(void)GetCategoryPhotos:(GetCategoryPhotosParam*)param
+         completionBlock:(APIDataRequestCompletionBlock) complete;
 
--(void)GetCollectionsWithPage: (int) num
-              successCallback:(void (^)(NSArray * result)) resultCallback
-                errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
+-(void)GetCollections: (GetCollectionsParam*) param
+      completionBlock:(APIDataRequestCompletionBlock) complete;
 
+-(void)GetCollectionPhotos:(GetCollectionPhotosParam*)param
+           completionBlock:(APIDataRequestCompletionBlock) complete;
 
--(void)GetUserPublicProfileWith:(NSString*)username
-                successCallback:(void (^)(UserProfile * result)) resultCallback
-                  errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
+-(void)GetUserPublicProfile:(GetUserProfileParam*)param
+            completionBlock:(APIInfoRequestCompletionBlock) complete;
 
--(void)GetPhotosInCollectionWith:(int)collectionID
-                            page: (int)page
-                 successCallback:(void (^)(NSArray * result)) resultCallback
-                   errorCallback:(void (^)(NSString *errorMsg)) errorCallback;
+- (NSURLSessionDownloadTask *)downloadTaskWithURL:(NSString*)url
+                                         progress:(void (^)(NSProgress *downloadProgress)) downloadProgressBlock
+                                      destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
+                                completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END

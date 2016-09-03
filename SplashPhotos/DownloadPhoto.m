@@ -59,4 +59,11 @@
     return self.downloadState == DownloadSucceed;
 }
 
+#pragma mark getter
+
+-(NSString*)downloadUrl
+{
+    return self.photo.urls.raw;
+}
+
 @end

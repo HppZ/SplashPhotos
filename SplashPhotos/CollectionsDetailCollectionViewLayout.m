@@ -88,7 +88,7 @@
 {
     _cellLayoutInfoArray = [[NSMutableArray alloc]init];
     
-    ArrayDataSource * dataSource = self.collectionView.dataSource;
+    ArrayDataSource * dataSource = (ArrayDataSource *)self.collectionView.dataSource;
     NSArray * items = [dataSource allItems];
  
     float maxWidth = self.collectionView.bounds.size.width;
@@ -147,7 +147,7 @@
     if(start >  end) return;
     
     float horizontalOffset = 0.0;
-    ArrayDataSource *dataSource = self.collectionView.dataSource;
+    ArrayDataSource *dataSource = (ArrayDataSource *)self.collectionView.dataSource;
     
     float w = leftWidth / (end - start);
     for (NSInteger i = start; i < end; i++)

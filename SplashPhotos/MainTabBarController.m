@@ -8,8 +8,9 @@
 
 #import "MainTabBarController.h"
 #import "PhotoCollectionViewController.h"
-#import "PhotoService.h"
+#import "SplashControllerAccess.h"
 #import "CategoryPhotosCollectionViewController.h"
+#import "Category.h"
 
 @interface MainTabBarController ()
 {
@@ -22,14 +23,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self setup];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark side menu
@@ -49,41 +48,33 @@
     self.tabBar.items[1].titlePositionAdjustment=  UIOffsetMake(-4, -15);
     self.tabBar.items[2].titlePositionAdjustment=  UIOffsetMake(9, -15);
     self.tabBar.items[3].titlePositionAdjustment=  UIOffsetMake(0, -15);
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:)
-                                                 name:@"navigate"
-                                               object:nil];
 }
 
 #pragma mark navigate
--(void)navigateToCategoryWithName:(NSString*)name
+-(void)navigateToCategory:(Category*)category
 {
     UINavigationController * nc = [self.viewControllers  objectAtIndex:0];
     [nc popToRootViewControllerAnimated:false];
     
     // to category
-    CategoryPhotosCollectionViewController* category =  [self.storyboard instantiateViewControllerWithIdentifier:@"categoryViewController"];
-    category.categoryName = name;
-    [nc pushViewController:category animated:true];
+    CategoryPhotosCollectionViewController* categoryVC =  [self.storyboard instantiateViewControllerWithIdentifier:@"categoryViewController"];
+    categoryVC.category = category;
+    [nc pushViewController:categoryVC animated:true];
     self.selectedIndex = 0;
 }
 
-#pragma mark 通知
-- (void) receiveNotification:(NSNotification *) notification
+-(void)navigateTo:(id)param
 {
-    NSString* str = [notification name];
-    if ([str isEqualToString:@"navigate"])
+    if([param isKindOfClass:[Category class]])
     {
-        NSString* name =  [notification.userInfo objectForKey:@"name"];
-        [self navigateToCategoryWithName: name];
+        [self navigateToCategory: (Category*)param];
     }
 }
 
 #pragma mark dealloc
 -(void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+   
 }
 
 @end

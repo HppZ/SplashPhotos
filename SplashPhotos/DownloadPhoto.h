@@ -27,6 +27,8 @@ typedef enum
 @property (nonatomic, copy) NSString* errormsg;
 @property (nonatomic, strong) Photo * photo;
 
+@property (nonatomic, copy, readonly) NSString* downloadUrl;
+
 -(id)initWithPhoto: (Photo*) photo;
 
 -(void)downloadSuccess: (NSString*)filepath;

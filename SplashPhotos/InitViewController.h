@@ -11,4 +11,6 @@
 
 @interface InitViewController : HPSideMenu
 
+-(void)navigateTo: (id)param;
+
 @end

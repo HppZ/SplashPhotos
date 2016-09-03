@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MainTabBarController : UITabBarController
-
+-(void)navigateTo:(id)param;
 @end

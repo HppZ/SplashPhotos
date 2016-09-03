@@ -8,11 +8,18 @@
 
 #import "UrlHelper.h"
 
+#import "GetPhotosParam.h"
+#import "GetCollectionsParam.h"
+#import "GetCategoriesParam.h"
+#import "GetCategoryPhotosParam.h"
+#import "GetCollectionPhotosParam.h"
+#import "GetUserProfileParam.h"
+
 @implementation UrlHelper
 
 +(NSString*)Unsplash
 {
-return @"https://unsplash.com/";
+    return @"https://unsplash.com/";
 }
 
 +(NSString*)Host
@@ -65,14 +72,15 @@ return @"https://unsplash.com/";
 }
 
 #pragma mark params
+
 // 照片列表
-+(NSDictionary*)GetPhotosParamsWithPageNum: (int) num
++(NSDictionary*)GetPhotosParams: (GetPhotosParam*) p
 {
     NSDictionary *param = [[NSDictionary alloc]
                            initWithObjectsAndKeys:
-                           [NSNumber numberWithInt:num], @"page",
-                           @"15",  @"per_page",
-                           @"latest",  @"order_by",
+                           [NSNumber numberWithInteger: p.page]  , @"page",
+                           [NSNumber numberWithInteger: p.perPage],  @"per_page",
+                           [AppStructure photoSortTypeName: p.orderBy],  @"order_by",
                            nil];
     
     return param;
@@ -86,49 +94,51 @@ return @"https://unsplash.com/";
 }
 
 // 分类中的照片
-+(NSDictionary*)GetPhotosInCategoryParamsWithID: (int) id page: (int) num
++(NSDictionary*)GetPhotosInCategoryParams:(GetCategoryPhotosParam*) p
 {
     NSDictionary *param = [[NSDictionary alloc]
                            initWithObjectsAndKeys:
-                           [NSNumber numberWithInt:id], @"id",
-                           [NSNumber numberWithInt:num], @"page",
-                           @"24",  @"per_page",
+                           p.id, @"id",
+                           [NSNumber numberWithInteger:p.page], @"page",
+                           [NSNumber numberWithInteger: p.perPage],  @"per_page",
                            nil];
     return param;
 }
 
-+(NSDictionary*) GetCollectionsParamsWithPage: (int) num
++(NSDictionary*) GetCollectionsParams:(GetCollectionsParam*)p
 {
     NSDictionary *param = [[NSDictionary alloc]
                            initWithObjectsAndKeys:
-                           [NSNumber numberWithInt: num], @"page",
-                           @"5",  @"per_page",
+                           [NSNumber numberWithInteger: p.page], @"page",
+                           [NSNumber numberWithInteger: p.perPage],  @"per_page",
                            nil];
     return param;
 }
 
-+(NSDictionary*)GetPhotosInCollectionParamsWithID:(int)id page:(int)num
++(NSDictionary*)GetPhotosInCollectionParams: (GetCollectionPhotosParam*)p
 {
     NSDictionary *param = [[NSDictionary alloc]
                            initWithObjectsAndKeys:
-                           [NSNumber numberWithInt: id], @"id",
-                           [NSNumber numberWithInt: num], @"page",
-                           @"30",  @"per_page",
+                           p.id, @"id",
+                           [NSNumber numberWithInteger: p.page], @"page",
+                           [NSNumber numberWithInteger: p.perPage],  @"per_page",
                            nil];
     return param;
 
 }
 
-+(NSDictionary*) GetUserPublicProfileParamsWithUsername:(NSString *)username
++(NSDictionary*) GetUserPublicProfileParams:(GetUserProfileParam *)p
 {
     NSDictionary *param = [[NSDictionary alloc]
                            initWithObjectsAndKeys:
-                           username, @"username",
-//                           [NSNumber numberWithInt: 100], @"w",
-//                           [NSNumber numberWithInt: 100],  @"h",
+                           p.username, @"username",
+                           [NSNumber numberWithInteger: p.w], @"w",
+                           [NSNumber numberWithInteger: p.h],  @"h",
                            nil];
     return param;
 }
+
+
 
 // helper
 +(NSString*)GetUrlHelper:(id)param

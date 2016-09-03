@@ -8,18 +8,20 @@
 
 #import "CollectionsDetailCollectionViewController.h"
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
-#import "PhotoService.h"
+#import "SplashControllerAccess.h"
 #import "ArrayDataSource.h"
 #import "CollectionsDetailCollectionViewCell.h"
 #import "ToastService.h"
 #import "CollectionsDetailCollectionViewCell+ConfigureCell.h"
 #import "Collection.h"
+#import "SplashControllerAccess.h"
+#import "CollectionController.h"
 
 @interface CollectionsDetailCollectionViewController() <CollectionDetailCellDelegate>
 {
-    PhotoService* _photoService;
-    NSMutableArray * _collectionPhotos;
-    int _page;
+    CollectionController* _collectionController;
+    NSMutableArray * _data;
+    NSInteger _page;
 }
 
 @property ArrayDataSource* arrayDataSource;
@@ -39,8 +41,8 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
 -(void)setup
 {
     // init
-    _photoService = [[PhotoService alloc] init];
-    _collectionPhotos = [[NSMutableArray alloc]init];
+    _collectionController = SplashControllerAccess.collectionController;
+    _data = [[NSMutableArray alloc]init];
     _page = 1;
     
     // configure cell
@@ -50,7 +52,7 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
     };
     
     // data source
-    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:_collectionPhotos
+    self.arrayDataSource = [[ArrayDataSource alloc] initWithItems:_data
                                                    cellIdentifier:reuseIdentifier
                                                configureCellBlock:configureCell
                                                         noDataTip:@"pull to refresh"];
@@ -75,21 +77,23 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
 {
     __weak CollectionsDetailCollectionViewController * weakSelf = self;
     
-    [_photoService loadCollectionDetailWithID: [self.collection.id intValue] page: _page
-                              successCallback:^(NSArray *result)
+    [_collectionController loadCollectionPhotos:_collection page:_page complete:^(NSArray * _Nullable data, NSError * _Nullable error)
     {
-        _page++;
-        [weakSelf stopRefresh];
-        for (Photo* photo in result)
+        if(error)
         {
-            [_collectionPhotos addObject:photo];
+            [weakSelf topBarMsg: [error localizedDescription]];
         }
-        
-        [self insertNewItems];
-    }
-                                errorCallback:^(NSString *errorMsg)
-    {
-        [weakSelf topBarMsg: errorMsg];
+        else
+        {
+            _page++;
+            [weakSelf stopRefresh];
+            
+            for (Collection* item in data)
+            {
+                [_data addObject:item];
+            }
+            [self insertNewItems];
+        }
     }];
 }
 

@@ -10,26 +10,55 @@
 #import "UrlHelper.h"
 #import "AFNetworking.h"
 #import "NetworkHelper.h"
-#import "NetworkRequestHelper.h"
+
 #import "Category.h"
 #import "Collection.h"
 #import "UserProfile.h"
+#import "Photo.h"
+
+#import "GetPhotosParam.h"
+#import "GetCollectionsParam.h"
+#import "GetCategoriesParam.h"
+#import "GetCategoryPhotosParam.h"
+#import "GetCollectionPhotosParam.h"
+#import "GetUserProfileParam.h"
 
 
 @implementation UnsplashAPIService
 
-#pragma mark get
-// GET /photos
--(void)GetPhotosWithPageNum:(int) num
-            successCallback:(void (^)(NSArray * photos)) resultCallback
-              errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+static AFHTTPSessionManager *HTTPSessionManager;
+static AFURLSessionManager *URLSessionManager;
 
++ (UnsplashAPIService*)sharedInstance
+{
+    static UnsplashAPIService *instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[self alloc] init];
+    });
+    return instance;
+}
+
++(void)initialize
+{
+    if(self == [UnsplashAPIService class])
+    {
+        HTTPSessionManager = [AFHTTPSessionManager manager];
+        URLSessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    }
+}
+
+#pragma mark get
+
+// GET /photos
+-(void)GetPhotos:(GetPhotosParam*) param
+ completionBlock:(APIDataRequestCompletionBlock) complete
 {
     NSString * url =  [UrlHelper GetPhotosUrl];
-    NSDictionary *param = [UrlHelper GetPhotosParamsWithPageNum: num];
+    NSDictionary *params = [UrlHelper GetPhotosParams: param];
     
-    [NetworkRequestHelper GETWithUrl: url andParameters:param
-                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    [HTTPSessionManager GET: url parameters:params progress:nil
+                    success: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          NSArray* array= [NSArray arrayWithArray:responseObject];
          NSMutableArray* result = [[NSMutableArray alloc] init];
@@ -38,27 +67,24 @@
              Photo *photo =[Photo fromDictionary: obj];
              [result addObject:photo];
          }
-         resultCallback(result);
-         
+         complete(result, nil, nil);
      }
-                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+                    failure: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      
      {
-         errorCallback([error localizedDescription]);
+         complete(nil, nil, error);
      }
      ];
-    
 }
 
 // GET /categories
--(void)GetCategoriesWithsuccessCallback:(void (^)(NSArray * categories)) resultCallback
-                          errorCallback:(void (^)(NSString * errorMsg)) errorCallback
+-(void)GetCategories:(APIDataRequestCompletionBlock) complete
 {
     NSString * url =  [UrlHelper GetCategoriesUrl];
     NSDictionary *param = [UrlHelper GetCategoriesParams];
     
-    [NetworkRequestHelper GETWithUrl: url andParameters:param
-                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    [HTTPSessionManager GET: url parameters:param progress:nil
+                    success: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          NSArray* array= [NSArray arrayWithArray:responseObject];
          NSMutableArray* result = [[NSMutableArray alloc] init];
@@ -68,28 +94,26 @@
              [result addObject:cate];
          }
          
-         resultCallback(result);
+         complete(result, nil, nil);
      }
-                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+                    failure: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      
      {
-         errorCallback([error localizedDescription]);
+         complete(nil, nil, error);
      }
      ];
 }
 
 // GET /categories/:id/photos
--(void)GetPhotosInCategoryWithID: (int)categoryID
-                    page:(int) num
-            successCallback:(void (^)(NSArray * photos)) resultCallback
-              errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+-(void)GetCategoryPhotos:(GetCategoryPhotosParam*)param
+         completionBlock:(APIDataRequestCompletionBlock) complete
 
 {
-    NSString * url =  [UrlHelper GetPhotosInCategoryUrl:categoryID];
-    NSDictionary *param = [UrlHelper GetPhotosInCategoryParamsWithID:categoryID page:num];
+    NSString * url =  [UrlHelper GetPhotosInCategoryUrl:[param.id intValue]];
+    NSDictionary *params = [UrlHelper GetPhotosInCategoryParams:param];
     
-    [NetworkRequestHelper GETWithUrl: url andParameters:param
-                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    [HTTPSessionManager GET: url parameters:params progress:nil
+                    success: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          NSArray* array= [NSArray arrayWithArray: responseObject];
          NSMutableArray* result = [[NSMutableArray alloc] init];
@@ -99,28 +123,26 @@
              Photo *photo =[Photo fromDictionary: obj];
              [result addObject:photo];
          }
-         resultCallback(result);
+         complete(result, nil, nil);
          
      }
-                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+                    failure: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      
      {
-         errorCallback([error localizedDescription]);
+         complete(nil,nil,error);
      }
      ];
-    
 }
 
 // GET /collections
--(void)GetCollectionsWithPage: (int) num
-              successCallback:(void (^)(NSArray * result)) resultCallback
-                errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+-(void)GetCollections: (GetCollectionsParam*) param
+      completionBlock:(APIDataRequestCompletionBlock) complete
 {
     NSString * url =  [UrlHelper GetCollectionsUrl];
-    NSDictionary *param = [UrlHelper GetCollectionsParamsWithPage:num];
+    NSDictionary *params = [UrlHelper GetCollectionsParams: param];
     
-    [NetworkRequestHelper GETWithUrl: url andParameters:param
-                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    [HTTPSessionManager GET: url parameters:params progress:nil
+                    success: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          NSArray* array= [NSArray arrayWithArray:responseObject];
          NSMutableArray* result = [[NSMutableArray alloc] init];
@@ -130,27 +152,25 @@
              [result addObject: collection];
          }
          
-         resultCallback(result);
+         complete(result, nil ,nil);
      }
-                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+                    failure: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      
      {
-         errorCallback([error localizedDescription]);
+         complete(nil,nil,error);
      }
      ];
 }
 
 // GET /collections/:id/photos
--(void)GetPhotosInCollectionWith:(int)collectionID
-                            page: (int)page
-                successCallback:(void (^)(NSArray * result)) resultCallback
-                  errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+-(void)GetCollectionPhotos:(GetCollectionPhotosParam*)param
+           completionBlock:(APIDataRequestCompletionBlock) complete
 {
-    NSString * url =  [UrlHelper GetPhotosInCollectionUrl:collectionID];
-    NSDictionary *param = [UrlHelper GetPhotosInCollectionParamsWithID:collectionID page:page];
+    NSString * url =  [UrlHelper GetPhotosInCollectionUrl:[param.id intValue]];
+    NSDictionary *params = [UrlHelper GetPhotosInCollectionParams: param];
     
-    [NetworkRequestHelper GETWithUrl: url andParameters:param
-                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    [HTTPSessionManager GET: url parameters:params  progress:nil
+                    success: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          NSArray* array= [NSArray arrayWithArray:responseObject];
          NSMutableArray* result = [[NSMutableArray alloc] init];
@@ -160,58 +180,50 @@
              [result addObject: collection];
          }
          
-         resultCallback(result);
+         complete(result, nil, nil);
      }
-                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+                    failure: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      
      {
-         errorCallback([error localizedDescription]);
+         complete(nil,nil,error);
      }
      ];
 }
 
 
 // GET /users/:username
--(void)GetUserPublicProfileWith:(NSString*)username
-                successCallback:(void (^)(UserProfile * result)) resultCallback
-                  errorCallback:(void (^)(NSString *errorMsg)) errorCallback
+-(void)GetUserPublicProfile:(GetUserProfileParam*)param
+            completionBlock:(APIInfoRequestCompletionBlock) complete
 {
-    NSString * url =  [UrlHelper GetUserPublicProfileUrl:username];
-    NSDictionary *param = [UrlHelper GetUserPublicProfileParamsWithUsername:username];
+    NSString * url =  [UrlHelper GetUserPublicProfileUrl: param.username];
+    NSDictionary *params = [UrlHelper GetUserPublicProfileParams: param];
     
-    [NetworkRequestHelper GETWithUrl: url andParameters:param
-                     successCallback: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+    [HTTPSessionManager GET: url parameters:params progress:nil
+                    success: ^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
      {
          UserProfile * profile = [UserProfile fromDictionary:responseObject];
-         resultCallback(profile);
+         complete(profile, nil);
      }
-                       errorCallback: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+                    failure: ^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
      
      {
-         errorCallback([error localizedDescription]);
+         complete(nil,error);
      }
      ];
 }
 
 
-//----------------------------------------------------------
-
 #pragma mark download
-// Download photo
--(void)DownloadWithUrl: (NSString*)url
-      progressCallback: ( void(^)(float value) ) progress
-      completeCallback:( void (^)(NSURL *filePath, NSString* errormsg)) complete ;
+
+- (NSURLSessionDownloadTask *)downloadTaskWithURL:(NSString*)url
+                                         progress:(void (^)(NSProgress *downloadProgress)) downloadProgressBlock
+                                      destination:(NSURL * (^)(NSURL *targetPath, NSURLResponse *response))destination
+                                completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler
 {
-    [NetworkRequestHelper DownloadWithUrl:url
-                         ProgressCallback: ^(NSProgress* downloadprogress)
-     {
-         progress(downloadprogress.fractionCompleted);
-     }
-                       completionCallback:^(NSURLResponse *response, NSURL *filePath, NSError *error)
-     {
-         NSLog(@"download api complete ");
-         complete(filePath, [error localizedDescription]);
-     }];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: url]];
+    NSURLSessionDownloadTask *downloadTask = [URLSessionManager downloadTaskWithRequest:request progress: downloadProgressBlock destination:destination completionHandler:completionHandler];
+    [downloadTask resume];
+    return downloadTask;
 }
 
 @end

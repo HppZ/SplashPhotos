@@ -19,5 +19,6 @@
 #import "NSDictionary+ObjectOrNilForKey.h"
 #import "NSString+stringIsNilOrEmpty.h"
 #import "UIView+AddTapGesture.h"
-
+#import "AppStructure.h"
+#import "AppConstants.h"
 #endif /* PrefixHeader_pch */

@@ -8,13 +8,9 @@
 
 #import "SettingManager.h"
 #import "UrlHelper.h"
-#import "SystemServiceHelper.h"
+#import "SystemService.h"
 
 @implementation SettingManager
 
--(void)gotoUnsplash
-{
-    [SystemServiceHelper openWithUrl:[UrlHelper Unsplash]];
-}
 
 @end

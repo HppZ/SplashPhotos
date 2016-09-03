@@ -7,16 +7,19 @@
 //
 
 #import "UserProfileViewController.h"
-#import "PhotoService.h"
+#import "SplashControllerAccess.h"
 #import "ProfileImage.h"
 #import "UserProfile.h"
-#import "SystemServiceHelper.h"
+#import "SystemService.h"
 #import "ToastService.h"
+#import "UserController.h"
+#import "SplashControllerAccess.h"
 
 @interface UserProfileViewController ()
 {
-    PhotoService * _photoservice;
+    UserController * _userController;
 }
+
 @property (weak, nonatomic) IBOutlet UIImageView *avatarElement;
 @property (weak, nonatomic) IBOutlet UILabel *nameElement;
 @property (weak, nonatomic) IBOutlet UILabel *locationElement;
@@ -43,12 +46,11 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)setup
 {
-    _photoservice = [[PhotoService alloc] init];
+    _userController = SplashControllerAccess.userController;
     
     [self navBarTitle:_userName];
     [self.portfolioUrlElement addTapGestureWithTarget: self selector:@selector(portfolioUrlTouchDown:)];
@@ -59,18 +61,18 @@
 {
     self.reloadElement.hidden = true;
     [self loadingState: true];
-    [_photoservice loadUserPublicProfile: _userName
-                                callback:^(UserProfile *profile, NSString *errormsg)
+    
+    [_userController getUserPublicProfile:_userName complete:^(id  _Nullable obj, NSError * _Nullable error)
     {
         [self loadingState: false];
-        if(!errormsg)
+        if(error)
         {
-            [self update:profile];
+            [self topBarMsg: [error localizedDescription]];
+            self.reloadElement.hidden = false;
         }
         else
         {
-            [self topBarMsg: errormsg];
-            self.reloadElement.hidden = false;
+            [self update:obj];
         }
     }];
 }
@@ -105,7 +107,7 @@
 #pragma mark interactions
 - (void)portfolioUrlTouchDown:(id)sender
 {
-    [SystemServiceHelper openWithUrl: self.portfolioUrlElement.text];
+    [SystemService openWithUrl: self.portfolioUrlElement.text];
 }
 
 - (IBAction)reloadClicked:(id)sender

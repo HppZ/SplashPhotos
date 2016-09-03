@@ -14,22 +14,23 @@
 
 @interface DownloadManager ()
 {
+    UnsplashAPIService* _apiService;
     NSMutableArray<DownloadPhoto*>* _downloadPhotos;
-    UnsplashAPIService* _unsplashAPIService;
 }
+
 @end
 
 @implementation DownloadManager
 
 #pragma mark 单例
-+ (id)sharedDownloadManager
++ (DownloadManager*)sharedInstance
 {
-    static DownloadManager *sharedInstance = nil;
+    static DownloadManager *instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
+        instance = [[self alloc] init];
     });
-    return sharedInstance;
+    return instance;
 }
 
 -(id)init
@@ -38,17 +39,19 @@
     if(self)
     {
         _downloadPhotos = [[NSMutableArray<DownloadPhoto*> alloc] init];
-        _unsplashAPIService = [[UnsplashAPIService alloc] init];
+        _apiService = [UnsplashAPIService sharedInstance];
     }
     
     return self;
 }
 
-#pragma mark public
--(NSMutableArray*)getDownloadDataSource
+#pragma mark getter
+-(NSArray*)downloadedPhotos
 {
     return _downloadPhotos;
 }
+
+#pragma mark public
 
 -(void)requestDownload: (Photo*) photo
 {
@@ -67,58 +70,58 @@
 
 -(void)cancelDownload:(DownloadPhoto*) photo
 {
-    
+
 }
 
 #pragma mark private
 -(void) startDownload:(DownloadPhoto*)downloadphoto
 {
-    NSLog(@"start download");
     [downloadphoto downloadingPhoto];
-    [_unsplashAPIService DownloadWithUrl:[downloadphoto.photo.urls raw]
-                       progressCallback:^(float value)
+    
+    [_apiService downloadTaskWithURL:downloadphoto.downloadUrl
+                                    progress:^(NSProgress * _Nonnull downloadProgress)
      {
-         [downloadphoto setProress:value];
-     }
-                       completeCallback: ^(NSURL* filepath, NSString* errormsg)
-     {
-         if(errormsg)
-         {
-             NSLog(@"start download error ");
-             [downloadphoto downloadFailed: errormsg];
-         }
-         else
-         {
-             NSLog(@"start download no error ");
-             // downloaded
-             [downloadphoto  downloadSuccess:[filepath absoluteString]];
-             
-             // and save
-             [FileOperationManager saveFileToPhotoAlbum:filepath complete: ^(BOOL success, NSError* error)
-              {
-                  if(!error)
-                  {
-                      NSLog(@"save success");
-                  }
-                  else
-                  {
-                      NSLog(@"%@", [@"save failed: " stringByAppendingString:[error localizedDescription]]);
-                  }
-              }];
-         }
-         
-     }];
+                                        [downloadphoto setProress:downloadProgress.fractionCompleted];
+                                    }
+                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
+    {
+            NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+            return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+    }
+                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nonnull filePath, NSError * _Nonnull error)
+    {
+        if(error)
+        {
+            NSLog(@"download error ");
+            [downloadphoto downloadFailed: [error localizedDescription]];
+        }
+        else
+        {
+            NSLog(@"download success ");
+            [downloadphoto  downloadSuccess:[filePath absoluteString]];
+            // save
+            [FileOperationManager saveFileToPhotoAlbum:filePath complete: ^(BOOL success, NSError* error)
+             {
+                 if(error)
+                 {
+                     NSLog(@"%@", [@"save failed: " stringByAppendingString:[error localizedDescription]]);
+                 }
+             }];
+        }
+    }];
 }
 
 #pragma mark add ／ remove
 -(void)addToDownload: (DownloadPhoto*) download
 {
     [_downloadPhotos insertObject:download atIndex:0];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DownloadPhotosChangedNotification object:self];
 }
 
 -(void)removeFromDownload: (DownloadPhoto*) download
 {
     [_downloadPhotos removeObject:download];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DownloadPhotosChangedNotification object:self];
 }
 
 @end

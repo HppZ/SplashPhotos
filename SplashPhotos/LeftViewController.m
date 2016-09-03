@@ -7,14 +7,17 @@
 //
 
 #import "LeftViewController.h"
-#import "PhotoService.h"
+#import "SplashControllerAccess.h"
 #import "Category.h"
 #import "UIViewController+HPSideMenu.h"
+#import "SplashControllerAccess.h"
+#import "CategoryController.h"
+#import "InitViewController.h"
 
 @interface LeftViewController ()
 {
-    PhotoService * _photoService;
-    NSArray<Category*>* _categories;
+    CategoryController * _categoryController;
+    NSMutableArray<Category *>* _data;
 }
 
 @property (strong, readwrite, nonatomic) UITableView *tableView;
@@ -52,6 +55,7 @@
     });
     
     [self.view insertSubview:self.tableView belowSubview:_reloadButton];
+    [self loadData];
 }
 
 -(float)yPosition
@@ -61,30 +65,38 @@
 
 -(void)setup
 {
-    _photoService = [[PhotoService alloc] init];
-    _categories = [_photoService getCategories];
+    _categoryController = SplashControllerAccess.categoryController;
+    _data = [[NSMutableArray alloc]init];
 }
 
 -(void)loadData
 {
-    [_photoService requestCategoriesWithCallback:^(NSString *errormsg)
+    [_categoryController loadCategories:^(NSArray * _Nullable data, NSError * _Nullable error)
      {
-        if(!errormsg)
-        {
-            [self.tableView reloadData];
-        }
-    }];
+         if(error)
+         {
+             
+         }
+         else
+         {
+             [_data removeAllObjects];
+             for (Category* item in data)
+             {
+                 [_data addObject:item];
+             }
+             [self.tableView reloadData];
+         }
+     }];
 }
 
 #pragma mark tableview
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:  indexPath];
-    NSString* name = cell.textLabel.text;
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:name, @"name", nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"navigate" object:self userInfo: dic];
+    
+    Category* category = [_data objectAtIndex:indexPath.item];
+    InitViewController * vc = (InitViewController *)self.parentViewController;
+    [vc navigateTo:category];
     [self.sideMenuViewController hideMenuViewController];
 }
 
@@ -101,8 +113,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    [self tableViewDisplayWithRowCount: _categories.count];
-    return _categories.count;
+    [self tableViewDisplayWithRowCount: _data.count];
+    return _data.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,7 +132,7 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    cell.textLabel.text = [_categories  objectAtIndex:indexPath.item].title;
+    cell.textLabel.text = [_data objectAtIndex:indexPath.item].title;
     
     return cell;
 }
@@ -128,7 +140,7 @@
 #pragma mark nodata
 - (void) tableViewDisplayWithRowCount:(NSUInteger) rowCount
 {
-    BOOL flag = rowCount <= 0;
+    BOOL flag = _data.count <= 0;
     _reloadButton.hidden = !flag;
 }
 

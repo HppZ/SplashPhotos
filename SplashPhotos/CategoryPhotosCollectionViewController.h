@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "MWPhotoBrowser.h"
 
+@class Category;
+
 @interface CategoryPhotosCollectionViewController : UICollectionViewController
 
-@property (nonatomic, copy) NSString* categoryName;
+@property (nonatomic) Category* category;
 
 @end

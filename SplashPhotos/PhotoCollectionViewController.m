@@ -10,7 +10,7 @@
 #import "PhotosCollectionViewCell.h"
 #import "Photo.h"
 #import "Urls.h"
-#import "PhotoService.h"
+#import "SplashControllerAccess.h"
 #import "ToastService.h"
 #import "UIScrollView+UzysAnimatedGifPullToRefresh.h"
 #import "UICollectionView+NoData.h"
@@ -18,10 +18,15 @@
 #import "PhotosCollectionViewCell.h"
 #import "PhotosCollectionViewCell+ConfigureCell.h"
 #import "SPPhotoBrowserDelegate.h"
+#import "SplashControllerAccess.h"
+#import "PhotoController.h"
 
 @interface PhotoCollectionViewController ()
 {
-    PhotoService * _photoService;
+    PhotoController * _photoController;
+    NSMutableArray* _data;
+    NSInteger _page;
+    
     SPPhotoBrowserDelegate * _photoBrowserDelegate;
 }
 
@@ -65,10 +70,9 @@ static NSString * const reuseIdentifier = @"mainCell";
     _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
                                                     actionButtonCallback:actioncallback actionButton:true];
     
-    _photoService = [[PhotoService alloc] init];
-    
-    // get photos data
-    NSMutableArray<Photo *>* photos  = [_photoService getDataSource];
+    _photoController = SplashControllerAccess.photoController;
+    _data = [[NSMutableArray alloc]init];
+    _page = 1;
     
     // configure cell
     CellConfigureBlock configureCell = ^(PhotosCollectionViewCell *cell, Photo *photo)
@@ -77,7 +81,7 @@ static NSString * const reuseIdentifier = @"mainCell";
     };
     
     // data source
-    self.photosArrayDataSource = [[ArrayDataSource alloc] initWithItems:photos
+    self.photosArrayDataSource = [[ArrayDataSource alloc] initWithItems:_data
                                                          cellIdentifier:reuseIdentifier
                                                      configureCellBlock:configureCell
                                                               noDataTip:@"pull to refresh"];
@@ -95,32 +99,6 @@ static NSString * const reuseIdentifier = @"mainCell";
                                   LoadingImagesGifName:@"run@2x.gif"
                                ProgressScrollThreshold:60
                                  LoadingImageFrameRate:30];
-    
-    // photo souce change notification
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receiveNotification:)
-                                                 name:[PhotoService photoSourceChangedNotification]
-                                               object:nil];
-    
-    
-    // get categories now
-    [_photoService requestCategoriesWithCallback:^(NSString *errormsg)
-     {
-         if(errormsg)
-         {
-             NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
-             [weakSelf topBarMsg: errormsg];
-         }
-     }];
-}
-
-#pragma mark notification
-- (void) receiveNotification:(NSNotification *) notification
-{
-    if ([[notification name] isEqualToString: [PhotoService photoSourceChangedNotification]])
-    {
-        [self insertNewItems];
-    }
 }
 
 #pragma mark data
@@ -128,17 +106,25 @@ static NSString * const reuseIdentifier = @"mainCell";
 {
     __weak PhotoCollectionViewController * weakSelf = self;
     
-    [_photoService loadMoreDataWithCallback:^( NSString* errormsg)
+    [_photoController loadPhotos:_page complete:^(NSArray * _Nullable data, NSError * _Nullable error)
      {
+
          [weakSelf stopRefresh];
-         if(errormsg)
+         
+         if(error)
          {
-             NSLog(@"%@", [@"load more failed " stringByAppendingString:errormsg]);
-             [weakSelf topBarMsg: errormsg];
+             [weakSelf topBarMsg: [error localizedDescription]];
          }
          else
          {
+             _page++;
              [weakSelf navBarTitle];
+             
+             for (Photo* item in data)
+             {
+                 [_data addObject:item];
+             }
+             [self insertNewItems];
          }
      }];
 }
@@ -184,7 +170,6 @@ static NSString * const reuseIdentifier = @"mainCell";
 
 -(void)navBarTitle
 {
-    //int pagenum = [_photoService getCurrentPageNum];
     self.navigationItem.title = [NSString  stringWithFormat:@"NEW"];
 }
 
@@ -199,12 +184,12 @@ static NSString * const reuseIdentifier = @"mainCell";
     [self topBarMsg: @"Downloading..."];
     
     Photo * photo = [self.photosArrayDataSource itemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    [_photoService requestDownload: photo];
+    [_photoController requestDownload: photo];
 }
 
 #pragma mark dealloc
 -(void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 }
 @end
