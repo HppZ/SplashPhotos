@@ -169,7 +169,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     for (NSUInteger i = first; i >= 1; i--)
     {
         Photo* p = [items objectAtIndex: i-1];
-        [photos addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[p urls] regular]]]];
+        [photos addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[p urls] small]]]];
     }
     
     [_photoBrowserDelegate showPhotoBroswerWithArray:photos startIndex:indexPath.item];
