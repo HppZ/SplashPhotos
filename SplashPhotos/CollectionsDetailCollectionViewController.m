@@ -16,12 +16,17 @@
 #import "Collection.h"
 #import "SplashControllerAccess.h"
 #import "CollectionController.h"
+#import "SPPhotoBrowserDelegate.h"
+#import "Urls.h"    
+#import "Photo.h"
 
 @interface CollectionsDetailCollectionViewController() <CollectionDetailCellDelegate>
 {
     CollectionController* _collectionController;
     NSMutableArray * _data;
     NSInteger _page;
+    
+    SPPhotoBrowserDelegate * _photoBrowserDelegate;
 }
 
 @property ArrayDataSource* arrayDataSource;
@@ -44,6 +49,14 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
     _collectionController = SplashControllerAccess.collectionController;
     _data = [[NSMutableArray alloc]init];
     _page = 1;
+    
+    ActionButtonCallback actioncallback = ^(NSInteger index)
+    {
+        [self savePhotoAt: index];
+    };
+    
+    _photoBrowserDelegate = [[SPPhotoBrowserDelegate alloc]initWithItems:self.navigationController
+                                                    actionButtonCallback:actioncallback actionButton:true];
     
     // configure cell
     CellConfigureBlock configureCell = ^(CollectionsDetailCollectionViewCell *cell, Photo *photo)
@@ -109,6 +122,30 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
         [arrayWithIndexPaths addObject:[NSIndexPath indexPathForRow: i inSection:0]];
     }
     [self.collectionView insertItemsAtIndexPaths: arrayWithIndexPaths];
+}
+
+#pragma mark <UICollectionViewDelegate>, open photo browser
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray* items = [self.arrayDataSource allItems];
+    NSMutableArray* photos = [NSMutableArray new];
+    NSUInteger first = items.count;
+    for (NSUInteger i = first; i >= 1; i--)
+    {
+        Photo* p = [items objectAtIndex: i-1];
+        [photos addObject:[MWPhoto photoWithURL:[NSURL URLWithString: [[p urls] regular]]]];
+    }
+    
+    [_photoBrowserDelegate showPhotoBroswerWithArray:photos startIndex:indexPath.item];
+}
+
+#pragma mark download
+-(void)savePhotoAt: (NSInteger)index
+{
+    [self topBarMsg: @"Downloading..."];
+    
+    Photo * photo = [self.arrayDataSource itemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    [_collectionController requestDownload: photo];
 }
 
 #pragma mark UI helper
