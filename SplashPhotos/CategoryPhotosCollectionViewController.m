@@ -18,6 +18,7 @@
 #import "CategoryCollectionViewCell+ConfigureCell.h"
 #import "CategoryController.h"
 #import "Category.h"
+#import "PhotoController.h"
 
 @interface CategoryPhotosCollectionViewController()
 {
@@ -181,7 +182,7 @@ static NSString * const reuseIdentifier = @"categoryPhotoCell";
     [self topBarMsg: @"Downloading..."];
     
     Photo * photo = [self.arrayDataSource itemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    [_categoryController requestDownload: photo];
+    [SplashControllerAccess.photoController requestDownload: photo];
 }
 
 #pragma mark dealloc

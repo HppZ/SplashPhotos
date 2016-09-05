@@ -18,7 +18,6 @@
 #import "PhotosCollectionViewCell.h"
 #import "PhotosCollectionViewCell+ConfigureCell.h"
 #import "SPPhotoBrowserDelegate.h"
-#import "SplashControllerAccess.h"
 #import "PhotoController.h"
 
 @interface PhotoCollectionViewController ()

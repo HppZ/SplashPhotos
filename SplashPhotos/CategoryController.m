@@ -11,7 +11,6 @@
 #import "UnsplashAPIService.h"
 #import "GetCategoriesParam.h"
 #import "GetCategoryPhotosParam.h"
-#import "DownloadManager.h"
 
 @interface CategoryController()
 {
@@ -48,11 +47,6 @@
      {
          complete(data, error);
      }];
-}
-
--(void)requestDownload: (Photo*) photo
-{
-    [DownloadManager.sharedInstance requestDownload:photo];
 }
 
 @end

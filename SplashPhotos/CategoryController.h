@@ -16,6 +16,4 @@
 -(void)loadCategories: (DataRequestResultCompletionBlock) complete;
 -(void)loadCategoryPhotos:(Category*)category page: (NSInteger)page complete: (DataRequestResultCompletionBlock) complete;
 
--(void)requestDownload: (Photo*) photo;
-
 @end

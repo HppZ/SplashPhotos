@@ -14,11 +14,11 @@
 #import "ToastService.h"
 #import "CollectionsDetailCollectionViewCell+ConfigureCell.h"
 #import "Collection.h"
-#import "SplashControllerAccess.h"
 #import "CollectionController.h"
 #import "SPPhotoBrowserDelegate.h"
 #import "Urls.h"    
 #import "Photo.h"
+#import "PhotoController.h"
 
 @interface CollectionsDetailCollectionViewController() <CollectionDetailCellDelegate>
 {
@@ -145,7 +145,7 @@ static NSString * const reuseIdentifier = @"collectionsDetailCell";
     [self topBarMsg: @"Downloading..."];
     
     Photo * photo = [self.arrayDataSource itemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    [_collectionController requestDownload: photo];
+    [SplashControllerAccess.photoController requestDownload: photo];
 }
 
 #pragma mark UI helper

@@ -16,6 +16,4 @@
 -(void)loadCollections:(NSInteger) page complete: (DataRequestResultCompletionBlock) complete;
 -(void)loadCollectionPhotos:(Collection *) collection page: (NSInteger)page complete: (DataRequestResultCompletionBlock) complete;
 
--(void)requestDownload: (Photo*) photo;
-
 @end

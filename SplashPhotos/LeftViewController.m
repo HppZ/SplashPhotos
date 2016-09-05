@@ -7,7 +7,6 @@
 //
 
 #import "LeftViewController.h"
-#import "SplashControllerAccess.h"
 #import "Category.h"
 #import "UIViewController+HPSideMenu.h"
 #import "SplashControllerAccess.h"

@@ -7,7 +7,6 @@
 //
 
 #import "UserProfileViewController.h"
-#import "SplashControllerAccess.h"
 #import "ProfileImage.h"
 #import "UserProfile.h"
 #import "SystemService.h"

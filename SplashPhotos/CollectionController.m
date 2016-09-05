@@ -11,7 +11,6 @@
 #import "GetCollectionsParam.h"
 #import "GetCollectionPhotosParam.h"
 #import "Collection.h"
-#import "DownloadManager.h"
 
 @interface CollectionController()
 {
@@ -55,12 +54,6 @@
     {
         complete(data, error);
     }];
-}
-
-
--(void)requestDownload: (Photo*) photo
-{
-    [DownloadManager.sharedInstance requestDownload:photo];
 }
 
 @end
